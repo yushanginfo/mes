@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<cdi>
+  <container name="web">
+    <module class="com.yushanginfo.erp.order.admin.web.action.DefaultModule"/>
+  </container>
+</cdi>

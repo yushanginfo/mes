@@ -1,0 +1,27 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.openurp</groupId>
+    <artifactId>openurp-parent</artifactId>
+    <version>0.4.0</version>
+  </parent>
+  <groupId>com.yushanginfo.erp.order</groupId>
+  <artifactId>com-yushanginfo-erp-order-parent</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>Com Yushanginfo Erp Order Parent</name>
+
+  <modules>
+    <module>admin</module>
+    <module>core</module>
+  </modules>
+
+
+  <properties>
+    <openurp.edu.web.version>0.1.7</openurp.edu.web.version>
+    <openurp.api.version>0.18.0</openurp.api.version>
+    <openurp.edu.base.version>0.1.7</openurp.edu.base.version>
+  </properties>
+
+</project>

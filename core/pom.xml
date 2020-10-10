@@ -1,0 +1,34 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <parent>
+    <groupId>com.yushanginfo.erp.order</groupId>
+    <artifactId>com-yushanginfo-erp-order-parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.yushanginfo.erp.order</groupId>
+  <artifactId>com-yushanginfo-erp-order-core</artifactId>
+  <packaging>jar</packaging>
+  <name>Com Yushanginfo Erp Order Core</name>
+
+  <properties>
+    <bundle.symbolicName>com.yushanginfo.erp.order.core</bundle.symbolicName>
+    <bundle.namespace>com.yushanginfo.erp.order</bundle.namespace>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.beangle.data</groupId>
+      <artifactId>beangle-data-orm_2.13</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.beangle.security</groupId>
+      <artifactId>beangle-security-core_2.13</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.beangle.cdi</groupId>
+      <artifactId>beangle-cdi-api_2.13</artifactId>
+      <version>${beangle.cdi.version}</version>
+    </dependency>
+  </dependencies>
+</project>
