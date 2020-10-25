@@ -5,6 +5,7 @@
     bar.addItem("${b.text("action.new")}",action.add());
     bar.addItem("${b.text("action.modify")}",action.edit());
     bar.addItem("${b.text("action.delete")}",action.remove("确认删除?"));
+    bar.addItem("导入",action.method('importForm'));
     bar.addItem("${b.text('action.export')}",action.exportData("code:工号,name:姓名,department.name:部门,mobile:移动电话,email:电子邮箱",null,'fileName=用户信息'));
   [/@]
   [@b.row]

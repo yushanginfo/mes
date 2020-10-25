@@ -7,7 +7,7 @@
       [@b.textfields names="department.code;代码"/]
       [@b.textfields names="department.name;名称"/]
       [@b.textfields names="department.indexno;序号"/]
-      [@b.select name="department.parent.id" label="所属部门" items=departments empty="..." /]
+      [@b.select name="department.parent.id" label="上级部门" items=departments empty="..." /]
       <input type="hidden" name="orderBy" value="department.code"/>
     [/@]
   </div>

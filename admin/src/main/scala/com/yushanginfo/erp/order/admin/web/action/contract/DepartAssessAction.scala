@@ -1,14 +1,31 @@
+/*
+ * OpenURP, Agile University Resource Planning Solution.
+ *
+ * Copyright © 2014, The OpenURP Software.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful.
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package com.yushanginfo.erp.order.admin.web.action.contract
 
-import com.yushanginfo.erp.order.base.model.{Factory, OrderStatus, OrderType, Technic}
-import com.yushanginfo.erp.order.model.{DepartAssess, Product, SalesOrder}
+import com.yushanginfo.erp.base.model.{Factory, Product, Technic}
+import com.yushanginfo.erp.order.model.{DepartAssess, OrderStatus, OrderType, SalesOrder}
 import org.beangle.commons.collection.Order
 import org.beangle.data.dao.OqlBuilder
 import org.beangle.webmvc.api.view.View
 import org.beangle.webmvc.entity.action.RestfulAction
-import org.openurp.edu.web.ProjectSupport
 
-class DepartAssessAction extends RestfulAction[DepartAssess] with ProjectSupport {
+class DepartAssessAction extends RestfulAction[DepartAssess] {
 
 	override protected def indexSetting(): Unit = {
 		put("products", entityDao.getAll(classOf[Product]))
@@ -32,7 +49,7 @@ class DepartAssessAction extends RestfulAction[DepartAssess] with ProjectSupport
 	def getDepartAssessMap: Map[SalesOrder, Map[Technic, DepartAssess]] = {
 		val builder = OqlBuilder.from(classOf[DepartAssess], "departAssess")
 		//部门权限
-		addDepart(builder, "departAssess.technic.department")
+		//addDepart(builder, "departAssess.technic.department")
 		val departAssesses = entityDao.search(builder)
 		departAssesses.groupBy(a => a.salesOrder).map(b => (b._1, b._2.map(c => (c.technic, c)).toMap))
 	}
@@ -78,7 +95,6 @@ class DepartAssessAction extends RestfulAction[DepartAssess] with ProjectSupport
 			entity.salesOrder.product.technics.foreach(technic => {
 				entity.salesOrder.scheduledOn = Option(entity.salesOrder.scheduledOn.get.plusDays(getDepartAssessMap.get(entity.salesOrder).get.get(technic).get.days.toLong))
 			})
-			val a = entity.salesOrder.scheduledOn.get.compareTo(entity.salesOrder.requireOn)
 			if (entity.salesOrder.scheduledOn.get.compareTo(entity.salesOrder.requireOn) > 0) {
 				entity.salesOrder.status = OrderStatus.Unpassed
 			} else {

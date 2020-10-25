@@ -17,7 +17,7 @@
     <td class="content">${department.indexno}</td>
   </tr>
   <tr>
-    <td class="title" width="20%">所属部门</td>
+    <td class="title" width="20%">上级部门</td>
     <td class="content">${(department.parent.name)!}</td>
   </tr>
 </table>

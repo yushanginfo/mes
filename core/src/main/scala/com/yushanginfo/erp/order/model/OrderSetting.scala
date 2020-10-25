@@ -27,5 +27,4 @@ import org.beangle.data.model.pojo.TemporalAt
 class OrderSetting extends IntId with TemporalAt {
 
 	var salesOrder: SalesOrder = _
-
 }

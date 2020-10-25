@@ -16,33 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.yushanginfo.erp.order.base.model
+package com.yushanginfo.erp.order.model
 
-import com.yushanginfo.erp.order.model.{DepartAssess, Material}
-import org.beangle.data.orm.MappingModule
+object OrderStatus extends Enumeration(0) {
 
-class DefaultMapping extends MappingModule {
+  class Status(val name: String) extends super.Val {
+  }
 
-	def binding(): Unit = {
-		defaultCache("com.yushanginfo.erp.ems.base", "read-write")
+  val Original = new Status("初始")
+  val Submited = new Status("评审中")
+  val Unpassed = new Status("待复审")
+  val Review = new Status("复审中")
+  val Passed = new Status("通过")
+  val Cancel = new Status("取消")
 
-		bind[Customer].generator("auto_increment")
-
-		bind[Technic].generator("auto_increment")
-
-		bind[Department] declare { e =>
-			e.code is length(10)
-			e.name is length(80)
-			e.indexno is length(20)
-			e.children is depends("parent")
-			index("", true, e.code)
-		}
-
-
-		bind[Factory].generator("auto_increment")
-
-		bind[OrderType].generator("auto_increment")
-
-		bind[User].generator("auto_increment")
-	}
 }

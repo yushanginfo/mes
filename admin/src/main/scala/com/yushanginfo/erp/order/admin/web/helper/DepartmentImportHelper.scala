@@ -16,20 +16,29 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.yushanginfo.erp.order.base.model
+package com.yushanginfo.erp.order.admin.web.helper
 
-import org.beangle.data.model.LongId
-import org.beangle.data.model.pojo._
+import java.time.Instant
 
-/**
- * 用户信息
- */
-class User extends LongId with Coded with Named with Updated with Remark with TemporalOn{
+import com.yushanginfo.erp.base.model.Department
+import org.beangle.data.dao.EntityDao
+import org.beangle.data.transfer.importer.{ImportListener, ImportResult}
 
-	var department: Department = _
+class DepartmentImportHelper( entityDao: EntityDao) extends ImportListener  {
 
-	var email: Option[String] = None
+  override def onItemFinish(tr: ImportResult): Unit = {
+    val depart= transfer.current.asInstanceOf[Department]
+    depart.updatedAt=Instant.now
+    entityDao.saveOrUpdate(depart)
+  }
 
-	var mobile: Option[String] = None
+  override def onStart(tr: ImportResult): Unit = {
+  }
 
+  override def onFinish(tr: ImportResult): Unit = {
+  }
+
+  override def onItemStart(tr: ImportResult): Unit = {
+
+  }
 }

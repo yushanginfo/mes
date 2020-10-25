@@ -16,24 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.yushanginfo.erp.order.base.model
+package com.yushanginfo.erp.base.model
 
-import org.beangle.commons.collection.Collections
-import org.beangle.data.model.LongId
+import org.beangle.data.model.IntId
 import org.beangle.data.model.pojo.{Coded, Named, Remark, Updated}
 
-import scala.collection.mutable
-
 /**
- * 客户信息
+ * 工艺
  */
-class Customer extends LongId with Coded with Named with Updated with Remark{
+class Technic extends IntId with Coded with Named with Updated with Remark{
 
-	/** 业务人员列表 */
-	var salers :mutable.Buffer[User] = Collections.newBuffer[User]
+	/**工艺说明*/
+	var description:Option[String]=_
 
-	var email: Option[String] = None
+	/**场内生产/委托外部*/
+	var internal :Boolean=_
 
-	var mobile: Option[String] = None
+	/**加工中心*/
+	var machine:Option[Machine]=None
 
+	/**供应商*/
+	var supplier:Option[Supplier]=None
+
+	var department: Department = _
 }

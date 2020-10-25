@@ -1,6 +1,6 @@
 [#ftl]
 [@b.head/]
-[@b.toolbar title="工序基本信息"]
+[@b.toolbar title="工艺基本信息"]
   bar.addBack("${b.text("action.back")}");
 [/@]
 <table class="infoTable">

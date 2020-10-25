@@ -16,16 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.yushanginfo.erp.order.base.model
+package com.yushanginfo.erp.base.model
 
 import org.beangle.data.model.IntId
-import org.beangle.data.model.pojo.{Coded, Named, Remark, Updated}
+import org.beangle.data.model.pojo.{Coded, Named, Updated}
 
-/**
- * 工序
- */
-class Technic extends IntId with Coded with Named with Updated with Remark{
+class Machine  extends IntId with Coded with Named with Updated{
 
-	/** 部门 */
-	var department: Department = _
 }

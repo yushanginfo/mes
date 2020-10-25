@@ -18,25 +18,22 @@
  */
 package com.yushanginfo.erp.order.model
 
-import com.yushanginfo.erp.order.base.model.{Department, Factory}
+import com.yushanginfo.erp.base.model.Product
 import org.beangle.data.orm.MappingModule
 
 class DefaultMapping extends MappingModule {
 
-	def binding(): Unit = {
-		defaultCache("com.yushanginfo.erp.ems", "read-write")
+  def binding(): Unit = {
+    defaultCache("com.yushanginfo.erp.ems", "read-write")
 
-		bind[OrderSetting].generator("auto_increment")
+    bind[OrderSetting]
 
-		bind[SalesOrder].generator("auto_increment")
+    bind[SalesOrder]
 
-		bind[Product].declare { e =>
-			e.technics is ordered
-		}
+    bind[Material]
 
-		bind[Material].generator("auto_increment")
+    bind[DepartAssess]
 
-		bind[DepartAssess].generator("auto_increment")
-
-	}
+    bind[OrderType]
+  }
 }

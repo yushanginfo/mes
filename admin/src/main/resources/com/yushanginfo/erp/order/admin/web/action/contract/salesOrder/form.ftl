@@ -6,7 +6,7 @@
     [@b.textfield name="salesOrder.code" label="订单编号" value="${salesOrder.code!}" required="true" maxlength="30"/]
     [@b.textfield name="salesOrder.batchNum" label="生产批号" value="${salesOrder.batchNum!}" required="true" maxlength="30"/]
     [@b.select name="salesOrder.orderType.id" label="订单类型" value="${(salesOrder.orderType.id)!}" required="true"  style="width:200px;" items=orderTypes empty="..." option="id,name"/]
-    [@b.select name="salesOrder.product.id" label="选择产品" value="${(salesOrder.product.id)!}" required="true"  style="width:200px;" items=products empty="..." option=r"${item.code}${item.name}"/]
+    [@b.select name="salesOrder.product.id" label="选择产品" value="${(salesOrder.product.id)!}" required="true"  style="width:400px;" items=products empty="..." option=r"${item.code} ${item.name}"/]
     [@b.textfield name="salesOrder.count" label="数量" value="${salesOrder.count!}" required="true" maxlength="80"/]
     [@b.datepicker name="salesOrder.requireOn" label="计划交付日期" value=(salesOrder.requireOn)!  required="true"  format="yyyy-MM-dd" /]
     [@b.textfield name="salesOrder.remark" label="备注" value="${salesOrder.remark!}" maxlength="190"/]

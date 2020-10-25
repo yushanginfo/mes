@@ -18,9 +18,15 @@
  */
 package com.yushanginfo.erp.order.admin.web.action.base
 
-import com.yushanginfo.erp.order.base.model.{Customer, User}
-import org.beangle.data.dao.OqlBuilder
-import org.beangle.webmvc.api.view.View
+import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
+
+import com.yushanginfo.erp.order.admin.web.helper.CustomerImportHelper
+import com.yushanginfo.erp.base.model.{Customer, User}
+import org.beangle.data.transfer.excel.ExcelSchema
+import org.beangle.data.transfer.importer.ImportSetting
+import org.beangle.data.transfer.importer.listener.ForeignerListener
+import org.beangle.webmvc.api.annotation.response
+import org.beangle.webmvc.api.view.Stream
 import org.beangle.webmvc.entity.action.RestfulAction
 
 class CustomerAction extends RestfulAction[Customer] {
@@ -29,22 +35,25 @@ class CustomerAction extends RestfulAction[Customer] {
     put("users", entityDao.getAll(classOf[User]))
   }
 
-  override def saveAndRedirect(entity: Customer): View ={
-    entity.salers.clear()
-    val salerIds = getAll("salerId2nd", classOf[Long])
-    entity.salers++=entityDao.find(classOf[User],salerIds)
-    super.saveAndRedirect(entity)
+  @response
+  def downloadTemplate(): Any = {
+    val schema = new ExcelSchema()
+    val sheet = schema.createScheet("数据模板")
+    sheet.title("客户信息模板")
+    sheet.remark("特别说明：\n1、不可改变本表格的行列结构以及批注，否则将会导入失败！\n2、必须按照规格说明的格式填写。\n3、可以多次导入，重复的信息会被新数据更新覆盖。\n4、保存的excel文件名称可以自定。")
+    sheet.add("客户编号", "customer.code").length(15).required().remark("≤10位")
+    sheet.add("客户简称", "customer.shortName").length(100).required().remark("≤80位")
+    sheet.add("客户全称", "customer.name").length(100).remark("≤100位")
+    sheet.add("业务员工号", "customer.saler.code")
+
+    val os = new ByteArrayOutputStream()
+    schema.generate(os)
+    Stream(new ByteArrayInputStream(os.toByteArray), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "客户模板.xlsx")
   }
 
-//  def salerAjax(): View = {
-//    val query = OqlBuilder.from(classOf[User], "user")
-//    query.orderBy("user.code")
-//    populateConditions(query)
-//    get("term").foreach(codeOrName => {
-//      query.where("(user.name like :name or user.code like :code)", '%' + codeOrName + '%', '%' + codeOrName + '%')
-//    })
-//    query.limit(getPageLimit)
-//    put("users", entityDao.search(query))
-//    forward("usersJSON")
-//  }
+  protected override def configImport(setting: ImportSetting): Unit = {
+    val fl = new ForeignerListener(entityDao)
+    fl.addForeigerKey("code")
+    setting.listeners = List(fl, new CustomerImportHelper(entityDao))
+  }
 }

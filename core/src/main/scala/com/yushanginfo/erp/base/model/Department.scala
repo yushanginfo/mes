@@ -16,7 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.yushanginfo.erp.order.base.model
+package com.yushanginfo.erp.base.model
 
 import org.beangle.data.model.IntId
 import org.beangle.data.model.pojo.{Coded, Hierarchical, Named, Updated}

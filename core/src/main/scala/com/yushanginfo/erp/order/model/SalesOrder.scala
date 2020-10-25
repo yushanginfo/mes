@@ -20,7 +20,7 @@ package com.yushanginfo.erp.order.model
 
 import java.time.LocalDate
 
-import com.yushanginfo.erp.order.base.model.{Customer, OrderStatus, OrderType}
+import com.yushanginfo.erp.base.model.Product
 import org.beangle.data.model.LongId
 import org.beangle.data.model.pojo.{Coded, Remark, Updated}
 
@@ -29,27 +29,27 @@ import org.beangle.data.model.pojo.{Coded, Remark, Updated}
  */
 class SalesOrder extends LongId with Coded with Updated with Remark {
 
-	/** 生产批号 */
-	var batchNum: String = _
+  /** 生产批号 */
+  var batchNum: String = _
 
-	/** 产品信息 */
-	var product: Product = _
+  /** 产品信息 */
+  var product: Product = _
 
-	/** 订单类型 */
-	var orderType: OrderType = _
+  /** 订单类型 */
+  var orderType: OrderType = _
 
-	/** 数量 */
-	var count: Int = _
+  /** 数量 */
+  var count: Int = _
 
-	/** 计划交付日期 */
-	var requireOn: LocalDate = _
+  /** 计划交付日期 */
+  var requireOn: LocalDate = _
 
-	/** 计划完工日期 */
-	var scheduledOn: Option[LocalDate] = None
+  /** 计划完工日期 */
+  var scheduledOn: Option[LocalDate] = None
 
-	/** 订单状态 */
-	var status: OrderStatus.Status = OrderStatus.Original
+  /** 订单状态 */
+  var status: OrderStatus.Status = OrderStatus.Original
 
-	/** 到料日期 */
-	var materialDate: Option[LocalDate] = None
+  /** 到料日期 */
+  var materialDate: Option[LocalDate] = None
 }

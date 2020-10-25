@@ -16,27 +16,30 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.yushanginfo.erp.order.model
+package com.yushanginfo.erp.order.admin.web.helper
 
-import com.yushanginfo.erp.order.base.model.{Customer, Technic}
-import org.beangle.commons.collection.Collections
-import org.beangle.data.model.LongId
-import org.beangle.data.model.pojo.{Coded, Named, Remark, Updated}
+import java.time.{Instant, LocalDate}
 
-import scala.collection.mutable
+import com.yushanginfo.erp.base.model.User
+import org.beangle.data.dao.EntityDao
+import org.beangle.data.transfer.importer.{ImportListener, ImportResult}
 
-/**
- * 产品信息
- */
-class Product extends LongId with Coded with Named with Updated with Remark{
+class UserImportHelper(entityDao: EntityDao) extends ImportListener {
 
-	/** 客户信息 */
-	var customer: Customer = _
+  override def onItemFinish(tr: ImportResult): Unit = {
+    val user = transfer.current.asInstanceOf[User]
+    user.updatedAt = Instant.now
+    user.beginOn = LocalDate.now
+    entityDao.saveOrUpdate(user)
+  }
 
-	/** 规格 */
-	var standard: String = _
+  override def onStart(tr: ImportResult): Unit = {
+  }
 
-	/** 工序列表 */
-	var technics: mutable.Buffer[Technic] = Collections.newBuffer[Technic]
+  override def onFinish(tr: ImportResult): Unit = {
+  }
 
+  override def onItemStart(tr: ImportResult): Unit = {
+
+  }
 }

@@ -7,8 +7,7 @@
     [@b.textfield name="product.name" label="产品名称" value="${product.name!}" required="true" maxlength="80"/]
     [@b.textfield name="product.standard" label="规格" value="${product.standard!}" required="true" maxlength="80"/]
     [@b.select name="product.customer.id" label="客户" value="${(product.customer.id)!}" required="true"  style="width:200px;" items=customers empty="..." option=r"${item.code}${item.name}" /]
-    [@b.select2 label="工艺列表" name1st="technicId1st" name2nd="technicId2nd" style = "height:80px;width:152px"
-    items1st=technics items2nd= product.technics option=r"${item.code}${item.name}"  required="true" /]
+    [@b.select multiple="multiple" label="工艺列表" name="technicIds" items=technics values=product.technics option=r"${item.code}${item.name} ${(item.machine.name)!}" required="true" style="width:400px"/]
     [@b.textfield name="product.remark" label="备注" value="${product.remark!}" maxlength="190"/]
     [@b.formfoot]
       [@b.reset/]&nbsp;&nbsp;[@b.submit value="action.submit"/]

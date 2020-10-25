@@ -6,7 +6,7 @@
     [@b.textfield name="department.code" label="代码" value="${department.code!}" required="true" maxlength="10"/]
     [@b.textfield name="department.name" label="名称" value="${department.name!}" required="true" maxlength="80"/]
     [@b.textfield name="department.indexno" label="序号" value="${department.indexno!}" required="true" maxlength="20"/]
-    [@b.select name="department.parent.id" label="所属部门" value="${(department.parent.id)!}"
+    [@b.select name="department.parent.id" label="上级部门" value="${(department.parent.id)!}"
     style="width:200px;" items=departments empty="..."/]
     [@b.formfoot]
       [@b.reset/]&nbsp;&nbsp;[@b.submit value="action.submit"/]

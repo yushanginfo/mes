@@ -16,18 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.yushanginfo.erp.order.base.model
+package com.yushanginfo.erp.base.model
 
-object OrderStatus extends Enumeration(0) {
+import org.beangle.data.model.IntId
+import org.beangle.data.model.pojo.{Coded, Named}
 
-  class Status(val name: String) extends super.Val {
-  }
-
-  val Original = new Status("初始")
-  val Submited = new Status("评审中")
-  val Unpassed = new Status("待复审")
-  val Review = new Status("复审中")
-  val Passed = new Status("通过")
-  val Cancel = new Status("取消")
+class Supplier extends IntId with Coded with Named {
 
 }

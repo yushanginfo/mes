@@ -18,7 +18,7 @@
  */
 package com.yushanginfo.erp.order.model
 
-import com.yushanginfo.erp.order.base.model.{Factory, Technic}
+import com.yushanginfo.erp.base.model.{Factory, Technic}
 import org.beangle.data.model.LongId
 import org.beangle.data.model.pojo.Updated
 
