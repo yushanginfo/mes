@@ -1,19 +1,19 @@
 [#ftl]
 [@b.head/]
-[@b.toolbar title="产品信息"]
+[@b.toolbar title="品号信息"]
   bar.addBack("${b.text("action.back")}");
 [/@]
 <table class="infoTable">
   <tr>
-    <td class="title" width="20%">产品图号</td>
+    <td class="title" width="20%">品号图号</td>
     <td class="content">${material.code}</td>
   </tr>
   <tr>
-    <td class="title" width="20%">产品名称</td>
+    <td class="title" width="20%">品号名称</td>
     <td class="content">${material.name}</td>
   </tr>
   <tr>
-    <td class="title" width="20%">产品规格</td>
+    <td class="title" width="20%">品号规格</td>
     <td class="content">${material.specification}</td>
   </tr>
   <tr>

@@ -1,6 +1,6 @@
 [#ftl]
 [@b.head/]
-[@b.toolbar title="品号信息"/]
+[@b.toolbar title="品号类型"/]
 <div class="search-container">
   <div class="search-panel">
     [@b.form name="materialTypeSearchForm" action="!search" target="materialTypelist" title="ui.searchForm" theme="search"]
