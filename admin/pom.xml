@@ -28,19 +28,8 @@
       <artifactId>jakarta.servlet-api</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.beangle.doc</groupId>
-      <artifactId>beangle-doc-pdf_2.13</artifactId>
-      <version>0.0.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.bouncycastle</groupId>
-      <artifactId>bcprov-jdk15on</artifactId>
-      <version>1.64</version>
-    </dependency>
-    <dependency>
-      <groupId>org.bouncycastle</groupId>
-      <artifactId>bcpkix-jdk15on</artifactId>
-      <version>1.64</version>
+      <groupId>org.beangle.serializer</groupId>
+      <artifactId>beangle-serializer-text_2.13</artifactId>
     </dependency>
     <dependency>
       <groupId>org.beangle.commons</groupId>

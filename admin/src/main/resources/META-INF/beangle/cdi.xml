@@ -1,6 +1,14 @@
 <?xml version="1.0"?>
 <cdi>
   <container name="web">
-    <module class="com.yushanginfo.erp.order.admin.web.action.DefaultModule"/>
+    <module class="com.yushanginfo.erp.order.admin.web.action.code.DefaultModule"/>
+    <module class="com.yushanginfo.erp.order.admin.web.action.base.DefaultModule"/>
+    <module class="com.yushanginfo.erp.order.admin.web.action.contract.DefaultModule"/>
+  </container>
+
+  <container>
+    <module class="org.beangle.serializer.text.DefaultModule"/>
+    <module class="org.beangle.serializer.json.DefaultModule"/>
+    <module class="org.beangle.serializer.xml.DefaultModule"/>
   </container>
 </cdi>

@@ -18,36 +18,58 @@
  */
 package com.yushanginfo.erp.base.model
 
-import com.yushanginfo.erp.order.model.{DepartAssess, Material, OrderType}
 import org.beangle.data.orm.MappingModule
 
 class DefaultMapping extends MappingModule {
 
-	def binding(): Unit = {
-		defaultCache("com.yushanginfo.erp.ems.base", "read-write")
+  def binding(): Unit = {
+    defaultCache("com.yushanginfo.erp.ems.base", "read-write")
+    bind[MeasurementUnit]
+    bind[MaterialType]
 
-		bind[Customer]
+    bind[Customer] declare { e =>
+      e.code is unique
+    }
 
-		bind[Technic]
+    bind[Technic] declare { e =>
+      e.code is unique
+    }
 
-		bind[Department] declare { e =>
-			e.code is length(10)
-			e.name is length(80)
-			e.indexno is length(20)
-			e.children is depends("parent")
-			index("", true, e.code)
-		}
+    bind[Department] declare { e =>
+      e.code is length(10)
+      e.name is length(80)
+      e.indexno is length(20)
+      e.children is depends("parent")
+      index("", true, e.code)
+    }
 
-		bind[Factory]
+    bind[Factory] declare { e =>
+      e.code is unique
+    }
 
-		bind[User]
+    bind[User] declare { e =>
+      e.code is unique
+    }
 
-		bind[Machine]
+    bind[Machine] declare { e =>
+      e.code is unique
+    }
 
-		bind[Supplier]
+    bind[Supplier]
+    bind[Material] declare { e =>
+      e.code is unique
+    }
+    bind[MaterialItem]
 
-		bind[Product].declare { e =>
-			e.technics is ordered
-		}
-	}
+    bind[Product].declare { e =>
+      e.code is unique
+      e.bom is depends("product")
+      e.technicSchemes is depends("product")
+    }
+
+    bind[ProductMaterialItem]
+    bind[TechnicScheme].declare { e =>
+      e.technics is ordered
+    }
+  }
 }

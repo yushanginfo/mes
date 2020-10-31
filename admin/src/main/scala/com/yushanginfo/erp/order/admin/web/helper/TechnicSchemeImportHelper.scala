@@ -20,28 +20,32 @@ package com.yushanginfo.erp.order.admin.web.helper
 
 import java.time.Instant
 
-import com.yushanginfo.erp.base.model.Customer
-import org.beangle.data.dao.EntityDao
+import com.yushanginfo.erp.base.model.TechnicScheme
+import org.beangle.data.dao.{EntityDao, OqlBuilder}
 import org.beangle.data.transfer.importer.{ImportListener, ImportResult}
 
-class CustomerImportHelper(entityDao: EntityDao) extends ImportListener {
+class TechnicSchemeImportHelper(entityDao: EntityDao) extends ImportListener {
 
   override def onItemFinish(tr: ImportResult): Unit = {
-    val co = transfer.current.asInstanceOf[Customer]
-    co.updatedAt = Instant.now
-    entityDao.saveOrUpdate(co)
+    val p = transfer.current.asInstanceOf[TechnicScheme]
+    p.updatedAt = Instant.now
+    entityDao.saveOrUpdate(p)
   }
 
   override def onStart(tr: ImportResult): Unit = {
+
   }
 
   override def onFinish(tr: ImportResult): Unit = {
   }
 
   override def onItemStart(tr: ImportResult): Unit = {
-    transfer.curData.get("customer.code") foreach{code=>
-      entityDao.findBy(classOf[Customer],"code",List(code)) foreach{ p=>
-        transfer.current=p
+    for (pcode <- transfer.curData.get("technicScheme.product.code"); indexno <- transfer.curData.get("technicScheme.indexno")) {
+      val builder = OqlBuilder.from(classOf[TechnicScheme], "s")
+      builder.where("s.product.code=:code", pcode)
+      builder.where("s.indexno=:indexno", indexno)
+      entityDao.search(builder) foreach { p =>
+        transfer.current = p
       }
     }
   }

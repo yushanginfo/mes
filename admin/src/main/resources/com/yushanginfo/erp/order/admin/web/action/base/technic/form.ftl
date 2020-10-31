@@ -5,6 +5,7 @@
   [@b.form action=b.rest.save(technic) theme="list"]
     [@b.textfield name="technic.code" label="代码" value="${technic.code!}" required="true" maxlength="10"/]
     [@b.textfield name="technic.name" label="名称" value="${technic.name!}" required="true" maxlength="80"/]
+    [@b.select name="techinc.depart.id" label="负责部门" items=departs value=technic.depart! required="true"/]
     [@b.textfield name="technic.remark" label="备注" value="${technic.remark!}" maxlength="190"/]
     [@b.formfoot]
       [@b.reset/]&nbsp;&nbsp;[@b.submit value="action.submit"/]

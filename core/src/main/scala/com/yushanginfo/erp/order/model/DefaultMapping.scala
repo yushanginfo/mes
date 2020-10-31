@@ -30,8 +30,6 @@ class DefaultMapping extends MappingModule {
 
     bind[SalesOrder]
 
-    bind[Material]
-
     bind[DepartAssess]
 
     bind[OrderType]

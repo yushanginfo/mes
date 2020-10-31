@@ -6,27 +6,23 @@
 <table class="infoTable">
   <tr>
     <td class="title" width="20%">产品图号</td>
-    <td class="content">${product.code}</td>
+    <td class="content">${material.code}</td>
   </tr>
   <tr>
     <td class="title" width="20%">产品名称</td>
-    <td class="content">${product.name}</td>
+    <td class="content">${material.name}</td>
   </tr>
   <tr>
     <td class="title" width="20%">产品规格</td>
-    <td class="content">${product.specification}</td>
+    <td class="content">${material.specification}</td>
   </tr>
   <tr>
-    <td class="title" width="20%">工艺列表</td>
-    <td class="content">
-      [#list product.technics! as technic]
-        ${technic.name}[#if technic_has_next],[/#if]
-      [/#list]
-    </td>
+    <td class="title" width="20%">品号类别</td>
+    <td class="content">${material.materialType.name}</td>
   </tr>
   <tr>
     <td class="title" width="20%">备注</td>
-    <td class="content">${product.remark!}</td>
+    <td class="content">${material.remark!}</td>
   </tr>
 </table>
 

@@ -30,6 +30,10 @@ import scala.collection.mutable
 class Customer extends LongId with Coded with Named with Updated with Remark{
 	/**客户简称*/
 	var shortName:String=_
+
 	/** 业务人员*/
 	var saler :Option[User] = None
+
+	/**快捷码*/
+	var quickCode:Option[String]=None
 }

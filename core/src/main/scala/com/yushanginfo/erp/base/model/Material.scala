@@ -25,9 +25,12 @@ import org.beangle.data.model.pojo.{Coded, Named, Remark, Updated}
 import scala.collection.mutable
 
 /**
- * 产品信息
+ * 品号信息
  */
-class Product extends LongId with Coded with Named with Updated with Remark {
+class Material extends LongId with Coded with Named with Updated with Remark {
+
+  /** 材料类型 */
+  var materialType: MaterialType = _
 
   /** 规格 */
   var specification: Option[String] = None
@@ -35,10 +38,6 @@ class Product extends LongId with Coded with Named with Updated with Remark {
   /** 计量单位 */
   var unit: MeasurementUnit = _
 
-  /** 工艺路线 */
-  var technicSchemes: mutable.Buffer[TechnicScheme] = Collections.newBuffer[TechnicScheme]
-
-  /** 材料清单 */
-  var bom: mutable.Buffer[ProductMaterialItem] = Collections.newBuffer[ProductMaterialItem]
-
+  /**子材料*/
+  var items: mutable.Buffer[MaterialItem] = Collections.newBuffer[MaterialItem]
 }

@@ -79,7 +79,7 @@ class DepartAssessAction extends RestfulAction[DepartAssess] {
 
 		//判断是否所有的工艺都已经评审
 		var i = 1
-		entity.salesOrder.product.technics.foreach(technic => {
+		entity.salesOrder.technicScheme.technics.foreach(technic => {
 			val builder = OqlBuilder.from(classOf[DepartAssess], "departAssess")
 			builder.where("departAssess.technic=:technic", technic)
 			builder.where("departAssess.salesOrder=:salesOrder", entity.salesOrder)
@@ -92,7 +92,7 @@ class DepartAssessAction extends RestfulAction[DepartAssess] {
 		//计算计划完工时间
 		if (entity.salesOrder.materialDate.nonEmpty && i == 1 && entity.salesOrder.scheduledOn.isEmpty) {
 			entity.salesOrder.scheduledOn = entity.salesOrder.materialDate
-			entity.salesOrder.product.technics.foreach(technic => {
+			entity.salesOrder.technicScheme.technics.foreach(technic => {
 				entity.salesOrder.scheduledOn = Option(entity.salesOrder.scheduledOn.get.plusDays(getDepartAssessMap.get(entity.salesOrder).get.get(technic).get.days.toLong))
 			})
 			if (entity.salesOrder.scheduledOn.get.compareTo(entity.salesOrder.requireOn) > 0) {

@@ -24,19 +24,20 @@ import org.beangle.data.model.pojo.{Coded, Named, Remark, Updated}
 /**
  * 工艺
  */
-class Technic extends IntId with Coded with Named with Updated with Remark{
+class Technic extends IntId with Coded with Named with Updated with Remark {
 
-	/**工艺说明*/
-	var description:Option[String]=_
+  /** 工艺说明 */
+  var description: Option[String] = _
 
-	/**场内生产/委托外部*/
-	var internal :Boolean=_
+  /** 场内生产/委托外部 */
+  var internal: Boolean = _
 
-	/**加工中心*/
-	var machine:Option[Machine]=None
+  /** 加工中心 */
+  var machine: Option[Machine] = None
 
-	/**供应商*/
-	var supplier:Option[Supplier]=None
+  /** 供应商 */
+  var supplier: Option[Supplier] = None
 
-	var department: Department = _
+  /** 负责部门 */
+  var depart: Department = _
 }

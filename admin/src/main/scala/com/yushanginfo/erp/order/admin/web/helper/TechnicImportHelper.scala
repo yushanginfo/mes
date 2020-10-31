@@ -18,13 +18,13 @@
  */
 package com.yushanginfo.erp.order.admin.web.helper
 
-import java.time.{Instant, LocalDate}
+import java.time.Instant
 
-import com.yushanginfo.erp.base.model.{Technic, User}
+import com.yushanginfo.erp.base.model.Technic
 import org.beangle.data.dao.EntityDao
 import org.beangle.data.transfer.importer.{ImportListener, ImportResult}
 
-class TechnicImportHelper (entityDao: EntityDao) extends ImportListener {
+class TechnicImportHelper(entityDao: EntityDao) extends ImportListener {
 
   override def onItemFinish(tr: ImportResult): Unit = {
     val technic = transfer.current.asInstanceOf[Technic]
@@ -39,6 +39,10 @@ class TechnicImportHelper (entityDao: EntityDao) extends ImportListener {
   }
 
   override def onItemStart(tr: ImportResult): Unit = {
-
+    transfer.curData.get("technic.code") foreach { code =>
+      entityDao.findBy(classOf[Technic], "code", List(code)) foreach { p =>
+        transfer.current = p
+      }
+    }
   }
 }

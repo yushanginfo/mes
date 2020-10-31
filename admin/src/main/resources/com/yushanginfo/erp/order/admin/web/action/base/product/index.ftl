@@ -4,9 +4,8 @@
 <div class="search-container">
   <div class="search-panel">
     [@b.form name="productSearchForm" action="!search" target="productlist" title="ui.searchForm" theme="search"]
-      [@b.textfields names="product.code;产品图号"/]
-      [@b.textfields names="product.name;产品名称"/]
-      [@b.textfields names="product.customer.code;客户编号"/]
+      [@b.textfields names="product.code;编号"/]
+      [@b.textfields names="product.name;名称"/]
       <input type="hidden" name="orderBy" value="product.code desc"/>
     [/@]
   </div>

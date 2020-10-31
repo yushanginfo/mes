@@ -20,25 +20,20 @@ package com.yushanginfo.erp.base.model
 
 import org.beangle.commons.collection.Collections
 import org.beangle.data.model.LongId
-import org.beangle.data.model.pojo.{Coded, Named, Remark, Updated}
+import org.beangle.data.model.pojo.{Named, Updated}
 
 import scala.collection.mutable
 
-/**
- * 产品信息
- */
-class Product extends LongId with Coded with Named with Updated with Remark {
+/**工艺路线*/
+class TechnicScheme extends LongId with Named with Updated{
 
-  /** 规格 */
-  var specification: Option[String] = None
+  /**工艺路线编号*/
+  var indexno:String=_
 
-  /** 计量单位 */
-  var unit: MeasurementUnit = _
+  /** 产品 */
+  var product:Product=_
 
-  /** 工艺路线 */
-  var technicSchemes: mutable.Buffer[TechnicScheme] = Collections.newBuffer[TechnicScheme]
-
-  /** 材料清单 */
-  var bom: mutable.Buffer[ProductMaterialItem] = Collections.newBuffer[ProductMaterialItem]
+  /** 工序列表 */
+  var technics: mutable.Buffer[Technic] = Collections.newBuffer[Technic]
 
 }

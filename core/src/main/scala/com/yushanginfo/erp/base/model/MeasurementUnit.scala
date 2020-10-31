@@ -18,27 +18,9 @@
  */
 package com.yushanginfo.erp.base.model
 
-import org.beangle.commons.collection.Collections
-import org.beangle.data.model.LongId
-import org.beangle.data.model.pojo.{Coded, Named, Remark, Updated}
+import org.beangle.data.model.IntId
+import org.beangle.data.model.pojo.{Coded, Named}
 
-import scala.collection.mutable
-
-/**
- * 产品信息
- */
-class Product extends LongId with Coded with Named with Updated with Remark {
-
-  /** 规格 */
-  var specification: Option[String] = None
-
-  /** 计量单位 */
-  var unit: MeasurementUnit = _
-
-  /** 工艺路线 */
-  var technicSchemes: mutable.Buffer[TechnicScheme] = Collections.newBuffer[TechnicScheme]
-
-  /** 材料清单 */
-  var bom: mutable.Buffer[ProductMaterialItem] = Collections.newBuffer[ProductMaterialItem]
+class MeasurementUnit extends IntId with Coded with Named {
 
 }

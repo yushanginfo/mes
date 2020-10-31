@@ -20,28 +20,29 @@ package com.yushanginfo.erp.order.admin.web.helper
 
 import java.time.Instant
 
-import com.yushanginfo.erp.base.model.Customer
+import com.yushanginfo.erp.base.model.{Material}
 import org.beangle.data.dao.EntityDao
 import org.beangle.data.transfer.importer.{ImportListener, ImportResult}
 
-class CustomerImportHelper(entityDao: EntityDao) extends ImportListener {
+class MaterialImportHelper(entityDao: EntityDao) extends ImportListener {
 
   override def onItemFinish(tr: ImportResult): Unit = {
-    val co = transfer.current.asInstanceOf[Customer]
-    co.updatedAt = Instant.now
-    entityDao.saveOrUpdate(co)
+    val p = transfer.current.asInstanceOf[Material]
+    p.updatedAt = Instant.now
+    entityDao.saveOrUpdate(p)
   }
 
   override def onStart(tr: ImportResult): Unit = {
+
   }
 
   override def onFinish(tr: ImportResult): Unit = {
   }
 
   override def onItemStart(tr: ImportResult): Unit = {
-    transfer.curData.get("customer.code") foreach{code=>
-      entityDao.findBy(classOf[Customer],"code",List(code)) foreach{ p=>
-        transfer.current=p
+    transfer.curData.get("material.code") foreach { code =>
+      entityDao.findBy(classOf[Material], "code", List(code)) foreach { p =>
+        transfer.current = p
       }
     }
   }

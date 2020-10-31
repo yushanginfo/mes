@@ -20,7 +20,7 @@ package com.yushanginfo.erp.order.model
 
 import java.time.LocalDate
 
-import com.yushanginfo.erp.base.model.Product
+import com.yushanginfo.erp.base.model.{Customer, Product, TechnicScheme}
 import org.beangle.data.model.LongId
 import org.beangle.data.model.pojo.{Coded, Remark, Updated}
 
@@ -32,8 +32,14 @@ class SalesOrder extends LongId with Coded with Updated with Remark {
   /** 生产批号 */
   var batchNum: String = _
 
+  /** 客户信息 */
+  var customer: Customer = _
+
   /** 产品信息 */
   var product: Product = _
+
+  /** 订单工艺 */
+  var technicScheme: TechnicScheme = _
 
   /** 订单类型 */
   var orderType: OrderType = _

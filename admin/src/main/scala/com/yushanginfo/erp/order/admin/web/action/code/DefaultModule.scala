@@ -16,21 +16,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.yushanginfo.erp.order.model
+package com.yushanginfo.erp.order.admin.web.action.code
 
-import java.time.LocalDate
+import org.beangle.cdi.bind.BindModule
 
-import org.beangle.data.model.LongId
-import org.beangle.data.model.pojo.Updated
-
-/**
- * 采购信息
- */
-class Material extends LongId with Updated {
-
-	var salesOrder: SalesOrder = _
-
-	/** 到料日期 */
-	var materialDate: LocalDate = _
-
+class DefaultModule extends BindModule {
+  override protected def binding(): Unit = {
+    bind(classOf[OrderTypeAction])
+    bind(classOf[CodeAction])
+    bind(classOf[MaterialTypeAction])
+    bind(classOf[MeasurementUnitAction])
+  }
 }

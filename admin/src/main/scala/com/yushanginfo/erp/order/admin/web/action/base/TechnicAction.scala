@@ -20,8 +20,8 @@ package com.yushanginfo.erp.order.admin.web.action.base
 
 import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
 
-import com.yushanginfo.erp.order.admin.web.helper.TechnicImportHelper
 import com.yushanginfo.erp.base.model.{Department, Machine, Technic}
+import com.yushanginfo.erp.order.admin.web.helper.TechnicImportHelper
 import org.beangle.data.dao.OqlBuilder
 import org.beangle.data.transfer.excel.ExcelSchema
 import org.beangle.data.transfer.importer.ImportSetting
@@ -31,6 +31,10 @@ import org.beangle.webmvc.api.view.Stream
 import org.beangle.webmvc.entity.action.RestfulAction
 
 class TechnicAction extends RestfulAction[Technic] {
+
+  override protected def editSetting(entity: Technic): Unit = {
+    put("departs", entityDao.getAll(classOf[Department]))
+  }
 
   @response
   def downloadTemplate(): Any = {
@@ -46,7 +50,7 @@ class TechnicAction extends RestfulAction[Technic] {
     sheet.add("说明", "technic.description").length(100).remark("≤100位")
     sheet.add("性质", "technic.internal").required().bool()
     sheet.add("加工中心编号", "technic.machine.code").ref(machines).required()
-    sheet.add("部门编号", "technic.department.code").ref(departs).required()
+    sheet.add("部门编号", "technic.depart.code").ref(departs).required()
     val code = schema.createScheet("数据字典")
     code.add("加工中心编号").data(machines)
     code.add("部门编号").data(departs)

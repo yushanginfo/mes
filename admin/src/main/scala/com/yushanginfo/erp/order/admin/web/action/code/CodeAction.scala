@@ -16,29 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.yushanginfo.erp.base.model
+package com.yushanginfo.erp.order.admin.web.action.code
 
-import org.beangle.commons.collection.Collections
-import org.beangle.data.model.LongId
-import org.beangle.data.model.pojo.{Coded, Named, Remark, Updated}
+import org.beangle.webmvc.api.action.ActionSupport
+import org.beangle.webmvc.api.view.View
 
-import scala.collection.mutable
+class CodeAction extends ActionSupport {
 
-/**
- * 产品信息
- */
-class Product extends LongId with Coded with Named with Updated with Remark {
-
-  /** 规格 */
-  var specification: Option[String] = None
-
-  /** 计量单位 */
-  var unit: MeasurementUnit = _
-
-  /** 工艺路线 */
-  var technicSchemes: mutable.Buffer[TechnicScheme] = Collections.newBuffer[TechnicScheme]
-
-  /** 材料清单 */
-  var bom: mutable.Buffer[ProductMaterialItem] = Collections.newBuffer[ProductMaterialItem]
-
+  def index: View = {
+    forward()
+  }
 }
