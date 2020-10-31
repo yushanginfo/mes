@@ -1,7 +1,6 @@
 [#ftl]
 [@b.head/]
 [@b.toolbar title="工艺基本信息"]bar.addBack();[/@]
-[@b.tabs]
   [@b.form action=b.rest.save(technic) theme="list"]
     [@b.textfield name="technic.code" label="代码" value="${technic.code!}" required="true" maxlength="10"/]
     [@b.textfield name="technic.name" label="名称" value="${technic.name!}" required="true" maxlength="80"/]
@@ -11,5 +10,4 @@
       [@b.reset/]&nbsp;&nbsp;[@b.submit value="action.submit"/]
     [/@]
   [/@]
-[/@]
 [@b.foot/]

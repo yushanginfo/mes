@@ -73,16 +73,4 @@ class TechnicSchemeAction extends RestfulAction[TechnicScheme] {
     setting.listeners = List(fl, new TechnicSchemeImportHelper(entityDao))
   }
 
-  @response
-  def loadProduct: Seq[Properties] = {
-    val query = OqlBuilder.from(classOf[Product], "es")
-    query.where("es.code like :code", "%" + get("q", "") + "%")
-    query.limit(1, 10)
-    entityDao.search(query).map { es =>
-      val p = new Properties()
-      p.put("value", es.id.toString)
-      p.put("text", s"${es.code} ${es.name}")
-      p
-    }
-  }
 }

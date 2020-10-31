@@ -1,7 +1,6 @@
 [#ftl]
 [@b.head/]
 [@b.toolbar title="计量单位"]bar.addBack();[/@]
-[@b.tabs]
   [@b.form action=b.rest.save(measurementUnit) theme="list"]
     [@b.textfield name="measurementUnit.code" label="代码" value="${measurementUnit.code!}" required="true" maxlength="10"/]
     [@b.textfield name="measurementUnit.name" label="名称" value="${measurementUnit.name!}" required="true" maxlength="80"/]
@@ -9,5 +8,4 @@
       [@b.reset/]&nbsp;&nbsp;[@b.submit value="action.submit"/]
     [/@]
   [/@]
-[/@]
 [@b.foot/]

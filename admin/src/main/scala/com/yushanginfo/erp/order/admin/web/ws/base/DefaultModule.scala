@@ -16,28 +16,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.yushanginfo.erp.base.model
+package com.yushanginfo.erp.order.admin.web.ws.base
 
-import org.beangle.commons.collection.Collections
-import org.beangle.data.model.LongId
-import org.beangle.data.model.pojo.{Coded, Named, Remark, Updated}
+import org.beangle.cdi.bind.BindModule
 
-import scala.collection.mutable
-
-/**
- * 客户信息
- */
-class Customer extends LongId with Coded with Named with Updated with Remark{
-	/**客户简称*/
-	var shortName:String=_
-
-	/** 业务人员*/
-	var saler :Option[User] = None
-
-	/**快捷码*/
-	var quickCode:Option[String]=None
-
-	def title:String={
-		s"${this.quickCode.orNull} ${this.name} "
-	}
+class DefaultModule extends BindModule {
+  override protected def binding(): Unit = {
+    bind(classOf[MaterialWs], classOf[ProductWs], classOf[TechnicWs], classOf[CustomerWs])
+    bind(classOf[TechnicSchemeWs])
+  }
 }

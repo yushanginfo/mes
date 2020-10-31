@@ -16,32 +16,28 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.yushanginfo.erp.base.model
+package com.yushanginfo.erp.order.admin.web.ws.base
 
-import org.beangle.commons.collection.Collections
-import org.beangle.data.model.LongId
-import org.beangle.data.model.pojo.{Coded, Named, Remark, Updated}
+import com.yushanginfo.erp.base.model.{Material, Technic}
+import org.beangle.commons.collection.Properties
+import org.beangle.data.dao.{EntityDao, OqlBuilder}
+import org.beangle.webmvc.api.action.ActionSupport
+import org.beangle.webmvc.api.annotation.{mapping, response}
 
-import scala.collection.mutable
+class TechnicWs extends ActionSupport {
+  var entityDao: EntityDao = _
 
-/**
- * 产品信息
- */
-class Product extends LongId with Coded with Named with Updated with Remark {
-
-  /** 规格 */
-  var specification: Option[String] = None
-
-  /** 计量单位 */
-  var unit: MeasurementUnit = _
-
-  /** 工艺路线 */
-  var technicSchemes: mutable.Buffer[TechnicScheme] = Collections.newBuffer[TechnicScheme]
-
-  /** 材料清单 */
-  var bom: mutable.Buffer[ProductMaterialItem] = Collections.newBuffer[ProductMaterialItem]
-
-  def title:String={
-    s"${this.code} ${this.name} ${this.specification.orNull}"
+  @response
+  @mapping("")
+  def index: Seq[Properties] = {
+    val query = OqlBuilder.from(classOf[Technic], "es")
+    query.where("es.code like :q or es.name like :q", "%" + get("q", "") + "%")
+    query.limit(1, 10)
+    entityDao.search(query).map { es =>
+      val p = new Properties()
+      p.put("id", es.id.toString)
+      p.put("title", es.title)
+      p
+    }
   }
 }

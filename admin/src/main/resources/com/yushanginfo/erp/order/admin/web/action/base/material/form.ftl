@@ -1,7 +1,6 @@
 [#ftl]
 [@b.head/]
 [@b.toolbar title="修改产品信息"]bar.addBack();[/@]
-[@b.tabs]
   [@b.form action=b.rest.save(material) theme="list"]
     [@b.textfield name="material.code" label="产品图号" value="${material.code!}" required="true" maxlength="30"/]
     [@b.textfield name="material.name" label="产品名称" value="${material.name!}" required="true" maxlength="80"/]
@@ -12,6 +11,4 @@
       [@b.reset/]&nbsp;&nbsp;[@b.submit value="action.submit"/]
     [/@]
   [/@]
-[/@]
-
 [@b.foot/]

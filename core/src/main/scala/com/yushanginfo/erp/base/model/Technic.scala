@@ -40,4 +40,8 @@ class Technic extends IntId with Coded with Named with Updated with Remark {
 
   /** 负责部门 */
   var depart: Department = _
+
+  def title: String = {
+    s"${this.code}${this.name} ${this.machine.map(_.name).orNull}"
+  }
 }

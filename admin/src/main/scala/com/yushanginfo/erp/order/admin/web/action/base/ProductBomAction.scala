@@ -16,28 +16,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.yushanginfo.erp.base.model
+package com.yushanginfo.erp.order.admin.web.action.base
 
-import org.beangle.commons.collection.Collections
-import org.beangle.data.model.LongId
-import org.beangle.data.model.pojo.{Coded, Named, Remark, Updated}
+import com.yushanginfo.erp.base.model.{Product, ProductMaterialItem}
+import org.beangle.webmvc.api.annotation.ignore
+import org.beangle.webmvc.entity.action.RestfulAction
 
-import scala.collection.mutable
+class ProductBomAction extends RestfulAction[ProductMaterialItem] {
 
-/**
- * 客户信息
- */
-class Customer extends LongId with Coded with Named with Updated with Remark{
-	/**客户简称*/
-	var shortName:String=_
+  @ignore
+  protected override def simpleEntityName: String = {
+    "item"
+  }
 
-	/** 业务人员*/
-	var saler :Option[User] = None
-
-	/**快捷码*/
-	var quickCode:Option[String]=None
-
-	def title:String={
-		s"${this.quickCode.orNull} ${this.name} "
-	}
+  override protected def editSetting(entity: ProductMaterialItem): Unit = {
+    put("product", entityDao.find(classOf[Product], entity.product.id))
+    super.editSetting(entity)
+  }
 }

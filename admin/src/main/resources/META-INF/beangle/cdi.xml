@@ -4,6 +4,7 @@
     <module class="com.yushanginfo.erp.order.admin.web.action.code.DefaultModule"/>
     <module class="com.yushanginfo.erp.order.admin.web.action.base.DefaultModule"/>
     <module class="com.yushanginfo.erp.order.admin.web.action.contract.DefaultModule"/>
+    <module class="com.yushanginfo.erp.order.admin.web.ws.base.DefaultModule"/>
   </container>
 
   <container>

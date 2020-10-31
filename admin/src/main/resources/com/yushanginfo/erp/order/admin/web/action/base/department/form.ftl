@@ -1,7 +1,6 @@
 [#ftl]
 [@b.head/]
 [@b.toolbar title="部门基本信息"]bar.addBack();[/@]
-[@b.tabs]
   [@b.form action=b.rest.save(department) theme="list"]
     [@b.textfield name="department.code" label="代码" value="${department.code!}" required="true" maxlength="10"/]
     [@b.textfield name="department.name" label="名称" value="${department.name!}" required="true" maxlength="80"/]
@@ -12,5 +11,4 @@
       [@b.reset/]&nbsp;&nbsp;[@b.submit value="action.submit"/]
     [/@]
   [/@]
-[/@]
 [@b.foot/]

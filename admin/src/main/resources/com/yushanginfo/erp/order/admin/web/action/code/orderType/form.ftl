@@ -1,7 +1,6 @@
 [#ftl]
 [@b.head/]
 [@b.toolbar title="订单类型"]bar.addBack();[/@]
-[@b.tabs]
   [@b.form action=b.rest.save(orderType) theme="list"]
     [@b.textfield name="orderType.code" label="代码" value="${orderType.code!}" required="true" maxlength="10"/]
     [@b.textfield name="orderType.name" label="名称" value="${orderType.name!}" required="true" maxlength="80"/]
@@ -10,5 +9,4 @@
       [@b.reset/]&nbsp;&nbsp;[@b.submit value="action.submit"/]
     [/@]
   [/@]
-[/@]
 [@b.foot/]

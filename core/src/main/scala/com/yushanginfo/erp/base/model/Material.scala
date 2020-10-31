@@ -38,6 +38,10 @@ class Material extends LongId with Coded with Named with Updated with Remark {
   /** 计量单位 */
   var unit: MeasurementUnit = _
 
-  /**子材料*/
+  /** 子材料 */
   var items: mutable.Buffer[MaterialItem] = Collections.newBuffer[MaterialItem]
+
+  def title: String = {
+    s"${this.code} ${this.name} ${this.specification.orNull}"
+  }
 }

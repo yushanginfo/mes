@@ -1,7 +1,6 @@
 [#ftl]
 [@b.head/]
 [@b.toolbar title="订单评审"]bar.addBack();[/@]
-[@b.tabs]
   [@b.form action=b.rest.save(departAssess) theme="list"]
     <input type="hidden" name="salesOrderId" value="${salesOrder.id}"/>
     <input type="hidden" name="technicId" value="${technic.id}"/>
@@ -18,5 +17,4 @@
       [@b.reset/]&nbsp;&nbsp;[@b.submit value="action.submit"/]
     [/@]
   [/@]
-[/@]
 [@b.foot/]

@@ -16,28 +16,28 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.yushanginfo.erp.base.model
+package com.yushanginfo.erp.order.admin.web.ws.base
 
-import org.beangle.commons.collection.Collections
-import org.beangle.data.model.LongId
-import org.beangle.data.model.pojo.{Coded, Named, Remark, Updated}
+import com.yushanginfo.erp.base.model.Material
+import org.beangle.commons.collection.Properties
+import org.beangle.data.dao.{EntityDao, OqlBuilder}
+import org.beangle.webmvc.api.action.ActionSupport
+import org.beangle.webmvc.api.annotation.{mapping, response}
 
-import scala.collection.mutable
+class MaterialWs extends ActionSupport {
+  var entityDao: EntityDao = _
 
-/**
- * 客户信息
- */
-class Customer extends LongId with Coded with Named with Updated with Remark{
-	/**客户简称*/
-	var shortName:String=_
-
-	/** 业务人员*/
-	var saler :Option[User] = None
-
-	/**快捷码*/
-	var quickCode:Option[String]=None
-
-	def title:String={
-		s"${this.quickCode.orNull} ${this.name} "
-	}
+  @response
+  @mapping("")
+  def index: Seq[Properties] = {
+    val query = OqlBuilder.from(classOf[Material], "es")
+    query.where("es.code like :q or es.name like :q", "%" + get("q", "") + "%")
+    query.limit(1, 10)
+    entityDao.search(query).map { es =>
+      val p = new Properties()
+      p.put("id", es.id.toString)
+      p.put("title", es.title)
+      p
+    }
+  }
 }

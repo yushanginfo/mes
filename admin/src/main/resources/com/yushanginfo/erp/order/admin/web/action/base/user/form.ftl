@@ -1,7 +1,6 @@
 [#ftl]
 [@b.head/]
 [@b.toolbar title="修改用户信息"]bar.addBack();[/@]
-[@b.tabs]
   [@b.form action=b.rest.save(user) theme="list"]
     [@b.textfield name="user.code" label="工号" value="${user.code!}" required="true" maxlength="30"/]
     [@b.textfield name="user.name" label="姓名" value="${user.name!}" required="true" maxlength="80"/]
@@ -15,5 +14,4 @@
       [@b.reset/]&nbsp;&nbsp;[@b.submit value="action.submit"/]
     [/@]
   [/@]
-[/@]
 [@b.foot/]

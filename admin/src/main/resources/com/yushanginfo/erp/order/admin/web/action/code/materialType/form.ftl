@@ -1,7 +1,6 @@
 [#ftl]
 [@b.head/]
 [@b.toolbar title="品号信息"]bar.addBack();[/@]
-[@b.tabs]
   [@b.form action=b.rest.save(materialType) theme="list"]
     [@b.textfield name="materialType.code" label="代码" value="${materialType.code!}" required="true" maxlength="10"/]
     [@b.textfield name="materialType.name" label="名称" value="${materialType.name!}" required="true" maxlength="80"/]
@@ -10,5 +9,4 @@
       [@b.reset/]&nbsp;&nbsp;[@b.submit value="action.submit"/]
     [/@]
   [/@]
-[/@]
 [@b.foot/]

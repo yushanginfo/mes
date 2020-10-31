@@ -1,7 +1,6 @@
 [#ftl]
 [@b.head/]
 [@b.toolbar title="加工中心"]bar.addBack();[/@]
-[@b.tabs]
   [@b.form action=b.rest.save(machine) theme="list"]
     [@b.textfield name="machine.code" label="代码" value="${machine.code!}" required="true" maxlength="10"/]
     [@b.textfield name="machine.name" label="名称" value="${machine.name!}" required="true" maxlength="80"/]
@@ -10,5 +9,4 @@
       [@b.reset/]&nbsp;&nbsp;[@b.submit value="action.submit"/]
     [/@]
   [/@]
-[/@]
 [@b.foot/]

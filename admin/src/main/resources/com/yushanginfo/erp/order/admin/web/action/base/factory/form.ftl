@@ -1,7 +1,6 @@
 [#ftl]
 [@b.head/]
 [@b.toolbar title="厂区基本信息"]bar.addBack();[/@]
-[@b.tabs]
   [@b.form action=b.rest.save(factory) theme="list"]
     [@b.textfield name="factory.code" label="编码" value="${factory.code!}" required="true" maxlength="10"/]
     [@b.textfield name="factory.name" label="名称" value="${factory.name!}" required="true" maxlength="80"/]
@@ -10,5 +9,4 @@
       [@b.reset/]&nbsp;&nbsp;[@b.submit value="action.submit"/]
     [/@]
   [/@]
-[/@]
 [@b.foot/]

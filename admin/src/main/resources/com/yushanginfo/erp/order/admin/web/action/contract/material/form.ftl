@@ -1,7 +1,6 @@
 [#ftl]
 [@b.head/]
 [@b.toolbar title="编辑到料日期"]bar.addBack();[/@]
-[@b.tabs]
   [@b.form action=b.rest.save(salesOrder) theme="list"]
     [@b.field label="订单编号"]${salesOrder.code}[/@]
     [@b.field label="生产批号"]${salesOrder.batchNum}[/@]
@@ -14,5 +13,4 @@
       [@b.reset/]&nbsp;&nbsp;[@b.submit value="action.submit"/]
     [/@]
   [/@]
-[/@]
 [@b.foot/]
