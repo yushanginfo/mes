@@ -38,6 +38,7 @@ class MaterialAction extends RestfulAction[Material] {
 
   override protected def editSetting(entity: Material): Unit = {
     put("materialTypes", entityDao.getAll(classOf[MaterialType]))
+    put("units", entityDao.getAll(classOf[MeasurementUnit]))
   }
 
   override def saveAndRedirect(entity: Material): View = {

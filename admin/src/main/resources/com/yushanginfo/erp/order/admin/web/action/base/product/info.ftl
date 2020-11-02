@@ -13,14 +13,14 @@
     <td class="content">${product.name}</td>
   </tr>
   <tr>
-    <td class="title" width="20%">产品规格</td>
-    <td class="content">${product.specification}</td>
+    <td class="title" width="20%">产品图号</td>
+    <td class="content">${product.specification!}</td>
   </tr>
   <tr>
     <td class="title" width="20%">工艺列表</td>
     <td class="content">
-      [#list product.technics! as technic]
-        ${technic.name}[#if technic_has_next],[/#if]
+      [#list product.technicSchemes! as scheme]
+        ${scheme.name}[#if scheme_has_next],[/#if]
       [/#list]
     </td>
   </tr>

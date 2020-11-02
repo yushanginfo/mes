@@ -38,6 +38,7 @@ class ProductAction extends RestfulAction[Product] {
 
   override protected def editSetting(entity: Product): Unit = {
     put("materialTypes", entityDao.getAll(classOf[MaterialType]))
+    put("units", entityDao.getAll(classOf[MeasurementUnit]))
   }
 
   protected override def getQueryBuilder: OqlBuilder[Product] = {
@@ -79,7 +80,7 @@ class ProductAction extends RestfulAction[Product] {
     sheet.add("品名", "product.name").length(100).required().remark("≤100位")
     sheet.add("规格", "product.specification").length(100).remark("≤100位")
     sheet.add("品号类别", "product.materialType.code").required().ref(materialTypes)
-    sheet.add("单位", "product.unit").required().ref(mus)
+    sheet.add("单位", "product.unit.code").required().ref(mus)
 
     val code = schema.createScheet("数据字典")
     code.add("计量单位").data(mus)
@@ -92,7 +93,7 @@ class ProductAction extends RestfulAction[Product] {
 
   protected override def configImport(setting: ImportSetting): Unit = {
     val fl = new ForeignerListener(entityDao)
-    fl.addForeigerKey("name")
+    fl.addForeigerKey("code")
     setting.listeners = List(fl, new ProductImportHelper(entityDao))
   }
 }

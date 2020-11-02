@@ -6,6 +6,7 @@
     [@b.textfield name="material.name" label="品号名称" value="${material.name!}" required="true" maxlength="80"/]
     [@b.textfield name="material.specification" label="规格" value="${material.specification!}" required="true" maxlength="80"/]
     [@b.select name="material.materialType.id" label="品号类别" value= material.materialType! required="true"  style="width:200px;" items=materialTypes empty="..." option=r"${item.code} ${item.name}" /]
+    [@b.select name="material.unit.id" label="计量单位" value= material.unit! required="true" items=units empty="..."/]
     [@b.textfield name="material.remark" label="备注" value="${material.remark!}" maxlength="190"/]
     [@b.formfoot]
       [@b.reset/]&nbsp;&nbsp;[@b.submit value="action.submit"/]
