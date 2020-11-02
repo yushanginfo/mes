@@ -7,6 +7,7 @@
     [@b.textfield name="product.code" label="产品编号" value="${product.code!}" required="true" maxlength="30"/]
     [@b.textfield name="product.specification" label="产品图号" value=product.specification!  required="true" maxlength="80"/]
     [@b.textfield name="product.name" label="产品名称" value="${product.name!}" required="true" maxlength="80"/]
+    [@b.select name="product.materialType.id" label="品号类别" value=product.materialType! required="true" items=materialTypes empty="..." option=r"${item.code} ${item.name}" /]
     [@b.textfield name="product.remark" label="备注" value="${product.remark!}" maxlength="190"/]
     [@b.formfoot]
       [@b.reset/]&nbsp;&nbsp;[@b.submit value="action.submit"/]

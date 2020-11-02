@@ -29,7 +29,7 @@ import scala.collection.mutable
  */
 class Material extends LongId with Coded with Named with Updated with Remark {
 
-  /** 材料类型 */
+  /** 品号类型 */
   var materialType: MaterialType = _
 
   /** 规格 */

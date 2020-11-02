@@ -70,6 +70,7 @@ class DefaultMapping extends MappingModule {
     bind[ProductMaterialItem]
     bind[TechnicScheme].declare { e =>
       e.technics is ordered
+      index("", false, e.product)
     }
   }
 }

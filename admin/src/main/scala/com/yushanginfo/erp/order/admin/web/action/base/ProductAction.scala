@@ -20,7 +20,7 @@ package com.yushanginfo.erp.order.admin.web.action.base
 
 import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
 
-import com.yushanginfo.erp.base.model.{MeasurementUnit, Product}
+import com.yushanginfo.erp.base.model.{MaterialType, MeasurementUnit, Product}
 import com.yushanginfo.erp.order.admin.web.helper.ProductImportHelper
 import org.beangle.data.dao.OqlBuilder
 import org.beangle.data.transfer.excel.ExcelSchema
@@ -32,9 +32,24 @@ import org.beangle.webmvc.entity.action.RestfulAction
 
 class ProductAction extends RestfulAction[Product] {
 
-  override protected def editSetting(entity: Product): Unit = {
+  override protected def indexSetting(): Unit = {
+    put("materialTypes", entityDao.getAll(classOf[MaterialType]))
   }
 
+  override protected def editSetting(entity: Product): Unit = {
+    put("materialTypes", entityDao.getAll(classOf[MaterialType]))
+  }
+
+  protected override def getQueryBuilder: OqlBuilder[Product] = {
+    val query = super.getQueryBuilder
+    getInt("technicSchemeNum") foreach { technicSchemeNum =>
+      technicSchemeNum match {
+        case 0 | 1 => query.where("size(product.technicSchemes)=" + technicSchemeNum)
+        case 2 => query.where("size(product.technicSchemes)>=2")
+      }
+    }
+    query
+  }
 
   override def saveAndRedirect(entity: Product): View = {
     //		entity.technics.clear()
@@ -54,6 +69,7 @@ class ProductAction extends RestfulAction[Product] {
   @response
   def downloadTemplate(): Any = {
     val mus = entityDao.search(OqlBuilder.from(classOf[MeasurementUnit], "p").orderBy("p.code")).map(_.code)
+    val materialTypes = entityDao.search(OqlBuilder.from(classOf[MaterialType], "p").orderBy("p.code")).map(_.code)
 
     val schema = new ExcelSchema()
     val sheet = schema.createScheet("数据模板")
@@ -62,10 +78,12 @@ class ProductAction extends RestfulAction[Product] {
     sheet.add("品号", "product.code").length(15).required().remark("≤10位")
     sheet.add("品名", "product.name").length(100).required().remark("≤100位")
     sheet.add("规格", "product.specification").length(100).remark("≤100位")
+    sheet.add("品号类别", "product.materialType.code").required().ref(materialTypes)
     sheet.add("单位", "product.unit").required().ref(mus)
 
     val code = schema.createScheet("数据字典")
     code.add("计量单位").data(mus)
+    code.add("品号类别").data(materialTypes)
 
     val os = new ByteArrayOutputStream()
     schema.generate(os)

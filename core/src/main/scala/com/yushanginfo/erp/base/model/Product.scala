@@ -28,6 +28,8 @@ import scala.collection.mutable
  * 产品信息
  */
 class Product extends LongId with Coded with Named with Updated with Remark {
+  /** 品号类型 */
+  var materialType: MaterialType = _
 
   /** 规格 */
   var specification: Option[String] = None

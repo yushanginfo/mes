@@ -21,6 +21,7 @@ package com.yushanginfo.erp.order.admin.web.helper
 import java.time.Instant
 
 import com.yushanginfo.erp.base.model.TechnicScheme
+import org.beangle.commons.lang.Strings
 import org.beangle.data.dao.{EntityDao, OqlBuilder}
 import org.beangle.data.transfer.importer.{ImportListener, ImportResult}
 
@@ -29,7 +30,12 @@ class TechnicSchemeImportHelper(entityDao: EntityDao) extends ImportListener {
   override def onItemFinish(tr: ImportResult): Unit = {
     val p = transfer.current.asInstanceOf[TechnicScheme]
     p.updatedAt = Instant.now
-    entityDao.saveOrUpdate(p)
+    if (Strings.isEmpty(p.name)) {
+      p.name = p.indexno
+    }
+    if (null != p.product) {
+      entityDao.saveOrUpdate(p)
+    }
   }
 
   override def onStart(tr: ImportResult): Unit = {

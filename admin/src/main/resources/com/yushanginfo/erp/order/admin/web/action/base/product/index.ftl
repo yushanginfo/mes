@@ -6,6 +6,8 @@
     [@b.form name="productSearchForm" action="!search" target="productlist" title="ui.searchForm" theme="search"]
       [@b.textfields names="product.code;编号"/]
       [@b.textfields names="product.name;名称"/]
+      [@b.select name="product.materialType.id" label="类别" items=materialTypes empty="..."/]
+      [@b.select name="technicSchemeNum" label="工艺路线" items={"1":"一个","2":"多个","0":"无"} empty="..." /]
       <input type="hidden" name="orderBy" value="product.code desc"/>
     [/@]
   </div>
