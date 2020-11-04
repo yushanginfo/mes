@@ -20,10 +20,8 @@ package com.yushanginfo.erp.order.admin.web.action.base
 
 import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
 
-import com.yushanginfo.erp.base.model.{Product, Technic, TechnicScheme}
+import com.yushanginfo.erp.base.model.{ProductTechnic, Technic, TechnicScheme}
 import com.yushanginfo.erp.order.admin.web.helper.TechnicSchemeImportHelper
-import org.beangle.commons.collection.Properties
-import org.beangle.data.dao.OqlBuilder
 import org.beangle.data.transfer.excel.ExcelSchema
 import org.beangle.data.transfer.importer.ImportSetting
 import org.beangle.data.transfer.importer.listener.ForeignerListener
@@ -37,19 +35,27 @@ class TechnicSchemeAction extends RestfulAction[TechnicScheme] {
     put("technics", entityDao.getAll(classOf[Technic]))
   }
 
-  override def saveAndRedirect(entity: TechnicScheme): View = {
-    entity.technics.clear()
+  override def saveAndRedirect(scheme: TechnicScheme): View = {
+    scheme.technics.clear()
     val technicIds = getAll("technicIds", classOf[Int])
     val newTechnics = entityDao.find(classOf[Technic], technicIds)
-    val removed = entity.technics.filter(
-      x => !newTechnics.contains(x)
+    val removed = scheme.technics.filter(
+      x => !newTechnics.contains(x.technic)
     )
-    entity.technics.subtractAll(removed)
+    scheme.technics.subtractAll(removed)
     //保证保存顺序
+    var i = 0
     technicIds.foreach(id => {
-      entity.technics ++= entityDao.find(classOf[Technic], id)
+      scheme.technics.find(_.technic.id == id) match {
+        case None =>
+          val pt = new ProductTechnic(i.toString, scheme, entityDao.get(classOf[Technic], id))
+          scheme.technics += pt
+        case Some(t) =>
+          t.indexno = i.toString
+      }
+      i += 1
     })
-    super.saveAndRedirect(entity)
+    super.saveAndRedirect(scheme)
   }
 
   @response

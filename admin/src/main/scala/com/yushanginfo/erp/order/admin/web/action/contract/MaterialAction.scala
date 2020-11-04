@@ -26,7 +26,6 @@ import org.beangle.webmvc.entity.action.RestfulAction
 class MaterialAction extends RestfulAction[SalesOrder] {
 
 	override protected def indexSetting(): Unit = {
-		put("products", entityDao.getAll(classOf[Product]))
 	}
 
 	override def saveAndRedirect(entity: SalesOrder): View = {

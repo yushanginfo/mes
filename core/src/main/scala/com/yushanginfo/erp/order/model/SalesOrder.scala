@@ -21,8 +21,11 @@ package com.yushanginfo.erp.order.model
 import java.time.LocalDate
 
 import com.yushanginfo.erp.base.model.{Customer, Product, TechnicScheme}
+import org.beangle.commons.collection.Collections
 import org.beangle.data.model.LongId
 import org.beangle.data.model.pojo.{Coded, Remark, Updated}
+
+import scala.collection.mutable
 
 /** 订单
  *
@@ -58,4 +61,6 @@ class SalesOrder extends LongId with Coded with Updated with Remark {
 
   /** 到料日期 */
   var materialDate: Option[LocalDate] = None
+
+  var assesses: mutable.Buffer[DepartAssess] = Collections.newBuffer[DepartAssess]
 }

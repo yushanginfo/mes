@@ -19,10 +19,12 @@
 package com.yushanginfo.erp.base.model
 
 import org.beangle.data.model.LongId
+import org.beangle.data.model.pojo.Updated
 
-class ProductMaterialItem extends LongId {
+
+class ProductMaterialItem extends LongId with Updated {
   var product: Product = _
   var indexno: String = _
   var material: Material = _
-  var amount: Int = _
+  var amount: Float = _
 }

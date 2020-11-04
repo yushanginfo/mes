@@ -1,6 +1,6 @@
 [#ftl]
 [@b.head/]
-[@b.toolbar title="工艺路线"/]
+[#include "nav.ftl"/]
 <div class="search-container">
   <div class="search-panel">
     [@b.form name="technicSchemeSearchForm" action="!search" target="technicSchemelist" title="ui.searchForm" theme="search"]

@@ -358,6 +358,7 @@ class Select(context: ComponentContext) extends ClosingUIBean(context) {
   }
 
   private def collectKeys(): Unit = {
+    val emptyValues = Collections.newBuffer[Object]
     values.foreach { value =>
       val k = value match {
         case str: String => if (Strings.isEmpty(str)) null else str
@@ -367,10 +368,13 @@ class Select(context: ComponentContext) extends ClosingUIBean(context) {
           else Properties.get[Any](value, keyName)
       }
       k match {
-        case null =>
+        case null => emptyValues += value
         case s: String => keys.add(s)
         case _ => keys.add(k.toString)
       }
+    }
+    if (emptyValues.nonEmpty) {
+      values = Collections.newBuffer(values).subtractAll(emptyValues)
     }
   }
 

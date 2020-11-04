@@ -18,9 +18,30 @@
  */
 package com.yushanginfo.erp.base.model
 
-import org.beangle.data.model.IntId
-import org.beangle.data.model.pojo.{Coded, Named, Updated}
+import org.beangle.data.model.LongId
 
-class Supplier extends IntId with Coded with Named with Updated {
+/** 产品工艺 */
+class ProductTechnic extends LongId {
+  /** 工艺路线 */
+  var scheme: TechnicScheme = _
+  /** 工艺 */
+  var technic: Technic = _
+  /** 加工顺序 */
+  var indexno: String = _
+  /** 工艺说明 */
+  var description: Option[String] = _
+  /** 场内生产/委托外部 */
+  var internal: Boolean = _
+  /** 加工中心 */
+  var machine: Option[Machine] = None
+  /** 供应商 */
+  var supplier: Option[Supplier] = None
+
+  def this(indexno: String, scheme: TechnicScheme, technic: Technic) {
+    this()
+    this.indexno = indexno
+    this.scheme = scheme
+    this.technic = technic
+  }
 
 }

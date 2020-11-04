@@ -20,68 +20,56 @@ package com.yushanginfo.erp.order.admin.web.action.base
 
 import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
 
-import com.yushanginfo.erp.base.model.{Department, Machine, Supplier, Technic}
-import com.yushanginfo.erp.order.admin.web.helper.TechnicImportHelper
+import com.yushanginfo.erp.base.model.{Machine, ProductTechnic, Supplier}
+import com.yushanginfo.erp.order.admin.web.helper.ProductTechnicImportHelper
 import org.beangle.data.dao.OqlBuilder
 import org.beangle.data.transfer.excel.ExcelSchema
 import org.beangle.data.transfer.importer.ImportSetting
 import org.beangle.data.transfer.importer.listener.ForeignerListener
 import org.beangle.webmvc.api.annotation.response
-import org.beangle.webmvc.api.view.{Stream, View}
+import org.beangle.webmvc.api.view.Stream
 import org.beangle.webmvc.entity.action.RestfulAction
 
-class TechnicAction extends RestfulAction[Technic] {
+class ProductTechnicAction extends RestfulAction[ProductTechnic] {
 
-  override protected def editSetting(entity: Technic): Unit = {
-    put("departs", entityDao.getAll(classOf[Department]))
+  override protected def editSetting(entity: ProductTechnic): Unit = {
     put("machines", entityDao.getAll(classOf[Machine]))
     put("suppliers", entityDao.getAll(classOf[Supplier]))
-  }
-
-  override def search(): View = {
-    put("departs", entityDao.getAll(classOf[Department]))
-    super.search()
-  }
-
-  def batchUpdateDepart(): View = {
-    val technics = entityDao.find(classOf[Technic], intIds("technic"))
-    val depart = entityDao.get(classOf[Department], intId("depart"))
-    technics.foreach { technic =>
-      technic.depart = depart
+    if (!entity.persisted) {
+      entity.internal = true
     }
-    entityDao.saveOrUpdate(technics)
-    redirect("search", "info.save.success")
   }
 
   @response
   def downloadTemplate(): Any = {
     val machines = entityDao.search(OqlBuilder.from(classOf[Machine], "p").orderBy("p.code")).map(_.code)
     val suppliers = entityDao.search(OqlBuilder.from(classOf[Supplier], "p").orderBy("p.code")).map(_.code)
-    val departs = entityDao.search(OqlBuilder.from(classOf[Department], "p").orderBy("p.code")).map(_.code)
 
     val schema = new ExcelSchema()
     val sheet = schema.createScheet("数据模板")
-    sheet.title("工艺信息模板")
+    sheet.title("产品工艺模板")
     sheet.remark("特别说明：\n1、不可改变本表格的行列结构以及批注，否则将会导入失败！\n2、必须按照规格说明的格式填写。\n3、可以多次导入，重复的信息会被新数据更新覆盖。\n4、保存的excel文件名称可以自定。")
-    sheet.add("编码", "technic.code").length(15).required().remark("≤10位")
-    sheet.add("名称", "technic.name").length(100).required().remark("≤100位")
-    sheet.add("说明", "technic.description").length(100).remark("≤100位")
-    sheet.add("性质", "technic.internal").required().bool()
-    sheet.add("加工中心编号", "technic.machine.code").ref(machines)
-    sheet.add("供应商编号", "technic.supplier.code").ref(suppliers)
-    sheet.add("部门编号", "technic.depart.code").ref(departs).required()
+    sheet.add("产品代码", "scheme.product.code").length(15).required()
+    sheet.add("工艺路线编号", "scheme.indexno").length(15).required()
+    sheet.add("加工顺序", "productTechnic.indexno").length(100).required().remark("≤100位")
+    sheet.add("工艺编号", "productTechnic.technic.code").length(100).required().remark("≤100位")
+    sheet.add("性质", "productTechnic.internal").required().remark("1厂内,2委外")
+    sheet.add("加工中心编号", "productTechnic.machine.code").ref(machines)
+    sheet.add("供应商编号", "productTechnic.supplier.code").ref(suppliers)
+    sheet.add("工艺说明", "productTechnic.description").length(100).remark("≤100位")
+
     val code = schema.createScheet("数据字典")
     code.add("加工中心编号").data(machines)
-    code.add("部门编号").data(departs)
     code.add("供应商").data(suppliers)
+
     val os = new ByteArrayOutputStream()
     schema.generate(os)
-    Stream(new ByteArrayInputStream(os.toByteArray), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "工艺模板.xlsx")
+    Stream(new ByteArrayInputStream(os.toByteArray), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "产品工艺模板.xlsx")
   }
 
   protected override def configImport(setting: ImportSetting): Unit = {
     val fl = new ForeignerListener(entityDao)
     fl.addForeigerKey("code")
-    setting.listeners = List(fl, new TechnicImportHelper(entityDao))
+    setting.listeners = List(fl, new ProductTechnicImportHelper(entityDao))
   }
 }

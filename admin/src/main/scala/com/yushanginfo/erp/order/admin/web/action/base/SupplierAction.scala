@@ -20,46 +20,40 @@ package com.yushanginfo.erp.order.admin.web.action.base
 
 import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
 
-import com.yushanginfo.erp.base.model.{Product, ProductMaterialItem}
-import com.yushanginfo.erp.order.admin.web.helper.{ProductMaterialItemImportHelper, ProductTechnicImportHelper}
+import com.yushanginfo.erp.base.model.{Supplier, Technic}
+import com.yushanginfo.erp.order.admin.web.helper.{MachineImportHelper, SupplierImportHelper}
+import org.beangle.data.dao.OqlBuilder
 import org.beangle.data.transfer.excel.ExcelSchema
 import org.beangle.data.transfer.importer.ImportSetting
-import org.beangle.data.transfer.importer.listener.ForeignerListener
-import org.beangle.webmvc.api.annotation.{ignore, response}
-import org.beangle.webmvc.api.view.Stream
+import org.beangle.webmvc.api.annotation.{mapping, response}
+import org.beangle.webmvc.api.view.{Stream, View}
 import org.beangle.webmvc.entity.action.RestfulAction
 
-class ProductBomAction extends RestfulAction[ProductMaterialItem] {
-
-  @ignore
-  protected override def simpleEntityName: String = {
-    "item"
-  }
-
-  override protected def editSetting(entity: ProductMaterialItem): Unit = {
-    put("product", entityDao.find(classOf[Product], entity.product.id))
-    super.editSetting(entity)
-  }
+class SupplierAction extends RestfulAction[Supplier] {
 
   @response
   def downloadTemplate(): Any = {
     val schema = new ExcelSchema()
     val sheet = schema.createScheet("数据模板")
-    sheet.title("产品材料清单模板")
+    sheet.title("供应商信息模板")
     sheet.remark("特别说明：\n1、不可改变本表格的行列结构以及批注，否则将会导入失败！\n2、必须按照规格说明的格式填写。\n3、可以多次导入，重复的信息会被新数据更新覆盖。\n4、保存的excel文件名称可以自定。")
-    sheet.add("主件品号", "productMaterialItem.product.code").required().length(15).required()
-    sheet.add("序号", "productMaterialItem.indexno").required().length(5).required()
-    sheet.add("元件品号", "productMaterialItem.material.code").required().length(15).required()
-    sheet.add("组成用量", "productMaterialItem.amount").required()
-
+    sheet.add("编码", "supplier.code").length(15).required().remark("≤15位")
+    sheet.add("名称", "supplier.name").length(100).required().remark("≤100位")
     val os = new ByteArrayOutputStream()
     schema.generate(os)
-    Stream(new ByteArrayInputStream(os.toByteArray), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "产品材料清单模板.xlsx")
+    Stream(new ByteArrayInputStream(os.toByteArray), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "供应商模板.xlsx")
   }
 
   protected override def configImport(setting: ImportSetting): Unit = {
-    val fl = new ForeignerListener(entityDao)
-    fl.addForeigerKey("code")
-    setting.listeners = List(fl, new ProductMaterialItemImportHelper(entityDao))
+    setting.listeners = List(new SupplierImportHelper(entityDao))
+  }
+
+  @mapping(value = "{id}")
+  override def info(id: String): View = {
+    val builder = OqlBuilder.from(classOf[Technic], "t").where("t.supplier.id=:supplierId", id.toInt)
+    builder.orderBy("t.code")
+    val technics = entityDao.search(builder)
+    put("technics", technics)
+    super.info(id)
   }
 }

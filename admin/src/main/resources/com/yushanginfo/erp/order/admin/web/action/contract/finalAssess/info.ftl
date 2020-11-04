@@ -35,10 +35,7 @@
   <tr>
     <td class="title" width="20%">部门评审</td>
     <td class="content">
-      [#list salesOrder.product.technics! as technic]
-        ${(technic.name)!}[#if departAssessMap.get(salesOrder)?? && departAssessMap.get(salesOrder).get(technic)??](${departAssessMap.get(salesOrder).get(technic).days}天/${departAssessMap.get(salesOrder).get(technic).factory.name})[/#if]
-        [#if technic_has_next]<br>[/#if]
-      [/#list]
+
     </td>
   </tr>
   <tr>

@@ -63,14 +63,17 @@ class DefaultMapping extends MappingModule {
 
     bind[Product].declare { e =>
       e.code is unique
-      e.bom is depends("product")
+      e.bom.is(depends("product"), orderby("indexno"))
       e.technicSchemes is depends("product")
     }
 
     bind[ProductMaterialItem]
     bind[TechnicScheme].declare { e =>
-      e.technics is ordered
+      e.technics.is(depends("scheme"), orderby("indexno"))
       index("", false, e.product)
+    }
+    bind[ProductTechnic].declare { e =>
+      e.description is length(500)
     }
   }
 }

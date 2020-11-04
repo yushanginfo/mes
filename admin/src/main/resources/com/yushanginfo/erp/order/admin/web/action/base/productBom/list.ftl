@@ -5,7 +5,7 @@
     bar.addItem("${b.text("action.new")}",action.add());
     bar.addItem("${b.text("action.modify")}",action.edit());
     bar.addItem("${b.text("action.delete")}",action.remove("确认删除?"));
-    //bar.addItem("导入",action.method('importForm'));
+    bar.addItem("导入",action.method('importForm'));
   [/@]
   [@b.row]
     [@b.boxcol /]

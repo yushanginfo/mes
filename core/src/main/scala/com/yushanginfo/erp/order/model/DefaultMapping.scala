@@ -18,7 +18,6 @@
  */
 package com.yushanginfo.erp.order.model
 
-import com.yushanginfo.erp.base.model.Product
 import org.beangle.data.orm.MappingModule
 
 class DefaultMapping extends MappingModule {
@@ -28,7 +27,9 @@ class DefaultMapping extends MappingModule {
 
     bind[OrderSetting]
 
-    bind[SalesOrder]
+    bind[SalesOrder].declare { e =>
+      e.assesses is depends("salesOrder")
+    }
 
     bind[DepartAssess]
 

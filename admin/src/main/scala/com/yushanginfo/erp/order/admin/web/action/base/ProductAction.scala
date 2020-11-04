@@ -45,8 +45,18 @@ class ProductAction extends RestfulAction[Product] {
     val query = super.getQueryBuilder
     getInt("technicSchemeNum") foreach { technicSchemeNum =>
       technicSchemeNum match {
-        case 0 | 1 => query.where("size(product.technicSchemes)=" + technicSchemeNum)
+        case 0 => query.where("size(product.technicSchemes)=0")
+        case -1 => query.where("size(product.technicSchemes)=1")
+        case 1 => query.where("size(product.technicSchemes)>0")
         case 2 => query.where("size(product.technicSchemes)>=2")
+      }
+    }
+    getInt("bomNum") foreach { bomNum =>
+      bomNum match {
+        case 0 => query.where("size(product.bom)=0")
+        case -1 => query.where("size(product.bom)=1")
+        case 1 => query.where("size(product.bom)>0")
+        case 2 => query.where("size(product.bom)>=2")
       }
     }
     query

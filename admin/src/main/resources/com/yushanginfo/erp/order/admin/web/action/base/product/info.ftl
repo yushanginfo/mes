@@ -17,10 +17,18 @@
     <td class="content">${product.specification!}</td>
   </tr>
   <tr>
+    <td class="title" width="20%">材料清单</td>
+    <td class="content">
+      [#list product.bom as m]
+        ${m.indexno} ${m.material.code} ${m.material.name} ${m.material.specification} ${m.amount}[#if m_has_next]<br>[/#if]
+      [/#list]
+    </td>
+  </tr>
+  <tr>
     <td class="title" width="20%">工艺列表</td>
     <td class="content">
       [#list product.technicSchemes! as scheme]
-        ${scheme.name}[#if scheme_has_next],[/#if]
+        ${scheme.name}([#list scheme.technics as t]${t.technic.name}[#if t_has_next],[/#if][/#list])[#if scheme_has_next]<br>[/#if]
       [/#list]
     </td>
   </tr>

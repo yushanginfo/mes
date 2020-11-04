@@ -28,18 +28,11 @@ class FinalAssessAction extends RestfulAction[SalesOrder] {
 
 
 	override def search(): View = {
-		put("departAssessMap", getDepartAssessMap)
 		super.search()
 	}
 
 	override def info(id: String): View = {
-		put("departAssessMap", getDepartAssessMap)
 		super.info(id)
-	}
-
-
-	def getDepartAssessMap: Map[SalesOrder, Map[Technic, DepartAssess]] = {
-		entityDao.getAll(classOf[DepartAssess]).groupBy(a => a.salesOrder).map(b => (b._1, b._2.map(c => (c.technic, c)).toMap))
 	}
 
 	def review(): View = {

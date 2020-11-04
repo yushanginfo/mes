@@ -21,7 +21,7 @@
     [@b.col width="5%" property="unit.name"  title="单位"/]
     [@b.col width="10%"   title="工艺列表"]
       [#list product.technicSchemes as scheme]
-        ${(scheme.name)!}[#if scheme_has_next],[/#if]
+        ${(scheme.name)!}[#if scheme_has_next]&nbsp;[/#if]
       [/#list]
     [/@]
   [/@]

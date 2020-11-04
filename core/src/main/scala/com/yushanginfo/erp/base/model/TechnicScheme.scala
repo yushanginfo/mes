@@ -34,7 +34,7 @@ class TechnicScheme extends LongId with Named with Updated {
   var product: Product = _
 
   /** 工序列表 */
-  var technics: mutable.Buffer[Technic] = Collections.newBuffer[Technic]
+  var technics: mutable.Buffer[ProductTechnic] = Collections.newBuffer[ProductTechnic]
 
   def title: String = {
     s"${this.indexno} ${this.name}"

@@ -18,7 +18,11 @@ ${tag.body}
 [/#if]
 [#if remoteSearch]
     [#list tag.values as v]
-    <option value="${v[tag.keyName]}" selected="selected">${v[tag.valueName]}</option>
+      [#if v?is_hash]
+        <option value="${v[tag.keyName]!}" selected="selected">${v[tag.valueName]!}</option>
+      [#else]
+        <option value="${v}" selected="selected">${v}</option>
+      [/#if]
     [/#list]
 [/#if]
 </select>[#if tag.comment??]<label class="comment">${tag.comment}</label>[/#if]

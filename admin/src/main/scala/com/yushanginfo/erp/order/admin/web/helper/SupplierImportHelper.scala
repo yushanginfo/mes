@@ -16,11 +16,29 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.yushanginfo.erp.base.model
+package com.yushanginfo.erp.order.admin.web.helper
 
-import org.beangle.data.model.IntId
-import org.beangle.data.model.pojo.{Coded, Named, Updated}
+import java.time.Instant
 
-class Supplier extends IntId with Coded with Named with Updated {
+import com.yushanginfo.erp.base.model.Supplier
+import org.beangle.data.dao.EntityDao
+import org.beangle.data.transfer.importer.{ImportListener, ImportResult}
 
+class SupplierImportHelper(entityDao: EntityDao) extends ImportListener {
+
+  override def onItemFinish(tr: ImportResult): Unit = {
+    val depart = transfer.current.asInstanceOf[Supplier]
+    depart.updatedAt = Instant.now
+    entityDao.saveOrUpdate(depart)
+  }
+
+  override def onStart(tr: ImportResult): Unit = {
+  }
+
+  override def onFinish(tr: ImportResult): Unit = {
+  }
+
+  override def onItemStart(tr: ImportResult): Unit = {
+
+  }
 }
