@@ -24,12 +24,14 @@ import org.beangle.data.model.pojo._
 /**
  * 用户信息
  */
-class User extends LongId with Coded with Named with Updated with Remark with TemporalOn{
+class User extends LongId with Coded with Named with Updated with Remark with TemporalOn {
 
-	var department: Department = _
+  var department: Department = _
 
-	var email: Option[String] = None
+  var email: Option[String] = None
 
-	var mobile: Option[String] = None
+  var mobile: Option[String] = None
+
+  var factory: Option[Factory] = None
 
 }

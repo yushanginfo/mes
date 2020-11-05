@@ -20,8 +20,8 @@ package com.yushanginfo.erp.order.admin.web.action.base
 
 import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
 
-import com.yushanginfo.erp.order.admin.web.helper.{UserImportHelper}
-import com.yushanginfo.erp.base.model.{Department, User}
+import com.yushanginfo.erp.base.model.{Department, Factory, User}
+import com.yushanginfo.erp.order.admin.web.helper.UserImportHelper
 import org.beangle.data.dao.OqlBuilder
 import org.beangle.data.transfer.excel.ExcelSchema
 import org.beangle.data.transfer.importer.ImportSetting
@@ -34,16 +34,18 @@ class UserAction extends RestfulAction[User] {
 
   override protected def editSetting(entity: User): Unit = {
     put("departments", entityDao.getAll(classOf[Department]))
+    put("factories", entityDao.getAll(classOf[Factory]))
   }
 
   override protected def indexSetting(): Unit = {
     put("departments", entityDao.getAll(classOf[Department]))
+    put("factories", entityDao.getAll(classOf[Factory]))
   }
-
 
   @response
   def downloadTemplate(): Any = {
     val departs = entityDao.search(OqlBuilder.from(classOf[Department], "p").orderBy("p.code")).map(_.code)
+    val factories = entityDao.search(OqlBuilder.from(classOf[Factory], "p").orderBy("p.code")).map(_.code)
 
     val schema = new ExcelSchema()
     val sheet = schema.createScheet("数据模板")
@@ -54,10 +56,12 @@ class UserAction extends RestfulAction[User] {
     sheet.add("电子邮件", "user.email").length(100).remark("≤100位")
     sheet.add("移动电话", "user.mobile").length(18).remark("≤18位")
     sheet.add("所在部门", "user.department.code").ref(departs).required()
+    sheet.add("所在厂区", "user.factory.code").ref(factories)
 
 
     val code = schema.createScheet("数据字典")
     code.add("部门").data(departs)
+    code.add("厂区").data(factories)
 
     val os = new ByteArrayOutputStream()
     schema.generate(os)

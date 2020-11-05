@@ -18,26 +18,28 @@
  */
 package com.yushanginfo.erp.base.model
 
-import org.beangle.commons.collection.Collections
 import org.beangle.data.model.LongId
 import org.beangle.data.model.pojo.{Coded, Named, Remark, Updated}
-
-import scala.collection.mutable
 
 /**
  * 客户信息
  */
-class Customer extends LongId with Coded with Named with Updated with Remark{
-	/**客户简称*/
-	var shortName:String=_
+class Customer extends LongId with Coded with Named with Updated with Remark {
 
-	/** 业务人员*/
-	var saler :Option[User] = None
+  /** 客户简称 */
+  var shortName: String = _
 
-	/**快捷码*/
-	var quickCode:Option[String]=None
+  /** 业务人员 */
+  var saler: Option[User] = None
 
-	def title:String={
-		s"${this.quickCode.orNull} ${this.name} "
-	}
+  /** 快捷码 */
+  var quickCode: Option[String] = None
+
+  /** 总公司 */
+  var parent: Option[Customer] = None
+
+  def title: String = {
+    s"${this.quickCode.orNull} ${this.name} "
+  }
+
 }

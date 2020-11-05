@@ -6,6 +6,8 @@
     [@b.textfield name="user.name" label="姓名" value="${user.name!}" required="true" maxlength="80"/]
     [@b.select name="user.department.id" label="所在部门" value="${(user.department.id)!}" required="true"
                style="width:200px;" items=departments empty="..."/]
+    [@b.select name="user.factory.id" label="所在厂区" value="${(user.factory.id)!}" required="false"
+               style="width:200px;" items=factories empty="..."/]
     [@b.textfield name="user.mobile" label="电话" value="${user.mobile!}" maxlength="15"/]
     [@b.textfield name="user.email" label="邮箱" value="${user.email!}"  maxlength="80"/]
     [@b.startend name="user.beginOn,user.endOn"  label="有效期限" start=user.beginOn end=user.endOn! required="true,false"/]

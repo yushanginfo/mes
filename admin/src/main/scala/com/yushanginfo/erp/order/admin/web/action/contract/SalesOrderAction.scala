@@ -18,7 +18,7 @@
  */
 package com.yushanginfo.erp.order.admin.web.action.contract
 
-import com.yushanginfo.erp.base.model.Product
+import com.yushanginfo.erp.base.model.{Factory, Product}
 import com.yushanginfo.erp.order.model.{OrderType, SalesOrder}
 import org.beangle.webmvc.entity.action.RestfulAction
 
@@ -30,6 +30,7 @@ class SalesOrderAction extends RestfulAction[SalesOrder]{
 
 	override def editSetting(entity: SalesOrder): Unit = {
 		put("orderTypes",entityDao.getAll(classOf[OrderType]))
+		put("factories",entityDao.getAll(classOf[Factory]))
 		super.editSetting(entity)
 	}
 

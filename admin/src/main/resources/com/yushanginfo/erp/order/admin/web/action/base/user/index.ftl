@@ -7,6 +7,7 @@
       [@b.textfields names="user.code;工号"/]
       [@b.textfields names="user.name;姓名"/]
       [@b.select name="user.department.id" label="所在部门" items=departments empty="..." style="width:100px"/]
+      [@b.select name="user.factory.id" label="所在厂区" items=factories empty="..." style="width:100px"/]
       <input type="hidden" name="orderBy" value="user.code desc"/>
     [/@]
   </div>
