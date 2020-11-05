@@ -26,6 +26,7 @@ class SalesOrderAction extends RestfulAction[SalesOrder]{
 
 	override protected def indexSetting(): Unit = {
 		put("orderTypes",entityDao.getAll(classOf[OrderType]))
+		put("factories",entityDao.getAll(classOf[Factory]))
 	}
 
 	override def editSetting(entity: SalesOrder): Unit = {

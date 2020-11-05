@@ -11,7 +11,8 @@
                 required="true" option="id,title" empty="..." /]
     [@b.select label="顾客信息" name="salesOrder.customer.id" value=salesOrder.customer! style="width:400px"
                 required="true" option="id,title" href="/base/customers.json?q={term}" empty="..." /]
-    [@b.textfield name="salesOrder.count" label="数量" value="${salesOrder.count!}" required="true" maxlength="80"/]
+    [@b.textfield name="salesOrder.amount" label="数量" value="${salesOrder.amount!}" required="true" maxlength="80"/]
+    [@b.select name="salesOrder.factory.id" label="所在厂区" value=salesOrder.factory! required="true" tyle="width:200px;" items=factories empty="..."/]
     [@b.datepicker name="salesOrder.requireOn" label="计划交付日期" value=(salesOrder.requireOn)!  required="true"  format="yyyy-MM-dd" /]
     [@b.textfield name="salesOrder.remark" label="备注" value="${salesOrder.remark!}" maxlength="190"/]
     [@b.formfoot]

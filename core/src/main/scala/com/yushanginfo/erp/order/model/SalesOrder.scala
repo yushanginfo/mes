@@ -48,7 +48,7 @@ class SalesOrder extends LongId with Coded with Updated with Remark {
   var orderType: OrderType = _
 
   /** 数量 */
-  var count: Int = _
+  var amount: Int = _
 
   /** 计划交付日期 */
   var requireOn: LocalDate = _

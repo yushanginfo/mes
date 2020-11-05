@@ -5,23 +5,23 @@
 [/@]
 <table class="infoTable">
   <tr>
-    <td class="title" width="20%">编号</td>
+    <td class="title" width="20%" >编号</td>
     <td class="content">${customer.code}</td>
   </tr>
   <tr>
-    <td class="title" width="20%">姓名</td>
+    <td class="title">名称</td>
     <td class="content">${customer.name}</td>
   </tr>
   <tr>
-    <td class="title" width="20%">业务人员</td>
-    <td class="content">
-      [#list customer.salers! as saler]
-        ${saler.name}[#if saler_has_next],[/#if]
-      [/#list]
-    </td>
+    <td class="title">总公司</td>
+    <td class="content">${(customer.parent.name)!'--'}</td>
   </tr>
   <tr>
-    <td class="title" width="20%">说明</td>
+    <td class="title">业务人员</td>
+    <td class="content">${(customer.saler.department.name)!} ${(customer.saler.code)!} ${(customer.saler.name)!}</td>
+  </tr>
+  <tr>
+    <td class="title">说明</td>
     <td class="content">${customer.remark!}</td>
   </tr>
 </table>

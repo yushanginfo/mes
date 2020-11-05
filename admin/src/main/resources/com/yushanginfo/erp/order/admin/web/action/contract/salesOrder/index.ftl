@@ -9,6 +9,7 @@
       [@b.textfield name="salesOrder.product.specification" label="产品图号" /]
       [@b.select name="salesOrder.orderType.id" label="订单类型" items=orderTypes empty="..." option="id,name"/]
       [@b.datepicker name="salesOrder.requireOn" label="交付日期" format="yyyy-MM-dd" /]
+      [@b.select name="salesOrder.factory.id" label="所在厂区" items=factories empty="..." style="width:100px"/]
       [@b.field label="订单状态"]
         <select name="salesOrder.status">
           <option value="">...</option>

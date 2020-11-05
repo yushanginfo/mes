@@ -20,8 +20,9 @@ package com.yushanginfo.erp.order.admin.web.action.base
 
 import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
 
-import com.yushanginfo.erp.order.admin.web.helper.CustomerImportHelper
 import com.yushanginfo.erp.base.model.{Customer, User}
+import com.yushanginfo.erp.order.admin.web.helper.CustomerImportHelper
+import org.beangle.data.dao.OqlBuilder
 import org.beangle.data.transfer.excel.ExcelSchema
 import org.beangle.data.transfer.importer.ImportSetting
 import org.beangle.data.transfer.importer.listener.ForeignerListener
@@ -32,6 +33,13 @@ import org.beangle.webmvc.entity.action.RestfulAction
 class CustomerAction extends RestfulAction[Customer] {
 
   override protected def editSetting(entity: Customer): Unit = {
+    val builder = OqlBuilder.from(classOf[Customer], "c")
+    if (entity.persisted) {
+      builder.where("c.id != " + entity.id)
+    }
+    builder.where("c.parent is null")
+    builder.orderBy("c.code")
+    put("parents", entityDao.search(builder))
     put("users", entityDao.getAll(classOf[User]))
   }
 

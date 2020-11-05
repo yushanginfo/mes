@@ -15,7 +15,7 @@
 
     [@b.col width="8%" property="scheduledOn" title="计划交期"/]
     [@b.col width="8%" property="batchNum" title="生产批号"/]
-    [@b.col width="5%" property="count" title="计划数量"/]
+    [@b.col width="5%" property="amount" title="计划数量"/]
 
     [@b.col width="7%" property="materialDate" title="到料日期"]${(salesOrder.materialDate?string("MM-dd"))!}[/@]
     [@b.col width="20%" title="生产周期评估"]

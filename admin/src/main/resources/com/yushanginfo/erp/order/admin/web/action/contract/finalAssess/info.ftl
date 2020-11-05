@@ -22,7 +22,7 @@
   </tr>
   <tr>
     <td class="title" width="20%">订单数量</td>
-    <td class="content">${salesOrder.count!}</td>
+    <td class="content">${salesOrder.amount!}</td>
   </tr>
   <tr>
     <td class="title" width="20%">计划交付日期</td>

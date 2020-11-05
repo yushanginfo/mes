@@ -15,7 +15,7 @@
     [@b.col width="20%" property="product.code" title="产品图号"/]
     [@b.col width="10%" property="product.name" title="产品名称"/]
     [@b.col width="10%" property="technicScheme.name" title="订单工艺"/]
-    [@b.col width="5%"  property="count" title="数量"/]
+    [@b.col width="5%"  property="amount" title="数量"/]
     [@b.col width="10%" property="requireOn" title="计划交付日期"]${(salesOrder.requireOn?string("yyyy-MM-dd"))!}[/@]
     [@b.col width="10%" property="status.name" title="订单状态"/]
   [/@]
