@@ -51,7 +51,11 @@ class DepartAssessAction extends RestfulAction[DepartAssess] {
       put("technic", entityDao.get(classOf[Technic], technicId.toInt))
     })
     get("salesOrderId").foreach(salesOrderId => {
-      put("salesOrder", entityDao.get(classOf[SalesOrder], salesOrderId.toLong))
+      val order = entityDao.get(classOf[SalesOrder], salesOrderId.toLong)
+      put("salesOrder", order)
+      if (null == entity.factory) {
+        entity.factory = order.factory
+      }
     })
     super.editSetting(entity)
   }
