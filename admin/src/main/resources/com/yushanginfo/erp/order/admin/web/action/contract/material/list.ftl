@@ -11,11 +11,10 @@
     [@b.col width="15%" property="product.code" title="产品图号"]${salesOrder.product.specification!}[/@]
     [@b.col width="5%" property="orderType.name" title="订单类型"/]
     [@b.col width="10%" property="requireOn" title="交期"]${(salesOrder.requireOn?string("yyyy-MM-dd"))!}[/@]
-
-    [@b.col width="10%" property="scheduledOn" title="计划交期"/]
-    [@b.col width="10%" property="batchNum" title="生产批号"/]
     [@b.col width="8%" property="count" title="计划数量"/]
-
+    [@b.col width="20%"  title="材料"]
+      [#list salesOrder.product.bom as i]${i.material.name} ${i.material.specification!} [#if i.material.amount??]${i.material.amount*salesOrder.count} ${salesOrder.product.unit.name}[#else]??[/#if][#if i_has_next]<br>[/#if][/#list]
+    [/@]
     [@b.col width="10%" property="materialDate" title="到料日期"]${(salesOrder.materialDate?string("yyyy-MM-dd"))!}[/@]
     [@b.col width="7%" property="status.name" title="订单状态"/]
   [/@]

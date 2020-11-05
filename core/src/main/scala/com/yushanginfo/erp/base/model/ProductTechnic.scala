@@ -37,7 +37,7 @@ class ProductTechnic extends LongId {
   /** 供应商 */
   var supplier: Option[Supplier] = None
 
-  def this(indexno: String, scheme: TechnicScheme, technic: Technic) {
+  def this(indexno: String, scheme: TechnicScheme, technic: Technic) = {
     this()
     this.indexno = indexno
     this.scheme = scheme
