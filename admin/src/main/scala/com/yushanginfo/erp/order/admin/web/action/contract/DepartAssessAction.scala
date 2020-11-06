@@ -95,12 +95,15 @@ class DepartAssessAction extends RestfulAction[DepartAssess] {
             assess
         }
         assess.updatedAt = Instant.now
+        assess.passed = true
         assess.days = getInt("technic_" + pt.technic.id + ".days", 0)
         assess.factory = entityDao.get(classOf[Factory], getInt("technic_" + pt.technic.id + ".factory.id", 0))
         assess.assessedBy = users.headOption
+        entityDao.saveOrUpdate(assess)
       }
     }
     entityDao.saveOrUpdate(order)
+    orderService.recalcState(order)
     redirect("search", "info.save.success")
   }
 

@@ -17,8 +17,9 @@
     [@b.field label="订单备注"]${(salesOrder.remark)?default("无")}[/@]
 
     [#list salesOrder.technicScheme.technics as pt]
+    [#if depart.id==pt.technic.depart.id]
+    [#assign technic=pt.technic/]
     [@b.field label=pt.technic.name]
-        [#assign technic=pt.technic/]
         <select name="technic_${technic.id}.factory.id" style="width:80px">
           [#if (assessMap[technic.id?string].factory)??]
             [#assign assessFactory = assessMap[technic.id?string].factory/]
@@ -36,6 +37,7 @@
                [/#if]
         </label>
     [/@]
+    [/#if]
     [/#list]
     [@b.formfoot]
     <input type="hidden" name="salesOrderId" value="${salesOrder.id}"/>
