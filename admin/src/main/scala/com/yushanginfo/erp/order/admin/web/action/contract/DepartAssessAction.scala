@@ -18,14 +18,21 @@
  */
 package com.yushanginfo.erp.order.admin.web.action.contract
 
-import com.yushanginfo.erp.base.model.{Factory, Technic}
+import java.time.Instant
+
+import com.yushanginfo.erp.base.model.{Department, Factory, Technic, User}
 import com.yushanginfo.erp.order.model.{DepartAssess, OrderStatus, OrderType, SalesOrder}
+import com.yushanginfo.erp.order.service.OrderService
 import org.beangle.commons.collection.Order
 import org.beangle.data.dao.OqlBuilder
+import org.beangle.security.Securities
 import org.beangle.webmvc.api.view.View
 import org.beangle.webmvc.entity.action.RestfulAction
 
+
 class DepartAssessAction extends RestfulAction[DepartAssess] {
+
+  var orderService: OrderService = _
 
   override protected def indexSetting(): Unit = {
     put("orderTypes", entityDao.getAll(classOf[OrderType]))
@@ -41,7 +48,6 @@ class DepartAssessAction extends RestfulAction[DepartAssess] {
     builder.limit(getPageLimit)
     val salesOrders = entityDao.search(builder)
     put("salesOrders", salesOrders)
-    //put("departAssessMap", getDepartAssessMap)
     forward()
   }
 
@@ -60,6 +66,44 @@ class DepartAssessAction extends RestfulAction[DepartAssess] {
     super.editSetting(entity)
   }
 
+  def assess(): View = {
+    put("factories", entityDao.getAll(classOf[Factory]))
+    put("depart", entityDao.get(classOf[Department], intId("depart")))
+    val order = entityDao.get(classOf[SalesOrder], longId("salesOrder"))
+    if (order.status == OrderStatus.Passed) {
+      forward(to(classOf[SalesOrderAction], "info", "id=" + order.id))
+    } else {
+      put("salesOrder", order)
+      forward()
+    }
+  }
+
+  def saveAssess(): View = {
+    val depart = entityDao.get(classOf[Department], intId("depart"))
+    val order = entityDao.get(classOf[SalesOrder], longId("salesOrder"))
+    val technicSet = order.technicScheme.technics.map(_.technic).toSet
+    val removedAssess = order.assesses.filter { x => !technicSet.contains(x.technic) }
+    order.assesses.subtractAll(removedAssess)
+    val assessMap = order.assesses.map(x => (x.technic, x)).toMap
+    val users = entityDao.findBy(classOf[User], "code", List(Securities.user))
+    order.technicScheme.technics foreach { pt =>
+      if (pt.technic.depart == depart) {
+        val assess = assessMap.get(pt.technic) match {
+          case Some(assess) => assess
+          case None => val assess = new DepartAssess(order, pt.technic)
+            order.assesses.addOne(assess)
+            assess
+        }
+        assess.updatedAt = Instant.now
+        assess.days = getInt("technic_" + pt.technic.id + ".days", 0)
+        assess.factory = entityDao.get(classOf[Factory], getInt("technic_" + pt.technic.id + ".factory.id", 0))
+        assess.assessedBy = users.headOption
+      }
+    }
+    entityDao.saveOrUpdate(order)
+    redirect("search", "info.save.success")
+  }
+
   override def saveAndRedirect(entity: DepartAssess): View = {
     get("technicId").foreach(technicId => {
       val technic = entityDao.get(classOf[Technic], technicId.toInt)
@@ -69,35 +113,13 @@ class DepartAssessAction extends RestfulAction[DepartAssess] {
       val salesOrder = entityDao.get(classOf[SalesOrder], salesOrderId.toLong)
       entity.salesOrder = salesOrder
     })
+    val users = entityDao.findBy(classOf[User], "code", List(Securities.user))
     entity.passed = true
+    entity.assessedBy = users.headOption
     entityDao.saveOrUpdate(entity)
 
-    //判断是否所有的工艺都已经评审
     entityDao.refresh(entity)
-
-    val order = entity.salesOrder
-    val notComplete =
-      order.technicScheme.technics.exists { technic =>
-        val passed = order.assesses.exists { assess =>
-          assess.technic == technic && assess.passed
-        }
-        !passed
-      }
-
-    //计算计划完工时间
-    if (entity.salesOrder.materialDate.nonEmpty && !notComplete && entity.salesOrder.scheduledOn.isEmpty) {
-      entity.salesOrder.scheduledOn = entity.salesOrder.materialDate
-      var scheduledOn = entity.salesOrder.materialDate.get
-      entity.salesOrder.assesses.foreach(assess =>
-        scheduledOn = scheduledOn.plusDays(assess.days.toLong)
-      )
-      entity.salesOrder.scheduledOn = Some(scheduledOn)
-      if (entity.salesOrder.scheduledOn.get.compareTo(entity.salesOrder.requireOn) > 0) {
-        entity.salesOrder.status = OrderStatus.Unpassed
-      } else {
-        entity.salesOrder.status = OrderStatus.Passed
-      }
-    }
+    orderService.recalcState(entity.salesOrder)
     super.saveAndRedirect(entity)
   }
 

@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<cdi>
+  <container>
+    <module class="com.yushanginfo.erp.order.service.DefaultModule"/>
+  </container>
+</cdi>

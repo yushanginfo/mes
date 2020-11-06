@@ -11,9 +11,9 @@
     [@b.col width="8%" property="code" title="订单编号"][@b.a href="!info?id=${salesOrder.id}"]${salesOrder.code}[/@][/@]
     [@b.col width="10%" property="product.code" title="产品图号"]${salesOrder.product.specification!}[/@]
     [@b.col width="5%" property="orderType.name" title="订单类型"/]
-    [@b.col width="8%" property="requireOn" title="交期"]${(salesOrder.requireOn?string("yyyy-MM-dd"))!}[/@]
+    [@b.col width="8%" property="deadline" title="客户交期"]${(salesOrder.deadline?string("yyyy-MM-dd"))!}[/@]
 
-    [@b.col width="8%" property="scheduledOn" title="计划交期"/]
+    [@b.col width="8%" property="plannedEndOn" title="计划交期"/]
     [@b.col width="8%" property="batchNum" title="生产批号"/]
     [@b.col width="5%" property="amount" title="计划数量"/]
 

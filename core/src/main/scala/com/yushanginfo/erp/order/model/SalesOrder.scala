@@ -50,10 +50,13 @@ class SalesOrder extends LongId with Coded with Updated with Remark {
   /** 数量 */
   var amount: Int = _
 
-  /** 计划交付日期 */
-  var requireOn: LocalDate = _
+  /** 客户交付日期 */
+  var deadline: LocalDate = _
 
-  /** 计划完工日期 */
+  /** 计划交付日期 */
+  var plannedEndOn: LocalDate = _
+
+  /** 评审交付日期 */
   var scheduledOn: Option[LocalDate] = None
 
   /** 订单状态 */

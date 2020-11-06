@@ -8,7 +8,7 @@
       [@b.textfields names="salesOrder.batchNum;生产批号"/]
       [@b.textfield name="salesOrder.product.specification" label="产品图号"/]
       [@b.select name="salesOrder.orderType.id" label="订单类型" items=orderTypes empty="..." option="id,name"/]
-      [@b.datepicker name="salesOrder.requireOn" label="交付日期" format="yyyy-MM-dd" /]
+      [@b.datepicker name="salesOrder.deadline" label="客户交期" format="yyyy-MM-dd" /]
       [@b.field label="订单状态"]
         <select name="salesOrder.status">
           <option value="">...</option>

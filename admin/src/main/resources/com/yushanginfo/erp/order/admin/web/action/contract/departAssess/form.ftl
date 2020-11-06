@@ -8,7 +8,7 @@
     [@b.field label="生产批号"]${salesOrder.batchNum}[/@]
     [@b.field label="产品图号"]${salesOrder.product.code}[/@]
     [@b.field label="订单数量"]${salesOrder.amount}[/@]
-    [@b.field label="计划交付日期"]${salesOrder.requireOn?string("yyyy-MM-dd")}[/@]
+    [@b.field label="客户交期"]${salesOrder.deadline?string("yyyy-MM-dd")}[/@]
     [@b.field label="订单备注"]${(salesOrder.remark)?default("无")}[/@]
     [@b.field label="工艺"]${technic.name}[/@]
     [@b.textfield name="departAssess.days" label="需要天数" value="${departAssess.days!}" required="true" /]

@@ -16,40 +16,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.yushanginfo.erp.order.model
+package com.yushanginfo.erp.order.admin.web.action.contract
 
-import com.yushanginfo.erp.base.model.{Factory, Technic, User}
-import org.beangle.data.model.LongId
-import org.beangle.data.model.pojo.Updated
+import com.yushanginfo.erp.order.model.SalesOrder
+import org.beangle.webmvc.entity.action.EntityAction
 
-
-/**
- * 评估信息
- */
-class DepartAssess extends LongId with Updated {
-
-  def this(salesOrder: SalesOrder, technic: Technic) {
-    this()
-    this.salesOrder = salesOrder
-    this.technic = technic
-  }
-
-  /** 订单 */
-  var salesOrder: SalesOrder = _
-
-  /** 工序 */
-  var technic: Technic = _
-
-  /** 需要天数 */
-  var days: Int = _
-
-  /** 生产厂区 */
-  var factory: Factory = _
-
-  /** 是否通过 */
-  var passed: Boolean = _
-
-  /** 评估人 */
-  var assessedBy: Option[User] = None
+class OrderSearchAction extends EntityAction[SalesOrder] {
 
 }

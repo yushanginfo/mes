@@ -10,7 +10,7 @@
     [@b.col width="10%" property="code" title="订单编号"][@b.a href="!info?id=${salesOrder.id}"]${salesOrder.code}[/@][/@]
     [@b.col width="15%" property="product.code" title="产品图号"]${salesOrder.product.specification!}[/@]
     [@b.col width="5%" property="orderType.name" title="订单类型"/]
-    [@b.col width="10%" property="requireOn" title="交期"]${(salesOrder.requireOn?string("yyyy-MM-dd"))!}[/@]
+    [@b.col width="10%" property="deadline" title="客户交期"]${(salesOrder.deadline?string("yyyy-MM-dd"))!}[/@]
     [@b.col width="8%" property="amount" title="计划数量"/]
     [@b.col width="20%"  title="材料"]
       [#list salesOrder.product.bom as i]${i.material.name} ${i.material.specification!} [#if i.material.amount??]${i.material.amount*salesOrder.amount} ${salesOrder.product.unit.name}[#else]??[/#if][#if i_has_next]<br>[/#if][/#list]

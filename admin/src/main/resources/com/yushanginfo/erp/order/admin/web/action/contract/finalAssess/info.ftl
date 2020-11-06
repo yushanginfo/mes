@@ -25,8 +25,8 @@
     <td class="content">${salesOrder.amount!}</td>
   </tr>
   <tr>
-    <td class="title" width="20%">计划交付日期</td>
-    <td class="content">${(salesOrder.requireOn?string("yyyy-MM-dd" ))!}</td>
+    <td class="title" width="20%">客户交期</td>
+    <td class="content">${(salesOrder.deadline?string("yyyy-MM-dd" ))!}</td>
   </tr>
   <tr>
     <td class="title" width="20%">到料日期</td>
@@ -39,7 +39,7 @@
     </td>
   </tr>
   <tr>
-    <td class="title" width="20%">计划完工日期</td>
+    <td class="title" width="20%">评审交期</td>
     <td class="content">${(salesOrder.scheduledOn?string("yyyy-MM-dd" ))!}</td>
   </tr>
   <tr>
