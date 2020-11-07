@@ -29,6 +29,7 @@ class DefaultMapping extends MappingModule {
 
     bind[SalesOrder].declare { e =>
       e.assesses is depends("salesOrder")
+      e.batchNum is unique
     }
 
     bind[DepartAssess]

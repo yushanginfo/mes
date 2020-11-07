@@ -17,7 +17,6 @@
     <module>core</module>
   </modules>
 
-
   <properties>
     <openurp.edu.web.version>0.1.7</openurp.edu.web.version>
     <openurp.api.version>0.18.0</openurp.api.version>

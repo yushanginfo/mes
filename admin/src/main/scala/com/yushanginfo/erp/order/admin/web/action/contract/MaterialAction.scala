@@ -18,19 +18,21 @@
  */
 package com.yushanginfo.erp.order.admin.web.action.contract
 
-import com.yushanginfo.erp.base.model.Product
 import com.yushanginfo.erp.order.model.{OrderStatus, SalesOrder}
+import com.yushanginfo.erp.order.service.OrderService
 import org.beangle.webmvc.api.view.View
 import org.beangle.webmvc.entity.action.RestfulAction
 
 class MaterialAction extends RestfulAction[SalesOrder] {
+  var orderService: OrderService = _
 
-	override protected def indexSetting(): Unit = {
-	}
+  override protected def indexSetting(): Unit = {
+  }
 
-	override def saveAndRedirect(entity: SalesOrder): View = {
-		entity.status = OrderStatus.Submited
-		super.saveAndRedirect(entity)
-	}
+  override def saveAndRedirect(entity: SalesOrder): View = {
+    entity.status = OrderStatus.Submited
+    orderService.recalcState(entity)
+    super.saveAndRedirect(entity)
+  }
 
 }

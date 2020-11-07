@@ -28,7 +28,11 @@
       [/#list]
       <div class="btn-group btn-group-sm" role="group">
       [#list departs as depart]
-       [@b.a class="btn btn-primary" style="font-size:0.8em" href="!assess?salesOrderId=${salesOrder.id}&departId=${depart.id}"]${depart.name} ${assessMap[depart.id?string]!}[/@]
+       [#if assessMap[depart.id?string]??]
+         [@b.a class="btn btn-info" style="font-size:0.8em" href="!assess?salesOrderId=${salesOrder.id}&departId=${depart.id}"]${depart.name} ${assessMap[depart.id?string]}[/@]
+       [#else]
+         [@b.a class="btn btn-primary" style="font-size:0.8em" href="!assess?salesOrderId=${salesOrder.id}&departId=${depart.id}"]${depart.name}[/@]
+       [/#if]
       [/#list]
      </div>
     [/@]
