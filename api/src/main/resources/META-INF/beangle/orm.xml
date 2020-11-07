@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<orm>
+  <mapping class="com.yushanginfo.erp.base.model.DefaultMapping" />
+  <mapping class="com.yushanginfo.erp.mes.model.DefaultMapping" />
+  <naming>
+    <profile package = "com.yushanginfo.erp.base.model" pluralize="true" schema="erp_base"/>
+    <profile package = "com.yushanginfo.erp.mes.model" pluralize="true" schema="erp_mes"/>
+  </naming>
+</orm>

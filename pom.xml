@@ -2,25 +2,353 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.openurp</groupId>
-    <artifactId>openurp-parent</artifactId>
-    <version>0.4.0</version>
+    <groupId>org.beangle</groupId>
+    <artifactId>beangle-scala</artifactId>
+    <version>28.0</version>
   </parent>
-  <groupId>com.yushanginfo.erp.order</groupId>
-  <artifactId>com-yushanginfo-erp-order-parent</artifactId>
+  <groupId>com.yushanginfo.erp.mes</groupId>
+  <artifactId>erp-mes-parent</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>Com Yushanginfo Erp Order Parent</name>
+  <name>Yushanginfo Erp Parent</name>
 
   <modules>
-    <module>admin</module>
-    <module>core</module>
+    <module>api</module>
+    <module>web</module>
+    <module>base</module>
+    <module>wo</module>
   </modules>
 
+  <organization>
+    <name>The YushangInfo Software</name>
+    <url>https://github.com/yushanginfo</url>
+  </organization>
+  <inceptionYear>2020</inceptionYear>
+
   <properties>
-    <openurp.edu.web.version>0.1.7</openurp.edu.web.version>
-    <openurp.api.version>0.18.0</openurp.api.version>
-    <openurp.edu.base.version>0.1.7</openurp.edu.base.version>
+    <organization.slogan>Agile Enterprice Resource Planning Solution.</organization.slogan>
+    <bundle.symbolicName>com.yushanginfo.parent</bundle.symbolicName>
+    <bundle.namespace>com.yushanginfo</bundle.namespace>
+    <beangle.commons.version>5.2.0</beangle.commons.version>
+    <beangle.cdi.version>0.2.3</beangle.cdi.version>
+    <beangle.data.version>5.3.11</beangle.data.version>
+    <beangle.template.version>0.0.28</beangle.template.version>
+    <beangle.serializer.version>0.0.15</beangle.serializer.version>
+    <beangle.cache.version>0.0.20</beangle.cache.version>
+    <beangle.security.version>4.2.21</beangle.security.version>
+    <beangle.webmvc.version>0.3.44</beangle.webmvc.version>
+    <beangle.webui.version>0.3.44</beangle.webui.version>
+    <beangle.ids.version>0.2.11</beangle.ids.version>
+    <beangle.ems.version>4.1.7</beangle.ems.version>
+    <beangle.maven.version>0.3.30</beangle.maven.version>
+
+    <HikariCP.version>3.4.5</HikariCP.version>
+    <hibernate.version>5.4.17.Final</hibernate.version>
+    <ehcache.version>3.8.1</ehcache.version>
+    <spring.version>5.2.3.RELEASE</spring.version>
+    <gson.version>2.8.6</gson.version>
   </properties>
 
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.beangle.commons</groupId>
+        <artifactId>beangle-commons-core_2.13</artifactId>
+        <version>${beangle.commons.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.beangle.commons</groupId>
+        <artifactId>beangle-commons-web_2.13</artifactId>
+        <version>${beangle.commons.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.beangle.commons</groupId>
+        <artifactId>beangle-commons-csv_2.13</artifactId>
+        <version>${beangle.commons.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.beangle.cache</groupId>
+        <artifactId>beangle-cache-api_2.13</artifactId>
+        <version>${beangle.cache.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.beangle.cache</groupId>
+        <artifactId>beangle-cache-ehcache_2.13</artifactId>
+        <version>${beangle.cache.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.beangle.cache</groupId>
+        <artifactId>beangle-cache-redis_2.13</artifactId>
+        <version>${beangle.cache.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.beangle.cache</groupId>
+        <artifactId>beangle-cache-caffeine_2.13</artifactId>
+        <version>${beangle.cache.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.beangle.commons</groupId>
+        <artifactId>beangle-commons-text_2.13</artifactId>
+        <version>${beangle.commons.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.beangle.serializer</groupId>
+        <artifactId>beangle-serializer-fst_2.13</artifactId>
+        <version>${beangle.serializer.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.beangle.serializer</groupId>
+        <artifactId>beangle-serializer-text_2.13</artifactId>
+        <version>${beangle.serializer.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.beangle.serializer</groupId>
+        <artifactId>beangle-serializer-protobuf_2.13</artifactId>
+        <version>${beangle.serializer.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.beangle.cdi</groupId>
+        <artifactId>beangle-cdi-api_2.13</artifactId>
+        <version>${beangle.cdi.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.beangle.cdi</groupId>
+        <artifactId>beangle-cdi-spring_2.13</artifactId>
+        <version>${beangle.cdi.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.beangle.template</groupId>
+        <artifactId>beangle-template-freemarker_2.13</artifactId>
+        <version>${beangle.template.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.beangle.data</groupId>
+        <artifactId>beangle-data-transfer_2.13</artifactId>
+        <version>${beangle.data.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.beangle.data</groupId>
+        <artifactId>beangle-data-model_2.13</artifactId>
+        <version>${beangle.data.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.beangle.data</groupId>
+        <artifactId>beangle-data-hibernate_2.13</artifactId>
+        <version>${beangle.data.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.beangle.data</groupId>
+        <artifactId>beangle-data-jdbc_2.13</artifactId>
+        <version>${beangle.data.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.beangle.data</groupId>
+        <artifactId>beangle-data-orm_2.13</artifactId>
+        <version>${beangle.data.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.beangle.webmvc</groupId>
+        <artifactId>beangle-webmvc-api_2.13</artifactId>
+        <version>${beangle.webmvc.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.beangle.webmvc</groupId>
+        <artifactId>beangle-webmvc-spring-plugin_2.13</artifactId>
+        <version>${beangle.webmvc.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.beangle.webmvc</groupId>
+        <artifactId>beangle-webmvc-core_2.13</artifactId>
+        <version>${beangle.webmvc.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.beangle.webmvc</groupId>
+        <artifactId>beangle-webmvc-entity-plugin_2.13</artifactId>
+        <version>${beangle.webmvc.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.beangle.webmvc</groupId>
+        <artifactId>beangle-webmvc-view_2.13</artifactId>
+        <version>${beangle.webmvc.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.beangle.webui</groupId>
+        <artifactId>beangle-webui-tag_2.13</artifactId>
+        <version>${beangle.webui.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.beangle.webui</groupId>
+        <artifactId>beangle-webui-bootstrap_2.13</artifactId>
+        <version>${beangle.webui.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.beangle.security</groupId>
+        <artifactId>beangle-security-core_2.13</artifactId>
+        <version>${beangle.security.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.beangle.security</groupId>
+        <artifactId>beangle-security-web_2.13</artifactId>
+        <version>${beangle.security.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.beangle.security</groupId>
+        <artifactId>beangle-security-cas_2.13</artifactId>
+        <version>${beangle.security.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.beangle.security</groupId>
+        <artifactId>beangle-security-session_2.13</artifactId>
+        <version>${beangle.security.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.beangle.ids.cas</groupId>
+        <artifactId>beangle-ids-cas_2.13</artifactId>
+        <version>${beangle.ids.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-jcache</artifactId>
+        <version>${hibernate.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>org.ehcache</groupId>
+        <artifactId>ehcache</artifactId>
+        <version>${ehcache.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.zaxxer</groupId>
+        <artifactId>HikariCP</artifactId>
+        <version>${HikariCP.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.google.code.gson</groupId>
+        <artifactId>gson</artifactId>
+        <version>${gson.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.beangle.ems</groupId>
+        <artifactId>beangle-ems-app_2.13</artifactId>
+        <version>${beangle.ems.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-core</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+  </dependencies>
+
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>com.mycila</groupId>
+        <artifactId>license-maven-plugin</artifactId>
+        <version>${mvn.license.version}</version>
+        <configuration>
+          <strictCheck>true</strictCheck>
+          <inlineHeader><![CDATA[
+${organization.slogan}
+
+Copyright © ${project.inceptionYear}, ${project.organization.name}.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful.
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.]]>
+          </inlineHeader>
+          <includes>
+            <include>src/main/java/**</include>
+            <include>src/main/scala/**</include>
+            <include>src/test/java/**</include>
+            <include>src/test/scala/**</include>
+          </includes>
+          <excludes>
+            <exclude>src/**/package-info.java</exclude>
+          </excludes>
+          <mapping>
+            <java>SLASHSTAR_STYLE</java>
+            <scala>SLASHSTAR_STYLE</scala>
+          </mapping>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>skinny-war</id>
+      <activation>
+        <property>
+          <name>!skinny</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.beangle.maven</groupId>
+            <artifactId>beangle-maven-plugin</artifactId>
+            <version>${beangle.maven.version}</version>
+            <configuration>
+              <dependencyIncludes>*:*</dependencyIncludes>
+            </configuration>
+            <executions>
+              <execution>
+                <id>generate</id>
+                <phase>prepare-package</phase>
+                <goals>
+                  <goal>webxml</goal>
+                  <goal>sas</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-war-plugin</artifactId>
+            <version>3.2.2</version>
+            <configuration>
+              <packagingExcludes>
+                %regex[WEB-INF/lib/.*[^T].jar]
+              </packagingExcludes>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>
