@@ -7,7 +7,7 @@
       </h3>
       [@b.form name="orderSearchForm" action="!search" class="form-inline ml-3 float-right" ]
         <div class="input-group input-group-sm ">
-          <input class="form-control form-control-navbar" type="search" name="q" value="${Parameters['q']!}" aria-label="Search" placeholder="输入搜索关键词" autofocus="autofocus">
+          <input class="form-control form-control-navbar" type="search" name="q" value="${Parameters['q']!}" aria-label="Search" placeholder="品号、图号、订单号、生产批号" autofocus="autofocus">
           [#list Parameters as k,v]
              [#if k != "q"]
              <input name="${k}" value="${v}" type="hidden">
