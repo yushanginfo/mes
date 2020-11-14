@@ -21,7 +21,7 @@ package com.yushanginfo.erp.mes.wo.action
 import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
 
 import com.yushanginfo.erp.base.model.Factory
-import com.yushanginfo.erp.mes.model.{OrderType, WorkOrder}
+import com.yushanginfo.erp.mes.model.{SalesOrderType, WorkOrder}
 import com.yushanginfo.erp.mes.wo.helper.OrderImportHelper
 import org.beangle.data.dao.OqlBuilder
 import org.beangle.data.transfer.excel.ExcelSchema
@@ -34,19 +34,19 @@ import org.beangle.webmvc.entity.action.RestfulAction
 class WorkOrderAction extends RestfulAction[WorkOrder] {
 
   override protected def indexSetting(): Unit = {
-    put("orderTypes", entityDao.getAll(classOf[OrderType]))
+    put("orderTypes", entityDao.getAll(classOf[SalesOrderType]))
     put("factories", entityDao.getAll(classOf[Factory]))
   }
 
   override def editSetting(entity: WorkOrder): Unit = {
-    put("orderTypes", entityDao.getAll(classOf[OrderType]))
+    put("orderTypes", entityDao.getAll(classOf[SalesOrderType]))
     put("factories", entityDao.getAll(classOf[Factory]))
     super.editSetting(entity)
   }
 
   @response
   def downloadTemplate(): Any = {
-    val orderTypes = entityDao.search(OqlBuilder.from(classOf[OrderType], "p").orderBy("p.code")).map(_.code)
+    val orderTypes = entityDao.search(OqlBuilder.from(classOf[SalesOrderType], "p").orderBy("p.code")).map(_.code)
     val factories = entityDao.search(OqlBuilder.from(classOf[Factory], "p").orderBy("p.code")).map(_.code)
 
     val schema = new ExcelSchema()

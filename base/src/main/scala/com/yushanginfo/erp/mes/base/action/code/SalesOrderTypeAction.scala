@@ -18,13 +18,7 @@
  */
 package com.yushanginfo.erp.mes.base.action.code
 
-import org.beangle.cdi.bind.BindModule
+import com.yushanginfo.erp.mes.model.SalesOrderType
+import org.beangle.webmvc.entity.action.RestfulAction
 
-class DefaultModule extends BindModule {
-  override protected def binding(): Unit = {
-    bind(classOf[SalesOrderTypeAction], classOf[WorkOrderTypeAction])
-    bind(classOf[CodeAction])
-    bind(classOf[MaterialTypeAction])
-    bind(classOf[MeasurementUnitAction])
-  }
-}
+class SalesOrderTypeAction extends RestfulAction[SalesOrderType]

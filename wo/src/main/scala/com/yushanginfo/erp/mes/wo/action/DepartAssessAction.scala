@@ -21,7 +21,7 @@ package com.yushanginfo.erp.mes.wo.action
 import java.time.Instant
 
 import com.yushanginfo.erp.base.model.{Department, Factory, User}
-import com.yushanginfo.erp.mes.model.{DepartAssess, OrderStatus, OrderType, Technic, WorkOrder}
+import com.yushanginfo.erp.mes.model.{DepartAssess, OrderStatus, SalesOrderType, Technic, WorkOrder}
 import com.yushanginfo.erp.order.service.OrderService
 import org.beangle.commons.collection.Order
 import org.beangle.data.dao.OqlBuilder
@@ -35,7 +35,7 @@ class DepartAssessAction extends RestfulAction[DepartAssess] {
   var orderService: OrderService = _
 
   override protected def indexSetting(): Unit = {
-    put("orderTypes", entityDao.getAll(classOf[OrderType]))
+    put("orderTypes", entityDao.getAll(classOf[SalesOrderType]))
   }
 
   override def search(): View = {

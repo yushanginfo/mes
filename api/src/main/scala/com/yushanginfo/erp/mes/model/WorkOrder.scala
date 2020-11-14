@@ -18,7 +18,7 @@
  */
 package com.yushanginfo.erp.mes.model
 
-import java.time.LocalDate
+import java.time.{Instant, LocalDate}
 
 import com.yushanginfo.erp.base.model.{Customer, Factory}
 import org.beangle.commons.collection.Collections
@@ -44,7 +44,7 @@ class WorkOrder extends LongId with Coded with Updated with Remark {
   var technicScheme: TechnicScheme = _
 
   /** 工单类型 */
-  var orderType: OrderType = _
+  var orderType: SalesOrderType = _
 
   /** 数量 */
   var amount: Int = _
@@ -62,11 +62,14 @@ class WorkOrder extends LongId with Coded with Updated with Remark {
   var status: OrderStatus.Status = OrderStatus.Original
 
   /** 到料日期 */
-  var materialDate: Option[LocalDate] = None
+  var materialAssess: Option[MaterialAsscess] = None
 
   /** 部门评审 */
   var assesses: mutable.Buffer[DepartAssess] = Collections.newBuffer[DepartAssess]
 
   /** 生产工厂 */
   var factory: Factory = _
+
+  /** 创建日期 */
+  var createdAt: Instant = _
 }

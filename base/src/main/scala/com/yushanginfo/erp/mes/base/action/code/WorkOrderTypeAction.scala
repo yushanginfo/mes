@@ -18,7 +18,7 @@
  */
 package com.yushanginfo.erp.mes.base.action.code
 
-import com.yushanginfo.erp.mes.model.OrderType
+import com.yushanginfo.erp.mes.model.WorkOrderType
 import org.beangle.webmvc.entity.action.RestfulAction
 
-class OrderTypeAction extends RestfulAction[OrderType]
+class WorkOrderTypeAction extends RestfulAction[WorkOrderType]

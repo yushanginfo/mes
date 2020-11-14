@@ -64,8 +64,13 @@ class DefaultMapping extends MappingModule {
       index("", true, e.batchNum)
     }
 
-    bind[DepartAssess]
+    bind[DepartAssess].declare { e =>
+    }
 
-    bind[OrderType]
+    bind[MaterialAsscess].declare { e =>
+      index("", true, e.order)
+    }
+
+    bind[SalesOrderType]
   }
 }
