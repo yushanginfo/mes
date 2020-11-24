@@ -5,9 +5,9 @@
     bar.addItem("${b.text("action.new")}",action.add());
     bar.addItem("${b.text("action.modify")}",action.edit());
     bar.addItem("${b.text("action.delete")}",action.remove("确认删除?"));
-    var menu = bar.addMenu("更改部门为...");
-    [#list departs as depart]
-      menu.addItem("${depart.name}",action.multi("batchUpdateDepart","确定更新?","&depart.id=${depart.id}"));
+    var menu = bar.addMenu("更改评审组为...");
+    [#list groups as group]
+      menu.addItem("${group.name}",action.multi("batchUpdateGroup","确定更新?","&group.id=${group.id}"));
     [/#list]
     bar.addItem("导入",action.method('importForm'));
   [/@]
@@ -15,7 +15,7 @@
     [@b.boxcol /]
     [@b.col width="10%" property="code" title="代码"]${technic.code}[/@]
     [@b.col width="15%" property="name" title="名称"][@b.a href="!info?id=${technic.id}"]${technic.name}[/@][/@]
-    [@b.col width="15%" property="depart.name" title="负责部门"/]
+    [@b.col width="15%" property="assessGroup.name" title="评审组"/]
     [@b.col width="8%" property="internal" title="性质"]
       [#if technic.internal]厂内[#else]委外[/#if]
     [/@]

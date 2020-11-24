@@ -31,5 +31,5 @@ class AssessGroup extends LongId with Coded with Named with Updated {
 
   var director: Option[User] = None
 
-  var members: mutable.Buffer[User] = Collections.newBuffer[User]
+  var members: mutable.Buffer[AssessMember] = Collections.newBuffer[AssessMember]
 }

@@ -20,8 +20,8 @@ package com.yushanginfo.erp.mes.wo.action
 
 import java.time.Instant
 
-import com.yushanginfo.erp.base.model.{Department, Factory, User}
-import com.yushanginfo.erp.mes.model.{DepartAssess, OrderStatus, SalesOrderType, Technic, WorkOrder}
+import com.yushanginfo.erp.base.model.{Factory, User}
+import com.yushanginfo.erp.mes.model._
 import com.yushanginfo.erp.order.service.OrderService
 import org.beangle.commons.collection.Order
 import org.beangle.data.dao.OqlBuilder
@@ -30,7 +30,7 @@ import org.beangle.webmvc.api.view.View
 import org.beangle.webmvc.entity.action.RestfulAction
 
 
-class DepartAssessAction extends RestfulAction[DepartAssess] {
+class GroupAssessAction extends RestfulAction[DepartAssess] {
 
   var orderService: OrderService = _
 
@@ -68,7 +68,7 @@ class DepartAssessAction extends RestfulAction[DepartAssess] {
 
   def assess(): View = {
     put("factories", entityDao.getAll(classOf[Factory]))
-    put("depart", entityDao.get(classOf[Department], intId("depart")))
+    put("assessGroup", entityDao.get(classOf[AssessGroup], longId("group")))
     val order = entityDao.get(classOf[WorkOrder], longId("workOrder"))
     if (order.status == OrderStatus.Passed) {
       forward(to(classOf[WorkOrderAction], "info", "id=" + order.id))
@@ -79,7 +79,7 @@ class DepartAssessAction extends RestfulAction[DepartAssess] {
   }
 
   def saveAssess(): View = {
-    val depart = entityDao.get(classOf[Department], intId("depart"))
+    val group = entityDao.get(classOf[AssessGroup], longId("group"))
     val order = entityDao.get(classOf[WorkOrder], longId("workOrder"))
     val technicSet = order.technicScheme.technics.map(_.technic).toSet
     val removedAssess = order.assesses.filter { x => !technicSet.contains(x.technic) }
@@ -87,7 +87,7 @@ class DepartAssessAction extends RestfulAction[DepartAssess] {
     val assessMap = order.assesses.map(x => (x.technic, x)).toMap
     val users = entityDao.findBy(classOf[User], "code", List(Securities.user))
     order.technicScheme.technics foreach { pt =>
-      if (pt.technic.depart == depart) {
+      if (pt.technic.assessGroup.contains(group)) {
         val assess = assessMap.get(pt.technic) match {
           case Some(assess) => assess
           case None => val assess = new DepartAssess(order, pt.technic)

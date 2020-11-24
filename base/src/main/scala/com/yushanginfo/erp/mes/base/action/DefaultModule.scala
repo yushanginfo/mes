@@ -28,5 +28,7 @@ class DefaultModule extends BindModule {
     bind(classOf[TechnicSchemeAction])
     bind(classOf[ProductBomAction])
     bind(classOf[ProductTechnicAction])
+    bind(classOf[AssessGroupAction])
+    bind(classOf[AssessMemberAction])
   }
 }

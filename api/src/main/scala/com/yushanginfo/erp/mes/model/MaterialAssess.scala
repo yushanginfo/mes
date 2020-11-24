@@ -25,7 +25,7 @@ import org.beangle.data.model.LongId
 import org.beangle.data.model.pojo.Updated
 
 /** 到料信息 */
-class MaterialAsscess extends LongId with Updated {
+class MaterialAssess extends LongId with Updated {
 
   /** 工单 */
   var order: WorkOrder = _

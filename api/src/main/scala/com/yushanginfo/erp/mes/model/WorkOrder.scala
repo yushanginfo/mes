@@ -62,7 +62,7 @@ class WorkOrder extends LongId with Coded with Updated with Remark {
   var status: OrderStatus.Status = OrderStatus.Original
 
   /** 到料日期 */
-  var materialAssess: Option[MaterialAsscess] = None
+  var materialAssess: Option[MaterialAssess] = None
 
   /** 部门评审 */
   var assesses: mutable.Buffer[DepartAssess] = Collections.newBuffer[DepartAssess]

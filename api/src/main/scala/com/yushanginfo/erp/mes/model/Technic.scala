@@ -45,4 +45,8 @@ class Technic extends IntId with Coded with Named with Updated with Remark {
   def title: String = {
     s"${this.code}${this.name} ${this.machine.map(_.name).orNull}"
   }
+
+  /** 评审预计需要的天数，默认为0 */
+  var duration: Int = _
+  
 }

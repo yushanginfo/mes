@@ -67,14 +67,18 @@ class DefaultMapping extends MappingModule {
     bind[DepartAssess].declare { e =>
     }
 
-    bind[MaterialAsscess].declare { e =>
+    bind[MaterialAssess].declare { e =>
       index("", true, e.order)
     }
 
     bind[SalesOrderType]
 
-    bind[TechnicDefaultWorkload]
+    bind[AssessGroup].declare { e =>
+      e.members is depends("group")
+    }
 
-    bind[AssessGroup]
+    bind[AssessMember] declare { e =>
+      index("", true, e.group, e.user, e.factory)
+    }
   }
 }

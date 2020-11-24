@@ -18,6 +18,8 @@
  */
 package com.yushanginfo.erp.order.service.impl
 
+import java.time.LocalDate
+
 import com.yushanginfo.erp.mes.model.{OrderStatus, WorkOrder}
 import com.yushanginfo.erp.order.service.OrderService
 import org.beangle.data.dao.EntityDao
@@ -36,19 +38,25 @@ class OrderServiceImpl extends OrderService {
       }
 
     //计算计划完工时间
-    if (order.materialDate.nonEmpty && !notComplete && order.scheduledOn.isEmpty) {
-      order.scheduledOn = order.materialDate
-      var scheduledOn = order.materialDate.get
-      order.assesses.foreach(assess =>
-        scheduledOn = scheduledOn.plusDays(assess.days.toLong)
-      )
-      order.scheduledOn = Some(scheduledOn)
-      if (order.scheduledOn.get.compareTo(order.deadline) > 0) {
-        order.status = OrderStatus.Unpassed
-      } else {
-        order.status = OrderStatus.Passed
+    order.materialAssess foreach { materialAssess =>
+      if (!notComplete && order.scheduledOn.isEmpty) {
+        val processDays = order.assesses.foldLeft(0)(_ + _.days)
+        val startOn =
+          if (materialAssess.ready) {
+            LocalDate.from(order.assesses.map(_.updatedAt).max).plusDays(1)
+          } else {
+            materialAssess.readyOn.get
+          }
+
+        order.scheduledOn = Some(startOn.plusDays(processDays))
+        if (order.scheduledOn.get.compareTo(order.deadline) > 0) {
+          order.status = OrderStatus.Unpassed
+        } else {
+          order.status = OrderStatus.Passed
+        }
       }
     }
     entityDao.saveOrUpdate(order)
   }
+
 }

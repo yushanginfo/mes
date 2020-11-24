@@ -20,55 +20,46 @@ package com.yushanginfo.erp.mes.base.action
 
 import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
 
-import com.yushanginfo.erp.base.model.User
-import com.yushanginfo.erp.mes.base.helper.AssessGroupImportListener
-import com.yushanginfo.erp.mes.model.AssessGroup
+import com.yushanginfo.erp.base.model.Factory
+import com.yushanginfo.erp.mes.base.helper.AssessMemberImportListener
+import com.yushanginfo.erp.mes.model.{AssessGroup, AssessMember}
 import org.beangle.data.transfer.excel.ExcelSchema
 import org.beangle.data.transfer.importer.ImportSetting
 import org.beangle.data.transfer.importer.listener.ForeignerListener
-import org.beangle.ems.app.Ems
 import org.beangle.webmvc.api.annotation.response
-import org.beangle.webmvc.api.view.{Stream, View}
+import org.beangle.webmvc.api.view.Stream
 import org.beangle.webmvc.entity.action.RestfulAction
 
-class AssessGroupAction extends RestfulAction[AssessGroup] {
+class AssessMemberAction extends RestfulAction[AssessMember] {
 
   protected override def indexSetting(): Unit = {
+    put("groups", entityDao.getAll(classOf[AssessGroup]))
   }
 
-  protected override def editSetting(g: AssessGroup): Unit = {
-  }
-
-  protected override def saveAndRedirect(tg: AssessGroup): View = {
-//    val newMembers = entityDao.find(classOf[User], longIds("member"))
-//    val removed = tg.members filter { x => !newMembers.contains(x) }
-//    tg.members.subtractAll(removed)
-//    newMembers foreach { l =>
-//      if (!tg.members.contains(l))
-//        tg.members += l
-//    }
-    super.saveAndRedirect(tg)
+  protected override def editSetting(g: AssessMember): Unit = {
+    put("groups", entityDao.getAll(classOf[AssessGroup]))
+    put("factories", entityDao.getAll(classOf[Factory]))
   }
 
   @response
   def downloadTemplate(): Any = {
     val schema = new ExcelSchema()
     val sheet = schema.createScheet("数据模板")
-    sheet.title("评审组信息模板")
+    sheet.title("评审成员信息模板")
     sheet.remark("特别说明：\n1、不可改变本表格的行列结构以及批注，否则将会导入失败！\n2、必须按照规格说明的格式填写。\n3、可以多次导入，重复的信息会被新数据更新覆盖。\n4、保存的excel文件名称可以自定。")
-    sheet.add("评审组代码", "assessGroup.code").length(10).required().remark("≤10位")
-    sheet.add("评审组名称", "assessGroup.name").length(100).required()
-    sheet.add("负责人工号", "assessGroup.director.code")
+    sheet.add("工号", "assessMember.code").length(10).required().remark("≤10位")
+    sheet.add("评审组代码", "assessMember.name").length(100).required()
+    sheet.add("厂区", "assessMember.factory.code")
 
     val os = new ByteArrayOutputStream()
     schema.generate(os)
-    Stream(new ByteArrayInputStream(os.toByteArray), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "评审组模板.xlsx")
+    Stream(new ByteArrayInputStream(os.toByteArray), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "评审成员模板.xlsx")
   }
 
   protected override def configImport(setting: ImportSetting): Unit = {
     val fk = new ForeignerListener(entityDao)
     fk.addForeigerKey("code")
-    setting.listeners = List(fk, new AssessGroupImportListener(entityDao))
+    setting.listeners = List(fk, new AssessMemberImportListener(entityDao))
   }
 
 }

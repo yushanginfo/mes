@@ -21,8 +21,8 @@ package com.yushanginfo.erp.mes.base.action
 import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
 
 import com.yushanginfo.erp.base.model.{Department, Supplier}
-import com.yushanginfo.erp.mes.model.{Machine, Technic}
 import com.yushanginfo.erp.mes.base.helper.TechnicImportHelper
+import com.yushanginfo.erp.mes.model.{AssessGroup, Machine, Technic}
 import org.beangle.data.dao.OqlBuilder
 import org.beangle.data.transfer.excel.ExcelSchema
 import org.beangle.data.transfer.importer.ImportSetting
@@ -34,21 +34,21 @@ import org.beangle.webmvc.entity.action.RestfulAction
 class TechnicAction extends RestfulAction[Technic] {
 
   override protected def editSetting(entity: Technic): Unit = {
-    put("departs", entityDao.getAll(classOf[Department]))
+    put("groups", entityDao.getAll(classOf[AssessGroup]))
     put("machines", entityDao.getAll(classOf[Machine]))
     put("suppliers", entityDao.getAll(classOf[Supplier]))
   }
 
   override def search(): View = {
-    put("departs", entityDao.getAll(classOf[Department]))
+    put("groups", entityDao.getAll(classOf[AssessGroup]))
     super.search()
   }
 
-  def batchUpdateDepart(): View = {
+  def batchUpdateGroup(): View = {
     val technics = entityDao.find(classOf[Technic], intIds("technic"))
-    val depart = entityDao.get(classOf[Department], intId("depart"))
+    val group = entityDao.get(classOf[AssessGroup], longId("group"))
     technics.foreach { technic =>
-      technic.depart = depart
+      technic.assessGroup = Some(group)
     }
     entityDao.saveOrUpdate(technics)
     redirect("search", "info.save.success")
@@ -71,6 +71,8 @@ class TechnicAction extends RestfulAction[Technic] {
     sheet.add("加工中心编号", "technic.machine.code").ref(machines)
     sheet.add("供应商编号", "technic.supplier.code").ref(suppliers)
     sheet.add("部门编号", "technic.depart.code").ref(departs).required()
+    sheet.add("默认需要的天数", "technic.duration").decimal(0,100).remark("当工艺无需人工评审时填写")
+
     val code = schema.createScheet("数据字典")
     code.add("加工中心编号").data(machines)
     code.add("部门编号").data(departs)
