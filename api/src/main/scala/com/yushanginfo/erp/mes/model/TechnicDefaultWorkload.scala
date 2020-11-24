@@ -18,31 +18,14 @@
  */
 package com.yushanginfo.erp.mes.model
 
-import com.yushanginfo.erp.base.model.Supplier
-import org.beangle.data.model.IntId
-import org.beangle.data.model.pojo.{Coded, Named, Remark, Updated}
+import org.beangle.data.model.LongId
+import org.beangle.data.model.pojo.Updated
 
-/**
- * 工艺
- */
-class Technic extends IntId with Coded with Named with Updated with Remark {
+class TechnicDefaultWorkload extends LongId with Updated {
 
-  /** 工艺说明 */
-  var description: Option[String] = _
+  var technic: Technic = _
 
-  /** 场内生产/委托外部 */
-  var internal: Boolean = _
+  var days: Int = _
 
-  /** 加工中心 */
-  var machine: Option[Machine] = None
-
-  /** 供应商 */
-  var supplier: Option[Supplier] = None
-
-  /** 评审小组 */
-  var assessGroup: Option[AssessGroup] = None
-
-  def title: String = {
-    s"${this.code}${this.name} ${this.machine.map(_.name).orNull}"
-  }
+  var autoPass: Boolean = _
 }

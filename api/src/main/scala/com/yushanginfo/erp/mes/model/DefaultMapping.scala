@@ -72,5 +72,9 @@ class DefaultMapping extends MappingModule {
     }
 
     bind[SalesOrderType]
+
+    bind[TechnicDefaultWorkload]
+
+    bind[AssessGroup]
   }
 }

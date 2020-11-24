@@ -18,31 +18,18 @@
  */
 package com.yushanginfo.erp.mes.model
 
-import com.yushanginfo.erp.base.model.Supplier
-import org.beangle.data.model.IntId
-import org.beangle.data.model.pojo.{Coded, Named, Remark, Updated}
+import com.yushanginfo.erp.base.model.User
+import org.beangle.commons.collection.Collections
+import org.beangle.data.model.LongId
+import org.beangle.data.model.pojo.{Coded, Named, Updated}
 
-/**
- * 工艺
+import scala.collection.mutable
+
+/** 评审小组
  */
-class Technic extends IntId with Coded with Named with Updated with Remark {
+class AssessGroup extends LongId with Coded with Named with Updated {
 
-  /** 工艺说明 */
-  var description: Option[String] = _
+  var director: Option[User] = None
 
-  /** 场内生产/委托外部 */
-  var internal: Boolean = _
-
-  /** 加工中心 */
-  var machine: Option[Machine] = None
-
-  /** 供应商 */
-  var supplier: Option[Supplier] = None
-
-  /** 评审小组 */
-  var assessGroup: Option[AssessGroup] = None
-
-  def title: String = {
-    s"${this.code}${this.name} ${this.machine.map(_.name).orNull}"
-  }
+  var members: mutable.Buffer[User] = Collections.newBuffer[User]
 }

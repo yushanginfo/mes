@@ -34,4 +34,8 @@ class User extends LongId with Coded with Named with Updated with Remark with Te
 
   var factory: Option[Factory] = None
 
+  def description: String = {
+    s"${code} ${name} ${department.name}"
+  }
+
 }
