@@ -18,7 +18,7 @@
  */
 package com.yushanginfo.erp.order.service.impl
 
-import java.time.LocalDate
+import java.time.{LocalDate, ZoneId}
 
 import com.yushanginfo.erp.mes.model.{OrderStatus, WorkOrder}
 import com.yushanginfo.erp.order.service.OrderService
@@ -43,7 +43,7 @@ class OrderServiceImpl extends OrderService {
         val processDays = order.assesses.foldLeft(0)(_ + _.days)
         val startOn =
           if (materialAssess.ready) {
-            LocalDate.from(order.assesses.map(_.updatedAt).max).plusDays(1)
+            LocalDate.ofInstant(order.assesses.map(_.updatedAt).max,ZoneId.systemDefault()).plusDays(1)
           } else {
             materialAssess.readyOn.get
           }

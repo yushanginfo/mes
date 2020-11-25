@@ -5,8 +5,8 @@
 [/@]
 <table class="infoTable">
   <tr>
-    <td class="title" width="20%">工单编号</td>
-    <td class="content">${workOrder.code}</td>
+    <td class="title" width="20%">订单编号</td>
+    <td class="content">${workOrder.salesOrderNo}</td>
   </tr>
   <tr>
     <td class="title" width="20%">生产批号</td>
@@ -37,7 +37,7 @@
     <td class="title" width="20%">材料清单</td>
     <td class="content">
       [#list workOrder.product.bom as m]
-        ${m.indexno} ${m.material.code} ${m.material.name} ${m.material.specification} ${m.amount}[#if m_has_next]<br>[/#if]
+         [#list workOrder.product.bom as i]${i.material.name} ${i.material.specification!} [#if i.amount??]${i.amount*workOrder.amount} ${i.material.unit.name}[#else]??[/#if][#if i_has_next]<br>[/#if][/#list]
       [/#list]
     </td>
   </tr>

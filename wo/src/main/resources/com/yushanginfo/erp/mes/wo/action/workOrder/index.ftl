@@ -4,10 +4,10 @@
 <div class="search-container">
   <div class="search-panel">
     [@b.form name="workOrderSearchForm" action="!search" target="workOrderlist" title="ui.searchForm" theme="search"]
-      [@b.textfields names="workOrder.code;工单编号"/]
+      [@b.textfields names="workOrder.salesOrderNo;订单编号"/]
+      [@b.select name="workOrder.workOrderType.id" label="工单类型" items=workOrderTypes empty="..." option="id,name"/]
       [@b.textfields names="workOrder.batchNum;生产批号"/]
       [@b.textfield name="workOrder.product.specification" label="产品图号" /]
-      [@b.select name="workOrder.orderType.id" label="工单类型" items=orderTypes empty="..." option="id,name"/]
       [@b.datepicker name="workOrder.deadline" label="客户交期" format="yyyy-MM-dd" /]
       [@b.select name="workOrder.factory.id" label="所在厂区" items=factories empty="..." style="width:100px"/]
       [@b.field label="工单状态"]
@@ -21,10 +21,10 @@
           <option value="5">取消</option>
         </select>
       [/@]
-      <input type="hidden" name="orderBy" value="workOrder.code desc"/>
+      <input type="hidden" name="orderBy" value="workOrder.batchNum desc"/>
     [/@]
   </div>
-  <div class="search-list">[@b.div id="workOrderlist" href="!search?workOrderBy=workOrder.code desc"/]
+  <div class="search-list">[@b.div id="workOrderlist" href="!search?workOrderBy=workOrder.batchNum desc"/]
   </div>
 </div>
 

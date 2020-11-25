@@ -21,7 +21,7 @@ package com.yushanginfo.erp.mes.wo.helper
 import java.time.Instant
 
 import com.yushanginfo.erp.mes.model.{OrderStatus, WorkOrder}
-import org.beangle.data.dao.EntityDao
+import org.beangle.data.dao.{EntityDao, OqlBuilder}
 import org.beangle.data.transfer.importer.{ImportListener, ImportResult}
 
 class OrderImportHelper(entityDao: EntityDao) extends ImportListener {
@@ -42,6 +42,9 @@ class OrderImportHelper(entityDao: EntityDao) extends ImportListener {
     if (order.technicScheme == null) {
       tr.addFailure("缺少工艺路线", transfer.curData.get("workOrder.product.code"))
     }
+    if (null == order.createdAt) {
+      order.createdAt = Instant.now()
+    }
     if (null != order.product && null != order.customer && null != order.factory) {
       entityDao.saveOrUpdate(order)
     }
@@ -55,8 +58,12 @@ class OrderImportHelper(entityDao: EntityDao) extends ImportListener {
   }
 
   override def onItemStart(tr: ImportResult): Unit = {
-    transfer.curData.get("workOrder.batchNum") foreach { batchNum =>
-      entityDao.findBy(classOf[WorkOrder], "batchNum", List(batchNum)) foreach { p =>
+    //通过单别和生产批号联合唯一
+    for (workOrderTypeName <- transfer.curData.get("workOrder.workOrderType.name"); batchNum <- transfer.curData.get("workOrder.batchNum")) {
+      val builder = OqlBuilder.from(classOf[WorkOrder], "wo")
+      builder.where("wo.workOrderType.name=:workOrderTypeName", workOrderTypeName)
+      builder.where("wo.batchNum=:batchNum", batchNum)
+      entityDao.search(builder) foreach { p =>
         transfer.current = p
         if (p.status == OrderStatus.Passed) {
           tr.addFailure("工单已经评审通过，无需导入", batchNum)

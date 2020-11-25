@@ -4,7 +4,7 @@
 <div class="search-container">
   <div class="search-panel">
     [@b.form name="workOrderSearchForm" action="!search" target="workOrderlist" title="ui.searchForm" theme="search"]
-      [@b.textfields names="workOrder.code;工单编号"/]
+      [@b.textfields names="workOrder.salesOrderNo;工单编号"/]
       [@b.textfields names="workOrder.batchNum;生产批号"/]
       [@b.select name="workOrder.product.id" label="产品图号" items=products empty="..." option=r"${item.code}"/]
       [@b.select name="workOrder.orderType.id" label="工单类型" items=orderTypes empty="..." option="id,name"/]
@@ -19,10 +19,10 @@
           <option value="5">取消</option>
         </select>
       [/@]
-      <input type="hidden" name="orderBy" value="workOrder.code desc"/>
+      <input type="hidden" name="orderBy" value="workOrder.salesOrderNo desc"/>
     [/@]
   </div>
-  <div class="search-list">[@b.div id="workOrderlist" href="!search?workOrderBy=workOrder.code desc"/]
+  <div class="search-list">[@b.div id="workOrderlist" href="!search?workOrderBy=workOrder.salesOrderNo desc"/]
   </div>
 </div>
 

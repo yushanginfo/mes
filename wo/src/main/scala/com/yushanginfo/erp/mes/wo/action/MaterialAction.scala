@@ -18,8 +18,12 @@
  */
 package com.yushanginfo.erp.mes.wo.action
 
-import com.yushanginfo.erp.mes.model.{OrderStatus, WorkOrder}
+import java.time.Instant
+
+import com.yushanginfo.erp.base.model.User
+import com.yushanginfo.erp.mes.model.{MaterialAssess, OrderStatus, WorkOrder}
 import com.yushanginfo.erp.order.service.OrderService
+import org.beangle.security.Securities
 import org.beangle.webmvc.api.view.View
 import org.beangle.webmvc.entity.action.RestfulAction
 
@@ -29,8 +33,21 @@ class MaterialAction extends RestfulAction[WorkOrder] {
   override protected def indexSetting(): Unit = {
   }
 
+  override def editSetting(entity: WorkOrder): Unit = {
+
+    put("materialAssess", if (entity.materialAssess.isEmpty) new MaterialAssess() else entity.materialAssess)
+    super.editSetting(entity)
+  }
+
   override def saveAndRedirect(entity: WorkOrder): View = {
+    val materialAssess = populateEntity(classOf[MaterialAssess], "materialAssess")
     entity.status = OrderStatus.Submited
+    materialAssess.order = entity
+    materialAssess.updatedAt = Instant.now
+    val users = entityDao.findBy(classOf[User], "code", List(Securities.user))
+    materialAssess.assessedBy = users.headOption
+    entityDao.saveOrUpdate(materialAssess)
+    entity.materialAssess = Some(materialAssess)
     orderService.recalcState(entity)
     super.saveAndRedirect(entity)
   }

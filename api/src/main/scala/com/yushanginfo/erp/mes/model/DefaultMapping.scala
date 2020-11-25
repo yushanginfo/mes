@@ -61,7 +61,6 @@ class DefaultMapping extends MappingModule {
 
     bind[WorkOrder].declare { e =>
       e.assesses is depends("workOrder")
-      index("", true, e.batchNum)
     }
 
     bind[DepartAssess].declare { e =>
@@ -72,6 +71,7 @@ class DefaultMapping extends MappingModule {
     }
 
     bind[SalesOrderType]
+    bind[WorkOrderType]
 
     bind[AssessGroup].declare { e =>
       e.members is depends("group")

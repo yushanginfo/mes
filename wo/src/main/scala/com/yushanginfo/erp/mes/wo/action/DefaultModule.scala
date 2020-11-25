@@ -22,7 +22,7 @@ import org.beangle.cdi.bind.BindModule
 
 class DefaultModule extends BindModule {
   override protected def binding(): Unit = {
-    bind(classOf[WorkOrderAction], classOf[MaterialAction], classOf[GroupAssessAction], classOf[FinalAssessAction])
+    bind(classOf[WorkOrderAction], classOf[MaterialAction], classOf[DepartAssessAction], classOf[FinalAssessAction])
     bind(classOf[OrderSearchAction])
   }
 }

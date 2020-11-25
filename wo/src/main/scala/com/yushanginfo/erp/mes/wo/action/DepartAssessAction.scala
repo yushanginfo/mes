@@ -30,7 +30,7 @@ import org.beangle.webmvc.api.view.View
 import org.beangle.webmvc.entity.action.RestfulAction
 
 
-class GroupAssessAction extends RestfulAction[DepartAssess] {
+class DepartAssessAction extends RestfulAction[DepartAssess] {
 
   var orderService: OrderService = _
 

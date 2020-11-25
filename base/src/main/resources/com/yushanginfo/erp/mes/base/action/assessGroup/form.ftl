@@ -5,6 +5,7 @@
   [@b.form action=sa theme="list" action=b.rest.save(assessGroup)]
     [@b.textfield name="assessGroup.code" label="代码" value="${assessGroup.code!}" required="true" maxlength="20"/]
     [@b.textfield name="assessGroup.name" label="名称" value="${assessGroup.name!}" required="true" maxlength="20"/]
+    [@b.select name="assessGroup.department.id" label="部门" value=assessGroup.department! items=departs option="id,name" empty="..." required="true"/]
     [@b.select name="assessGroup.director.id" label="负责人" value=assessGroup.director!
                style="width:300px;" href="/users.json?q={term}" option="id,name" empty="..."/]
     [@b.formfoot]

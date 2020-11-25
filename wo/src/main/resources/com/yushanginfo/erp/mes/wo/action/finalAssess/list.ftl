@@ -8,7 +8,7 @@
   [@b.row]
     [@b.boxcol /]
     [@b.col width="5%" property="customer.code" title="顾客"]${workOrder.customer.code}[/@]
-    [@b.col width="8%" property="code" title="工单编号"][@b.a href="!info?id=${workOrder.id}"]${workOrder.code}[/@][/@]
+    [@b.col width="8%" property="code" title="工单编号"][@b.a href="!info?id=${workOrder.id}"]${workOrder.salesOrderNo}[/@][/@]
     [@b.col width="10%" property="product.code" title="产品图号"]${workOrder.product.specification!}[/@]
     [@b.col width="5%" property="orderType.name" title="工单类型"/]
     [@b.col width="8%" property="deadline" title="客户交期"]${(workOrder.deadline?string("yyyy-MM-dd"))!}[/@]

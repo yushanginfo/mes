@@ -18,7 +18,7 @@
  */
 package com.yushanginfo.erp.mes.model
 
-import com.yushanginfo.erp.base.model.User
+import com.yushanginfo.erp.base.model.{Department, User}
 import org.beangle.commons.collection.Collections
 import org.beangle.data.model.LongId
 import org.beangle.data.model.pojo.{Coded, Named, Updated}
@@ -28,6 +28,8 @@ import scala.collection.mutable
 /** 评审小组
  */
 class AssessGroup extends LongId with Coded with Named with Updated {
+
+  var department: Department = _
 
   var director: Option[User] = None
 

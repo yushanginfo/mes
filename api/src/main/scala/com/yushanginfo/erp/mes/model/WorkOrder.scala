@@ -23,13 +23,22 @@ import java.time.{Instant, LocalDate}
 import com.yushanginfo.erp.base.model.{Customer, Factory}
 import org.beangle.commons.collection.Collections
 import org.beangle.data.model.LongId
-import org.beangle.data.model.pojo.{Coded, Remark, Updated}
+import org.beangle.data.model.pojo.{Remark, Updated}
 
 import scala.collection.mutable
 
 /** 工单
  */
-class WorkOrder extends LongId with Coded with Updated with Remark {
+class WorkOrder extends LongId with Updated with Remark {
+
+  /** 订单编号 */
+  var salesOrderNo: String = _
+
+  /** 订单类型 */
+  var salesOrderType: SalesOrderType = _
+
+  /** 工单单别 */
+  var workOrderType: WorkOrderType = _
 
   /** 生产批号 */
   var batchNum: String = _
@@ -42,9 +51,6 @@ class WorkOrder extends LongId with Coded with Updated with Remark {
 
   /** 工单工艺 */
   var technicScheme: TechnicScheme = _
-
-  /** 工单类型 */
-  var orderType: SalesOrderType = _
 
   /** 数量 */
   var amount: Int = _

@@ -7,7 +7,7 @@
       [@b.textfields names="technic.code;代码"/]
       [@b.textfields names="technic.name;名称"/]
       [@b.textfields names="technic.machine.name;加工中心"/]
-      [@b.textfields names="technic.depart.name;生产部门"/]
+      [@b.textfields names="technic.assessGroup.name;评审组"/]
       <input type="hidden" name="orderBy" value="technic.code"/>
     [/@]
   </div>

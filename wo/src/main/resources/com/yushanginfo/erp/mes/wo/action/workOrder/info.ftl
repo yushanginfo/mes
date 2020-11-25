@@ -6,7 +6,7 @@
 <table class="infoTable">
   <tr>
     <td class="title"  width="20%">工单编号</td>
-    <td class="content">${workOrder.code}</td>
+    <td class="content">${workOrder.salesOrderNo}</td>
     <td class="title"  width="20%">生产批号</td>
     <td class="content">${workOrder.batchNum}</td>
   </tr>

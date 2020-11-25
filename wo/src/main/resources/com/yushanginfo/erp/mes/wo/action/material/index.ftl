@@ -4,7 +4,7 @@
 <div class="search-container">
   <div class="search-panel">
     [@b.form name="materialSearchForm" action="!search" target="materiallist" title="ui.searchForm" theme="search"]
-      [@b.textfields names="workOrder.code;工单编号"/]
+      [@b.textfields names="workOrder.salesOrderNo;订单编号"/]
       [@b.textfields names="workOrder.batchNum;生产批号"/]
       [@b.textfield name="workOrder.product.specification" label="产品图号" /]
       [@b.datepicker name="workOrder.deadline" label="客户交期" format="yyyy-MM-dd" /]
@@ -19,10 +19,10 @@
           <option value="5">取消</option>
         </select>
       [/@]
-      <input type="hidden" name="orderBy" value="code desc"/>
+      <input type="hidden" name="orderBy" value="salesOrderNo desc"/>
     [/@]
   </div>
-  <div class="search-list">[@b.div id="materiallist" href="!search?materialBy=code desc"/]
+  <div class="search-list">[@b.div id="materiallist" href="!search?materialBy=salesOrderNo desc"/]
   </div>
 </div>
 

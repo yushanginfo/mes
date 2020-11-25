@@ -49,7 +49,7 @@ class OrderSearchAction extends EntityAction[WorkOrder] {
       query.where("workOrder.product.code like :q" +
         " or workOrder.product.specification like :q" +
         " or workOrder.batchNum like :q" +
-        " or workOrder.code like :q ", s"%${q.trim}%")
+        " or workOrder.salesOrderNo like :q ", s"%${q.trim}%")
     }
     query.orderBy("workOrder.updatedAt desc")
     query.limit(getPageLimit)

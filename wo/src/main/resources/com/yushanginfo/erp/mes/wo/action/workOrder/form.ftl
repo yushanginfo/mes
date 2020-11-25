@@ -2,9 +2,10 @@
 [@b.head/]
 [@b.toolbar title="修改工单信息"]bar.addBack();[/@]
   [@b.form action=b.rest.save(workOrder) theme="list" name="workOrderForm"]
-    [@b.textfield name="workOrder.code" label="工单编号" value="${workOrder.code!}" required="true" maxlength="30"/]
+    [@b.textfield name="workOrder.salesOrderNo" label="订单编号" value="${workOrder.salesOrderNo!}" required="true" maxlength="30"/]
+    [@b.select name="workOrder.salesOrderType.id" label="订单类型" value="${(workOrder.salesOrderType.id)!}" required="true"  style="width:200px;" items=salesOrderTypes empty="..." option="id,name"/]
+    [@b.select name="workOrder.workOrderType.id" label="工单类型" value="${(workOrder.workOrderType.id)!}" required="true"  style="width:200px;" items=workOrderTypes empty="..." option="id,name"/]
     [@b.textfield name="workOrder.batchNum" label="生产批号" value="${workOrder.batchNum!}" required="true" maxlength="30"/]
-    [@b.select name="workOrder.orderType.id" label="工单类型" value="${(workOrder.orderType.id)!}" required="true"  style="width:200px;" items=orderTypes empty="..." option="id,name"/]
     [@b.select onchange="fetchScheme(this)" id="productSelect" label="产品信息" name="workOrder.product.id" value=workOrder.product! style="width:400px" empty="..."
             required="true" option="id,title" href="/base/products.json?q={term}&hasTechnicScheme=1" empty="..." /]
     [@b.select label="工单工艺" id="schemeSelect" name="workOrder.technicScheme.id"  style="width:400px"

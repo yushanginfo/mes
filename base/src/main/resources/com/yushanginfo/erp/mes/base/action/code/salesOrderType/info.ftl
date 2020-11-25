@@ -6,11 +6,11 @@
 <table class="infoTable">
   <tr>
     <td class="title" width="20%">代码</td>
-    <td class="content">${orderType.code}</td>
+    <td class="content">${salesOrderType.code}</td>
   </tr>
   <tr>
     <td class="title" width="20%">名称</td>
-    <td class="content">${orderType.name}</td>
+    <td class="content">${salesOrderType.name}</td>
   </tr>
 </table>
 

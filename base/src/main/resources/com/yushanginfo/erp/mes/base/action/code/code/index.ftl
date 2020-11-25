@@ -2,7 +2,8 @@
 [@b.head/]
 [#assign codes={}]
 [#assign codes=codes+{'计量单位':'/code/measurement-unit'}]
-[#assign codes=codes+{'工单类型':'/code/order-type'}]
+[#assign codes=codes+{'订单类型':'/code/sales-order-type'}]
+[#assign codes=codes+{'工单单别':'/code/work-order-type'}]
 [#assign codes=codes+{'品号类型':'/code/material-type'}]
 
 [@b.nav class="nav nav-tabs nav-tabs-compact"  id="code_nav"]

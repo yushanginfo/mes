@@ -7,7 +7,7 @@
 
 [@b.toolbar title=depart.name+  " 工单评审"]bar.addBack();[/@]
   [@b.form action="!saveAssess" theme="list"]
-    [@b.field label="工单编号"]${workOrder.code}[/@]
+    [@b.field label="工单编号"]${workOrder.salesOrderNo}[/@]
     [@b.field label="生产批号"]${workOrder.batchNum}[/@]
     [@b.field label="产品图号"]${workOrder.product.specification!}[/@]
     [@b.field label="工单数量"]${workOrder.amount}[/@]
