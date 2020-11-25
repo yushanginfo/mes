@@ -7,11 +7,11 @@
     [@b.select name="workOrder.workOrderType.id" label="工单类型" value="${(workOrder.workOrderType.id)!}" required="true"  style="width:200px;" items=workOrderTypes empty="..." option="id,name"/]
     [@b.textfield name="workOrder.batchNum" label="生产批号" value="${workOrder.batchNum!}" required="true" maxlength="30"/]
     [@b.select onchange="fetchScheme(this)" id="productSelect" label="产品信息" name="workOrder.product.id" value=workOrder.product! style="width:400px" empty="..."
-            required="true" option="id,title" href="/base/products.json?q={term}&hasTechnicScheme=1" empty="..." /]
+            required="true" option="id,title" href=ems.base+"/mes/base/products.json?q={term}&hasTechnicScheme=1" empty="..." /]
     [@b.select label="工单工艺" id="schemeSelect" name="workOrder.technicScheme.id"  style="width:400px"
                 required="true" option="id,title" empty="..." /]
     [@b.select label="顾客信息" name="workOrder.customer.id" value=workOrder.customer! style="width:400px"
-                required="true" option="id,title" href="/base/customers.json?q={term}" empty="..." /]
+                required="true" option="id,title" href=ems.base+"/mes/base/customers.json?q={term}" empty="..." /]
     [@b.textfield name="workOrder.amount" label="数量" value="${workOrder.amount!}" required="true" maxlength="80"/]
     [@b.select name="workOrder.factory.id" label="所在厂区" value=workOrder.factory! required="true" tyle="width:200px;" items=factories empty="..."/]
     [@b.datepicker name="workOrder.deadline" label="客户交期" value=(workOrder.deadline)!  required="true"  format="yyyy-MM-dd" /]
@@ -30,7 +30,7 @@
       } else {
         $.ajax({
           "type": "POST",
-          "url": "${b.url("/base/technic-schemes.json?scheme.product.id=")}"+productId,
+          "url": "${b.url(ems.base+"/mes/base/technic-schemes.json?scheme.product.id=")}"+productId,
           "async": false,
           "dataType": "json",
           "success": function(data) {

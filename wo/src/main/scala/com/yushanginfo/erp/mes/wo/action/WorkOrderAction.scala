@@ -28,6 +28,7 @@ import org.beangle.data.dao.OqlBuilder
 import org.beangle.data.transfer.excel.ExcelSchema
 import org.beangle.data.transfer.importer.ImportSetting
 import org.beangle.data.transfer.importer.listener.ForeignerListener
+import org.beangle.ems.app.Ems
 import org.beangle.webmvc.api.annotation.response
 import org.beangle.webmvc.api.view.{Stream, View}
 import org.beangle.webmvc.entity.action.RestfulAction
@@ -43,6 +44,7 @@ class WorkOrderAction extends RestfulAction[WorkOrder] {
     put("salesOrderTypes", entityDao.getAll(classOf[SalesOrderType]))
     put("workOrderTypes", entityDao.getAll(classOf[WorkOrderType]))
     put("factories", entityDao.getAll(classOf[Factory]))
+    put("ems",Ems)
     super.editSetting(entity)
   }
 
