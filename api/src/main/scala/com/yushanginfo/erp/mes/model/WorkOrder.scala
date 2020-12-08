@@ -31,11 +31,11 @@ import scala.collection.mutable
  */
 class WorkOrder extends LongId with Updated with Remark {
 
-  /** 订单编号 */
-  var salesOrderNo: String = _
+  /** ? 订单编号 */
+  var salesOrderNo: Option[String] = None
 
-  /** 订单类型 */
-  var salesOrderType: SalesOrderType = _
+  /** ? 订单类型 */
+  var salesOrderType: Option[SalesOrderType] = None
 
   /** 工单单别 */
   var workOrderType: WorkOrderType = _
@@ -44,7 +44,7 @@ class WorkOrder extends LongId with Updated with Remark {
   var batchNum: String = _
 
   /** 客户信息 */
-  var customer: Customer = _
+    var customer: Customer = _
 
   /** 产品信息 */
   var product: Product = _
@@ -65,7 +65,7 @@ class WorkOrder extends LongId with Updated with Remark {
   var scheduledOn: Option[LocalDate] = None
 
   /** 工单状态 */
-  var status: OrderStatus.Status = OrderStatus.Original
+  var status: AssessStatus.Status = AssessStatus.Original
 
   /** 到料日期 */
   var materialAssess: Option[MaterialAssess] = None

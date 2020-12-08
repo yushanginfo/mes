@@ -5,6 +5,7 @@
     <module class="org.beangle.serializer.json.DefaultModule"/>
     <module class="org.beangle.serializer.xml.DefaultModule"/>
 
+    <module class="com.yushanginfo.erp.mes.sync.SyncModule"/>
     <module class="com.yushanginfo.erp.mes.boot.DaoModule"/>
     <module class="org.beangle.ems.app.cas.DefaultModule" />
   </container>

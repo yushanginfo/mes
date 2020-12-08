@@ -18,17 +18,16 @@
  */
 package com.yushanginfo.erp.mes.model
 
-import org.beangle.data.model.LongId
-import org.beangle.data.model.pojo.Updated
+object AssessStatus extends Enumeration(0) {
 
+  class Status(val name: String) extends super.Val {
+  }
 
-class ProductMaterialItem extends LongId with Updated {
-  var product: Product = _
-  var indexno: String = _
-  var material: Material = _
-  var amount: Float = _
-  /**单别 */
-  var cb002: String = _
-  /**单号*/
-  var cb003: String = _
+  val Original = new Status("初始")
+  val Submited = new Status("评审中")
+  val Unpassed = new Status("待复审")
+  val Review = new Status("复审中")
+  val Passed = new Status("通过")
+  val Cancel = new Status("取消")
+
 }

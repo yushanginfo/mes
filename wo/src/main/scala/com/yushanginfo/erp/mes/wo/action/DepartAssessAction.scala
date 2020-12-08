@@ -70,7 +70,7 @@ class DepartAssessAction extends RestfulAction[DepartAssess] {
     put("factories", entityDao.getAll(classOf[Factory]))
     put("assessGroup", entityDao.get(classOf[AssessGroup], longId("group")))
     val order = entityDao.get(classOf[WorkOrder], longId("workOrder"))
-    if (order.status == OrderStatus.Passed) {
+    if (order.status == AssessStatus.Passed) {
       forward(to(classOf[WorkOrderAction], "info", "id=" + order.id))
     } else {
       put("workOrder", order)

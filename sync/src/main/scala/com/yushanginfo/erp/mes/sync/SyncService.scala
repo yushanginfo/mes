@@ -16,18 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.yushanginfo.erp.mes.model
+package com.yushanginfo.erp.mes.sync
 
-object OrderStatus extends Enumeration(0) {
+trait SyncService {
 
-  class Status(val name: String) extends super.Val {
-  }
-
-  val Original = new Status("初始")
-  val Submited = new Status("评审中")
-  val Unpassed = new Status("待复审")
-  val Review = new Status("复审中")
-  val Passed = new Status("通过")
-  val Cancel = new Status("取消")
-
+  def sync(): String
 }

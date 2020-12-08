@@ -23,6 +23,7 @@ import java.time.Instant
 
 import com.yushanginfo.erp.base.model.Factory
 import com.yushanginfo.erp.mes.model.{SalesOrderType, WorkOrder, WorkOrderType}
+import com.yushanginfo.erp.mes.sync.SyncServiceImpl
 import com.yushanginfo.erp.mes.wo.helper.OrderImportHelper
 import org.beangle.data.dao.OqlBuilder
 import org.beangle.data.transfer.excel.ExcelSchema
@@ -35,6 +36,8 @@ import org.beangle.webmvc.entity.action.RestfulAction
 
 class WorkOrderAction extends RestfulAction[WorkOrder] {
 
+  var syncService: SyncServiceImpl = _
+
   override protected def indexSetting(): Unit = {
     put("workOrderTypes", entityDao.getAll(classOf[WorkOrderType]))
     put("factories", entityDao.getAll(classOf[Factory]))
@@ -44,7 +47,7 @@ class WorkOrderAction extends RestfulAction[WorkOrder] {
     put("salesOrderTypes", entityDao.getAll(classOf[SalesOrderType]))
     put("workOrderTypes", entityDao.getAll(classOf[WorkOrderType]))
     put("factories", entityDao.getAll(classOf[Factory]))
-    put("ems",Ems)
+    put("ems", Ems)
     super.editSetting(entity)
   }
 
@@ -53,6 +56,12 @@ class WorkOrderAction extends RestfulAction[WorkOrder] {
       entity.createdAt = Instant.now
     }
     super.saveAndRedirect(entity)
+  }
+
+  def sync(): View = {
+    val rs = syncService.sync()
+    put("rs", rs)
+    forward()
   }
 
   @response

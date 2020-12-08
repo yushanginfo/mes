@@ -18,7 +18,7 @@
  */
 package com.yushanginfo.erp.mes.wo.action
 
-import com.yushanginfo.erp.mes.model.{OrderStatus, WorkOrder}
+import com.yushanginfo.erp.mes.model.{AssessStatus, WorkOrder}
 import org.beangle.data.dao.OqlBuilder
 import org.beangle.webmvc.api.annotation.{mapping, param}
 import org.beangle.webmvc.api.view.View
@@ -39,7 +39,7 @@ class OrderSearchAction extends EntityAction[WorkOrder] {
     mQuery.orderBy("o.product.materialType.id")
     put("materialTypeStat", entityDao.search(mQuery))
 
-    put("statuses", OrderStatus.values)
+    put("statuses", AssessStatus.values)
     forward()
   }
 

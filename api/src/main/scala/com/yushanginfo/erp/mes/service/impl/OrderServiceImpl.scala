@@ -20,7 +20,7 @@ package com.yushanginfo.erp.order.service.impl
 
 import java.time.{LocalDate, ZoneId}
 
-import com.yushanginfo.erp.mes.model.{OrderStatus, WorkOrder}
+import com.yushanginfo.erp.mes.model.{AssessStatus, WorkOrder}
 import com.yushanginfo.erp.order.service.OrderService
 import org.beangle.data.dao.EntityDao
 
@@ -50,9 +50,9 @@ class OrderServiceImpl extends OrderService {
 
         order.scheduledOn = Some(startOn.plusDays(processDays))
         if (order.scheduledOn.get.compareTo(order.deadline) > 0) {
-          order.status = OrderStatus.Unpassed
+          order.status = AssessStatus.Unpassed
         } else {
-          order.status = OrderStatus.Passed
+          order.status = AssessStatus.Passed
         }
       }
     }

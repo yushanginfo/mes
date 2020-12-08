@@ -16,19 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.yushanginfo.erp.mes.model
+package com.yushanginfo.erp.mes.sync
 
-import org.beangle.data.model.LongId
-import org.beangle.data.model.pojo.Updated
+import org.beangle.cdi.bind.BindModule
 
+class SyncModule extends BindModule {
 
-class ProductMaterialItem extends LongId with Updated {
-  var product: Product = _
-  var indexno: String = _
-  var material: Material = _
-  var amount: Float = _
-  /**单别 */
-  var cb002: String = _
-  /**单号*/
-  var cb003: String = _
+  override protected def binding(): Unit = {
+    bind(classOf[SyncServiceImpl])
+  }
+
 }

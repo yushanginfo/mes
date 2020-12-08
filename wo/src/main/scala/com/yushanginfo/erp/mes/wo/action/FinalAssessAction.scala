@@ -18,7 +18,7 @@
  */
 package com.yushanginfo.erp.mes.wo.action
 
-import com.yushanginfo.erp.mes.model.{DepartAssess, OrderStatus, WorkOrder}
+import com.yushanginfo.erp.mes.model.{DepartAssess, AssessStatus, WorkOrder}
 import org.beangle.webmvc.api.view.View
 import org.beangle.webmvc.entity.action.RestfulAction
 
@@ -50,7 +50,7 @@ class FinalAssessAction extends RestfulAction[WorkOrder] {
 		val ids = longIds("workOrder")
 		val workOrders = entityDao.find(classOf[WorkOrder], ids)
 		workOrders.foreach(workOrder => {
-			workOrder.status = OrderStatus.Cancel
+			workOrder.status = AssessStatus.Cancel
 			get("remark").foreach(remark => {
 				workOrder.remark = Option(remark)
 			})

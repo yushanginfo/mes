@@ -20,7 +20,7 @@ package com.yushanginfo.erp.mes.wo.helper
 
 import java.time.Instant
 
-import com.yushanginfo.erp.mes.model.{OrderStatus, WorkOrder}
+import com.yushanginfo.erp.mes.model.{AssessStatus, WorkOrder}
 import org.beangle.data.dao.{EntityDao, OqlBuilder}
 import org.beangle.data.transfer.importer.{ImportListener, ImportResult}
 
@@ -65,7 +65,7 @@ class OrderImportHelper(entityDao: EntityDao) extends ImportListener {
       builder.where("wo.batchNum=:batchNum", batchNum)
       entityDao.search(builder) foreach { p =>
         transfer.current = p
-        if (p.status == OrderStatus.Passed) {
+        if (p.status == AssessStatus.Passed) {
           tr.addFailure("工单已经评审通过，无需导入", batchNum)
         }
       }

@@ -6,33 +6,16 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>erp-mes-wo</artifactId>
-  <packaging>war</packaging>
-  <name>Yushanginfo ERP MES WO</name>
+  <groupId>com.yushanginfo.erp.mes</groupId>
+  <artifactId>erp-mes-sync</artifactId>
+  <packaging>jar</packaging>
+  <name>Yushanginfo ERP MES SYNC</name>
 
   <dependencies>
     <dependency>
       <groupId>com.yushanginfo.erp.mes</groupId>
       <artifactId>erp-mes-api</artifactId>
       <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.yushanginfo.erp.mes</groupId>
-      <artifactId>erp-mes-web</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.yushanginfo.erp.mes</groupId>
-      <artifactId>erp-mes-sync</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>jakarta.servlet</groupId>
-      <artifactId>jakarta.servlet-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.beangle.serializer</groupId>
-      <artifactId>beangle-serializer-text_2.13</artifactId>
     </dependency>
     <dependency>
       <groupId>org.beangle.commons</groupId>
