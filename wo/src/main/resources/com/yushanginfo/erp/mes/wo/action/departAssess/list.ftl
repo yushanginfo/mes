@@ -3,7 +3,7 @@
 [@b.grid items=workOrders var="workOrder"]
   [@b.row]
     [@b.boxcol /]
-    [@b.col width="8%" property="code" title="工单编号"]
+    [@b.col width="8%" property="batchNum" title="工单单号"]
        [@b.a href="work-order!info?id=${workOrder.id}" title="${workOrder.orderType.code} ${workOrder.orderType.name}"]${workOrder.batchNum}[/@]
     [/@]
     [@b.col width="15%" property="product.code" title="产品图号"]${workOrder.product.specification!}[/@]
