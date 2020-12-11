@@ -22,7 +22,7 @@ import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
 import java.time.Instant
 
 import com.yushanginfo.erp.base.model.Factory
-import com.yushanginfo.erp.mes.model.{SalesOrderType, WorkOrder, WorkOrderType}
+import com.yushanginfo.erp.mes.model.{SalesOrderType, WorkOrder, WorkOrderStatus, WorkOrderType}
 import com.yushanginfo.erp.mes.sync.SyncServiceImpl
 import com.yushanginfo.erp.mes.wo.helper.OrderImportHelper
 import org.beangle.data.dao.OqlBuilder
@@ -40,6 +40,7 @@ class WorkOrderAction extends RestfulAction[WorkOrder] {
 
   override protected def indexSetting(): Unit = {
     put("workOrderTypes", entityDao.getAll(classOf[WorkOrderType]))
+    put("workOrderStatuses", entityDao.getAll(classOf[WorkOrderStatus]))
     put("factories", entityDao.getAll(classOf[Factory]))
   }
 
@@ -75,16 +76,15 @@ class WorkOrderAction extends RestfulAction[WorkOrder] {
     sheet.title("工单信息模板")
     sheet.remark("特别说明：\n1、不可改变本表格的行列结构以及批注，否则将会导入失败！\n2、必须按照规格说明的格式填写。\n3、可以多次导入，重复的信息会被新数据更新覆盖。\n4、保存的excel文件名称可以自定。")
     sheet.add("顾客代码", "workOrder.customer.code").length(5).required().remark("≤5位")
-    sheet.add("订单编号", "workOrder.salesOrderNo").length(30).required().remark("≤30位")
     sheet.add("公司图号", "workOrder.product.specification").length(100).remark("≤100位")
     sheet.add("订单类型", "workOrder.salesOrderType.code").ref(salesOrderTypes)
 
     sheet.add("客户交期", "workOrder.deadline").date().required()
     sheet.add("计划交期", "workOrder.plannedEndOn").date().required()
-    sheet.add("生产批号", "workOrder.batchNum").required()
+    sheet.add("工单单号", "workOrder.batchNum").required()
     sheet.add("计划数量", "workOrder.amount").required()
 
-    sheet.add("工单单别", "workOrder.workOrderType.name").required().ref(workOrderTypes)
+    sheet.add("工单单别", "workOrder.orderType.name").required().ref(workOrderTypes)
     sheet.add("厂区", "workOrder.factory.name").required().ref(factories)
     sheet.add("工艺路线编号", "technicScheme.indexno").remark("默认为编号中的第一个")
 

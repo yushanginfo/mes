@@ -18,16 +18,9 @@
  */
 package com.yushanginfo.erp.mes.model
 
-import org.beangle.data.model.LongId
-import org.beangle.data.model.pojo.Updated
+import org.beangle.data.model.IntId
+import org.beangle.data.model.pojo.{Coded, Named}
 
-class ProductMaterialItem extends LongId with Updated {
-  var product: Product = _
-  var indexno: String = _
-  var material: Material = _
-  var amount: Float = _
-  /**单别 */
-  var cb002: String = _
-  /**单号*/
-  var cb003: String = _
+class WorkOrderStatus extends IntId with Coded with Named {
+
 }

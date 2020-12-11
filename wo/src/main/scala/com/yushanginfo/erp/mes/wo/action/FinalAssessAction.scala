@@ -18,45 +18,49 @@
  */
 package com.yushanginfo.erp.mes.wo.action
 
-import com.yushanginfo.erp.mes.model.{DepartAssess, AssessStatus, WorkOrder}
+import com.yushanginfo.erp.mes.model.{AssessStatus, DepartAssess, WorkOrder, WorkOrderStatus, WorkOrderType}
 import org.beangle.webmvc.api.view.View
 import org.beangle.webmvc.entity.action.RestfulAction
 
 class FinalAssessAction extends RestfulAction[WorkOrder] {
+  override protected def indexSetting(): Unit = {
+    put("orderTypes", entityDao.getAll(classOf[WorkOrderType]))
+    put("orderStatuses", entityDao.getAll(classOf[WorkOrderStatus]))
+  }
 
-	override def search(): View = {
-		super.search()
-	}
+  override def search(): View = {
+    super.search()
+  }
 
-	override def info(id: String): View = {
-		super.info(id)
-	}
+  override def info(id: String): View = {
+    super.info(id)
+  }
 
-	def review(): View = {
-		val ids = longIds("workOrder")
-		val workOrders = entityDao.find(classOf[WorkOrder], ids)
-		workOrders.foreach(workOrder => {
-			workOrder.scheduledOn = null
-		})
-		val departAssesses = entityDao.findBy(classOf[DepartAssess], "workOrder", workOrders)
-		departAssesses.foreach(departAssess => {
-			departAssess.passed = false
-		})
-		entityDao.saveOrUpdate(departAssesses)
-		redirect("search", "info.save.success")
-	}
+  def review(): View = {
+    val ids = longIds("workOrder")
+    val workOrders = entityDao.find(classOf[WorkOrder], ids)
+    workOrders.foreach(workOrder => {
+      workOrder.scheduledOn = null
+    })
+    val departAssesses = entityDao.findBy(classOf[DepartAssess], "workOrder", workOrders)
+    departAssesses.foreach(departAssess => {
+      departAssess.passed = false
+    })
+    entityDao.saveOrUpdate(departAssesses)
+    redirect("search", "info.save.success")
+  }
 
-	def cancel(): View = {
-		val ids = longIds("workOrder")
-		val workOrders = entityDao.find(classOf[WorkOrder], ids)
-		workOrders.foreach(workOrder => {
-			workOrder.status = AssessStatus.Cancel
-			get("remark").foreach(remark => {
-				workOrder.remark = Option(remark)
-			})
-		})
-		entityDao.saveOrUpdate(workOrders)
-		redirect("search", "info.save.success")
-	}
+  def cancel(): View = {
+    val ids = longIds("workOrder")
+    val workOrders = entityDao.find(classOf[WorkOrder], ids)
+    workOrders.foreach(workOrder => {
+      workOrder.assessStatus = AssessStatus.Cancel
+      get("remark").foreach(remark => {
+        workOrder.remark = Option(remark)
+      })
+    })
+    entityDao.saveOrUpdate(workOrders)
+    redirect("search", "info.save.success")
+  }
 
 }

@@ -5,22 +5,16 @@
 [/@]
 <table class="infoTable">
   <tr>
-    <td class="title"  width="20%">工单编号</td>
-    <td class="content">${workOrder.salesOrderNo}</td>
-    <td class="title"  width="20%">生产批号</td>
+    <td class="title"  width="20%">工单单别</td>
+    <td class="content">${workOrder.orderType.name}</td>
+    <td class="title"  width="20%">工单单号</td>
     <td class="content">${workOrder.batchNum}</td>
   </tr>
   <tr>
     <td class="title">品号</td>
     <td class="content">${(workOrder.product.code)!}</td>
-    <td class="title">工单类型</td>
-    <td class="content">${(workOrder.orderType.name)!}</td>
-  </tr>
-  <tr>
     <td class="title">产品图号</td>
     <td class="content">${(workOrder.product.specification)!}</td>
-    <td class="title">客户信息</td>
-    <td class="content">${(workOrder.product.customer.code)!} ${(workOrder.product.customer.name)!}</td>
   </tr>
   <tr>
     <td class="title">工单数量</td>
@@ -29,35 +23,39 @@
     <td class="content">${workOrder.factory.name}</td>
   </tr>
   <tr>
+    <td class="title">工单状态</td>
+    <td class="content">${(workOrder.status.name)!}</td>
+    <td class="title">评审状态</td>
+    <td class="content">${workOrder.assessStatus.name!}</td>
+  </tr>
+  <tr>
     <td class="title">客户交期</td>
     <td class="content">${(workOrder.deadline?string("yyyy-MM-dd" ))!}</td>
     <td class="title">计划交期</td>
-    <td class="content">${(workOrder.plannedEndOn?string("yyyy-MM-dd" ))!}</td>
+    <td class="content">${(workOrder.plannedEndOn?string("yyyy-MM-dd"))!}</td>
   </tr>
   <tr>
     <td class="title">到料日期</td>
-    <td class="content">${(workOrder.materialDate?string("yyyy-MM-dd" ))!}</td>
+    <td class="content">[#if workOrder.materialAssess??] [#if workOrder.materialAssess.ready]有料[#else] ${(workOrder.materialAssess.readyOn?string("yyyy-MM-dd"))!}[/#if][/#if]</td>
     <td class="title">评审交期</td>
     <td class="content">${(workOrder.scheduledOn?string("yyyy-MM-dd" ))!}</td>
   </tr>
   <tr>
     <td class="title">材料清单</td>
     <td class="content" colspan="3">
-      [#list workOrder.product.bom as m]
-        ${m.indexno} ${m.material.code} ${m.material.name} ${m.material.specification} ${m.amount}[#if m_has_next]<br>[/#if]
-      [/#list]
+      [#list workOrder.product.bom as i]${i.material.name} ${i.material.specification!} [#if i.amount??]${i.amount*workOrder.amount} ${i.material.unit.name}[#else]??[/#if][#if i_has_next]<br>[/#if][/#list]
     </td>
   </tr>
   <tr>
     <td class="title">工艺列表</td>
     <td class="content"  colspan="3">
       [#assign scheme  = workOrder.technicScheme]
-      ${scheme.name}([#list scheme.technics as t]${t.technic.name}[#if t_has_next],[/#if][/#list])
+      ${scheme.name}([#list scheme.technics as t]<span title="${(t.technic.assessGroup.name)!'--'}">${t.technic.name}</span>[#if t_has_next],[/#if][/#list])
     </td>
   </tr>
   <tr>
     <td class="title">评审信息</td>
-    <td class="content"  colspan="3">
+    <td class="content" colspan="3">
     [#assign assessMap={}/]
 [#list workOrder.assesses as assess]
      [#assign assessMap=assessMap+{assess.technic.id?string:assess}]
@@ -72,10 +70,8 @@
     </td>
   </tr>
   <tr>
-    <td class="title">工单状态</td>
-    <td class="content">${workOrder.status.name!}</td>
     <td class="title">说明</td>
-    <td class="content">${workOrder.remark!}</td>
+    <td class="content" colspan="3">${workOrder.remark!}</td>
   </tr>
 </table>
 

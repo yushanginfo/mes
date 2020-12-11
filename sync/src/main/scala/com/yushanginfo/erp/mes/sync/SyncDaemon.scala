@@ -16,18 +16,28 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.yushanginfo.erp.mes.model
+package com.yushanginfo.erp.mes.sync
 
-import org.beangle.data.model.LongId
-import org.beangle.data.model.pojo.Updated
+import java.util.{Timer, TimerTask}
 
-class ProductMaterialItem extends LongId with Updated {
-  var product: Product = _
-  var indexno: String = _
-  var material: Material = _
-  var amount: Float = _
-  /**单别 */
-  var cb002: String = _
-  /**单号*/
-  var cb003: String = _
+import org.beangle.commons.logging.Logging
+
+object SyncDaemon extends Logging {
+  def start(name: String, intervalHours: Int, syncService: SyncService): Unit = {
+    logger.info(s"Starting $name Daemon,Running within every $intervalHours hours.")
+    val daemon = new SyncDaemon(syncService)
+    new Timer(s"$name Daemon", true).schedule(daemon,
+      new java.util.Date(System.currentTimeMillis + 5000), intervalHours * 3600 * 1000)
+  }
+}
+
+class SyncDaemon(syncService: SyncService) extends TimerTask with Logging {
+  override def run(): Unit = {
+    try {
+      val r = syncService.sync()
+      logger.info(r)
+    } catch {
+      case e: Throwable => e.printStackTrace()
+    }
+  }
 }

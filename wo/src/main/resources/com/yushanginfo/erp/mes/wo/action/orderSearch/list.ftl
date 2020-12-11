@@ -7,7 +7,7 @@
       </h3>
       [@b.form name="orderSearchForm" action="!search" class="form-inline ml-3 float-right" ]
         <div class="input-group input-group-sm ">
-          <input class="form-control form-control-navbar" type="search" name="q" value="${Parameters['q']!}" aria-label="Search" placeholder="品号、图号、工单号、生产批号" autofocus="autofocus">
+          <input class="form-control form-control-navbar" type="search" name="q" value="${Parameters['q']!}" aria-label="Search" placeholder="工单单号、图号、品号" autofocus="autofocus">
           [#list Parameters as k,v]
              [#if k != "q"]
              <input name="${k}" value="${v}" type="hidden">
@@ -25,10 +25,7 @@
 
         <table class="table table-hover table-sm">
           <thead>
-             <th>工单编号</th>
-             <th>生产批号</th>
-             <th>工单类型</th>
-             <th>客户</th>
+             <th>工单单号</th>
              <th>产品图号</th>
              <th>产品名称</th>
              <th>数量</th>
@@ -40,17 +37,14 @@
           <tbody>
           [#list workOrders as order]
            <tr>
-            <td>[@b.a href="!info?id="+order.id]${order.code}[/@]</td>
-            <td>${order.batchNum}</td>
-            <td>${order.orderType.name}</td>
-            <td>${order.customer.code}</td>
+            <td>[@b.a href="!info?id=${order.id}" title="${order.orderType.code} ${order.orderType.name}"]${order.batchNum}[/@]</td>
             <td>${order.product.specification!}</td>
             <td>${order.product.name}</td>
             <td>${order.amount}</td>
             <td>${(order.deadline?string("yyyy-MM-dd"))!}</td>
             <td>${(order.plannedEndOn?string("yyyy-MM-dd"))!}</td>
             <td>${(order.scheduledOn?string("yyyy-MM-dd"))!}</td>
-            <td>${order.status.name}</td>
+            <td>${order.assessStatus.name}</td>
            </tr>
            [/#list]
           </tbody>

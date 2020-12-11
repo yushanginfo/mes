@@ -18,7 +18,7 @@
  */
 package com.yushanginfo.erp.mes.wo.action
 
-import com.yushanginfo.erp.mes.model.{AssessStatus, WorkOrder}
+import com.yushanginfo.erp.mes.model.{AssessStatus, WorkOrder, WorkOrderType}
 import org.beangle.data.dao.OqlBuilder
 import org.beangle.webmvc.api.annotation.{mapping, param}
 import org.beangle.webmvc.api.view.View
@@ -26,12 +26,16 @@ import org.beangle.webmvc.entity.action.EntityAction
 
 class OrderSearchAction extends EntityAction[WorkOrder] {
 
-
   def index(): View = {
     val dQuery = OqlBuilder.from(classOf[WorkOrder].getName, "o")
-    dQuery.groupBy("o.status").select("o.status,count(*)")
-    dQuery.orderBy("o.status")
-    put("stateStat", entityDao.search(dQuery))
+    dQuery.groupBy("o.status.id,o.status.name").select("o.status.id,o.status.name,count(*)")
+    dQuery.orderBy("o.status.id")
+    put("statusStat", entityDao.search(dQuery))
+
+    val sQuery = OqlBuilder.from(classOf[WorkOrder].getName, "o")
+    sQuery.groupBy("o.assessStatus").select("o.assessStatus,count(*)")
+    sQuery.orderBy("o.assessStatus")
+    put("assessStatusStat", entityDao.search(sQuery))
 
     val mQuery = OqlBuilder.from(classOf[WorkOrder].getName, "o")
     mQuery.groupBy("o.product.materialType.id,o.product.materialType.name")
@@ -39,7 +43,8 @@ class OrderSearchAction extends EntityAction[WorkOrder] {
     mQuery.orderBy("o.product.materialType.id")
     put("materialTypeStat", entityDao.search(mQuery))
 
-    put("statuses", AssessStatus.values)
+    put("assessStatuses", AssessStatus.values)
+    put("statuses", entityDao.getAll(classOf[WorkOrderType]))
     forward()
   }
 
@@ -48,8 +53,7 @@ class OrderSearchAction extends EntityAction[WorkOrder] {
     get("q") foreach { q =>
       query.where("workOrder.product.code like :q" +
         " or workOrder.product.specification like :q" +
-        " or workOrder.batchNum like :q" +
-        " or workOrder.salesOrderNo like :q ", s"%${q.trim}%")
+        " or workOrder.batchNum like :q", s"%${q.trim}%")
     }
     query.orderBy("workOrder.updatedAt desc")
     query.limit(getPageLimit)

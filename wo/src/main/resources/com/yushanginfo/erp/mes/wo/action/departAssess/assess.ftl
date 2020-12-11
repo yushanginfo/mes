@@ -5,19 +5,19 @@
     [#assign assessMap=assessMap+{assess.technic.id?string:assess}]
   [/#list]
 
-[@b.toolbar title=depart.name+  " 工单评审"]bar.addBack();[/@]
+[@b.toolbar title=assessGroup.name+  " 工单评审"]bar.addBack();[/@]
   [@b.form action="!saveAssess" theme="list"]
-    [@b.field label="工单编号"]${workOrder.salesOrderNo}[/@]
-    [@b.field label="生产批号"]${workOrder.batchNum}[/@]
+    [@b.field label="工单单号"]${workOrder.orderType.name}-${workOrder.batchNum}[/@]
     [@b.field label="产品图号"]${workOrder.product.specification!}[/@]
-    [@b.field label="工单数量"]${workOrder.amount}[/@]
-    [@b.field label="客户交期"]${workOrder.deadline?string("yyyy-MM-dd")}[/@]
+    [@b.field label="数量"]${workOrder.amount}[/@]
+    [@b.field label="客户交期"]${(workOrder.deadline?string("yyyy-MM-dd"))!}[/@]
     [@b.field label="计划交期"]${(workOrder.plannedEndOn?string("yyyy-MM-dd"))}[/@]
-    [@b.field label="到料日期"]${(workOrder.materialDate?string("yyyy-MM-dd" ))!}[/@]
-    [@b.field label="工单备注"]${(workOrder.remark)?default("无")}[/@]
+    [@b.field label="到料日期"][#if workOrder.materialAssess??] [#if workOrder.materialAssess.ready]有料[#else] ${(workOrder.materialAssess.readyOn?string("yyyy-MM-dd"))!}[/#if][/#if][/@]
+    [@b.field label="备注"]${(workOrder.remark)?default("无")}[/@]
 
     [#list workOrder.technicScheme.technics as pt]
-    [#if depart.id==pt.technic.depart.id]
+    [#if !pt.technic.assessGroup??][#continue/][/#if]
+    [#if assessGroup.id==pt.technic.assessGroup.id]
     [#assign technic=pt.technic/]
     [@b.field label=pt.technic.name]
         <select name="technic_${technic.id}.factory.id" style="width:80px">
@@ -41,7 +41,7 @@
     [/#list]
     [@b.formfoot]
     <input type="hidden" name="workOrderId" value="${workOrder.id}"/>
-    <input type="hidden" name="departId" value="${depart.id}"/>
+    <input type="hidden" name="assessGroupId" value="${assessGroup.id}"/>
       [@b.reset/]&nbsp;&nbsp;[@b.submit value="action.submit"/]
     [/@]
   [/@]

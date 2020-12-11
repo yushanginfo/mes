@@ -80,5 +80,9 @@ class DefaultMapping extends MappingModule {
     bind[AssessMember] declare { e =>
       index("", true, e.group, e.user, e.factory)
     }
+
+    bind[WorkOrderStatus] declare { e =>
+      e.code.is (length(10),unique)
+    }
   }
 }

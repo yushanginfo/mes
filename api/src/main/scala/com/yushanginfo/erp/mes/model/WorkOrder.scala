@@ -20,7 +20,7 @@ package com.yushanginfo.erp.mes.model
 
 import java.time.{Instant, LocalDate}
 
-import com.yushanginfo.erp.base.model.{Customer, Factory}
+import com.yushanginfo.erp.base.model.Factory
 import org.beangle.commons.collection.Collections
 import org.beangle.data.model.LongId
 import org.beangle.data.model.pojo.{Remark, Updated}
@@ -31,20 +31,11 @@ import scala.collection.mutable
  */
 class WorkOrder extends LongId with Updated with Remark {
 
-  /** ? 订单编号 */
-  var salesOrderNo: Option[String] = None
-
-  /** ? 订单类型 */
-  var salesOrderType: Option[SalesOrderType] = None
-
   /** 工单单别 */
-  var workOrderType: WorkOrderType = _
+  var orderType: WorkOrderType = _
 
-  /** 生产批号 */
+  /** 工单单号 */
   var batchNum: String = _
-
-  /** 客户信息 */
-    var customer: Customer = _
 
   /** 产品信息 */
   var product: Product = _
@@ -56,7 +47,7 @@ class WorkOrder extends LongId with Updated with Remark {
   var amount: Int = _
 
   /** 客户交付日期 */
-  var deadline: LocalDate = _
+  var deadline: Option[LocalDate] = None
 
   /** 计划交付日期 */
   var plannedEndOn: LocalDate = _
@@ -64,8 +55,11 @@ class WorkOrder extends LongId with Updated with Remark {
   /** 评审交付日期 */
   var scheduledOn: Option[LocalDate] = None
 
-  /** 工单状态 */
-  var status: AssessStatus.Status = AssessStatus.Original
+  /**工单状态*/
+  var status: WorkOrderStatus = _
+
+  /** 工单评审状态 */
+  var assessStatus: AssessStatus.Status = AssessStatus.Original
 
   /** 到料日期 */
   var materialAssess: Option[MaterialAssess] = None

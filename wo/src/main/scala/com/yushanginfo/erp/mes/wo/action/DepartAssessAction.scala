@@ -35,7 +35,8 @@ class DepartAssessAction extends RestfulAction[DepartAssess] {
   var orderService: OrderService = _
 
   override protected def indexSetting(): Unit = {
-    put("orderTypes", entityDao.getAll(classOf[SalesOrderType]))
+    put("orderTypes", entityDao.getAll(classOf[WorkOrderType]))
+    put("orderStatuses",entityDao.getAll(classOf[WorkOrderStatus]))
   }
 
   override def search(): View = {
@@ -68,9 +69,9 @@ class DepartAssessAction extends RestfulAction[DepartAssess] {
 
   def assess(): View = {
     put("factories", entityDao.getAll(classOf[Factory]))
-    put("assessGroup", entityDao.get(classOf[AssessGroup], longId("group")))
+    put("assessGroup", entityDao.get(classOf[AssessGroup], longId("assessGroup")))
     val order = entityDao.get(classOf[WorkOrder], longId("workOrder"))
-    if (order.status == AssessStatus.Passed) {
+    if (order.assessStatus == AssessStatus.Passed) {
       forward(to(classOf[WorkOrderAction], "info", "id=" + order.id))
     } else {
       put("workOrder", order)
@@ -79,7 +80,7 @@ class DepartAssessAction extends RestfulAction[DepartAssess] {
   }
 
   def saveAssess(): View = {
-    val group = entityDao.get(classOf[AssessGroup], longId("group"))
+    val group = entityDao.get(classOf[AssessGroup], longId("assessGroup"))
     val order = entityDao.get(classOf[WorkOrder], longId("workOrder"))
     val technicSet = order.technicScheme.technics.map(_.technic).toSet
     val removedAssess = order.assesses.filter { x => !technicSet.contains(x.technic) }

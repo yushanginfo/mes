@@ -4,11 +4,10 @@
   [@b.form action=b.rest.save(departAssess) theme="list"]
     <input type="hidden" name="workOrderId" value="${workOrder.id}"/>
     <input type="hidden" name="technicId" value="${technic.id}"/>
-    [@b.field label="工单编号"]${workOrder.salesOrderNo}[/@]
-    [@b.field label="生产批号"]${workOrder.batchNum}[/@]
+    [@b.field label="工单单号"]${workOrder.orderType.code}-${workOrder.batchNum}[/@]
     [@b.field label="产品图号"]${workOrder.product.code}[/@]
     [@b.field label="工单数量"]${workOrder.amount}[/@]
-    [@b.field label="客户交期"]${workOrder.deadline?string("yyyy-MM-dd")}[/@]
+    [@b.field label="客户交期"]${(workOrder.deadline?string("yyyy-MM-dd"))!}[/@]
     [@b.field label="工单备注"]${(workOrder.remark)?default("无")}[/@]
     [@b.field label="工艺"]${technic.name}[/@]
     [@b.textfield name="departAssess.days" label="需要天数" value="${departAssess.days!}" required="true" /]

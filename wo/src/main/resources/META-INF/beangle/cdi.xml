@@ -2,5 +2,6 @@
 <cdi>
   <container name="web">
     <module class="com.yushanginfo.erp.mes.wo.action.DefaultModule"/>
+    <module class="com.yushanginfo.erp.mes.sync.SyncModule"/>
   </container>
 </cdi>

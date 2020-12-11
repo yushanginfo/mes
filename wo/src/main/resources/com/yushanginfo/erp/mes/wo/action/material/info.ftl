@@ -5,56 +5,73 @@
 [/@]
 <table class="infoTable">
   <tr>
-    <td class="title" width="20%">订单编号</td>
-    <td class="content">${workOrder.salesOrderNo}</td>
-  </tr>
-  <tr>
-    <td class="title" width="20%">生产批号</td>
+    <td class="title" width="20%">工单单别</td>
+    <td class="content">${workOrder.orderType.name}</td>
+    <td class="title" width="20%">工单单号</td>
     <td class="content">${workOrder.batchNum}</td>
   </tr>
   <tr>
-    <td class="title" width="20%">产品图号</td>
+    <td class="title">品号</td>
     <td class="content">${(workOrder.product.code)!}</td>
+    <td class="title">产品图号</td>
+    <td class="content">${(workOrder.product.specification)!}</td>
   </tr>
   <tr>
-    <td class="title" width="20%">顾客代码</td>
-    <td class="content">${(workOrder.customer.code)!}</td>
-  </tr>
-  <tr>
-    <td class="title" width="20%">工单数量</td>
+    <td class="title">工单数量</td>
     <td class="content">${workOrder.amount!}</td>
+    <td class="title">所在厂区</td>
+    <td class="content">${workOrder.factory.name}</td>
   </tr>
   <tr>
-    <td class="title" width="20%">到料日期</td>
-    <td class="content">${(workOrder.materialDate?string("yyyy-MM-dd" ))!}</td>
+    <td class="title">工单状态</td>
+    <td class="content">${(workOrder.status.name)!}</td>
+    <td class="title">评审状态</td>
+    <td class="content">${workOrder.assessStatus.name!}</td>
   </tr>
   <tr>
-    <td class="title" width="20%">客户交期</td>
+    <td class="title">客户交期</td>
     <td class="content">${(workOrder.deadline?string("yyyy-MM-dd" ))!}</td>
+    <td class="title">计划交期</td>
+    <td class="content">${(workOrder.plannedEndOn?string("yyyy-MM-dd"))!}</td>
   </tr>
-
   <tr>
-    <td class="title" width="20%">材料清单</td>
-    <td class="content">
-      [#list workOrder.product.bom as m]
+    <td class="title">到料日期</td>
+    <td class="content">[#if workOrder.materialAssess??] [#if workOrder.materialAssess.ready]有料[#else] ${(workOrder.materialAssess.readyOn?string("yyyy-MM-dd"))!}[/#if][/#if]</td>
+    <td class="title">评审交期</td>
+    <td class="content">${(workOrder.scheduledOn?string("yyyy-MM-dd" ))!}</td>
+  </tr>
+  <tr>
+    <td class="title">材料清单</td>
+    <td class="content" colspan="3">
          [#list workOrder.product.bom as i]${i.material.name} ${i.material.specification!} [#if i.amount??]${i.amount*workOrder.amount} ${i.material.unit.name}[#else]??[/#if][#if i_has_next]<br>[/#if][/#list]
-      [/#list]
     </td>
   </tr>
   <tr>
-    <td class="title" width="20%">工艺列表</td>
-    <td class="content">
-      [#assign scheme  = workOrder.technicScheme]
+    <td class="title">工艺列表</td>
+    <td class="content" colspan="3">
+      [#assign scheme = workOrder.technicScheme]
       ${scheme.name}([#list scheme.technics as t]${t.technic.name}[#if t_has_next],[/#if][/#list])
     </td>
   </tr>
   <tr>
-    <td class="title" width="20%">工单状态</td>
-    <td class="content">${workOrder.status.name!}</td>
+    <td class="title">评审信息</td>
+    <td class="content"  colspan="3">
+    [#assign assessMap={}/]
+[#list workOrder.assesses as assess]
+     [#assign assessMap=assessMap+{assess.technic.id?string:assess}]
+[/#list]
+      [#list workOrder.technicScheme.technics as pt]
+         ${pt.technic.name}(${pt.description!})
+         [#if assessMap[pt.technic.id?string]??]
+         [#assign assess=assessMap[pt.technic.id?string]/]
+         ${assess.factory.name} ${assess.days}天 <span style="font-size:0.8rem;color: #999;">${(assess.assessedBy.name)!} ${assess.updatedAt?string("yyyy-MM-dd HH:mm")}</span>
+         [#else]尚未评审[/#if] [#if pt_has_next]<br>[/#if]
+      [/#list]
+    </td>
   </tr>
   <tr>
-    <td class="title" width="20%">工单备注</td>
-    <td class="content">${workOrder.remark!}</td>
+    <td class="title">工单备注</td>
+    <td class="content" colspan="3">${workOrder.remark!}</td>
   </tr>
 </table>
 

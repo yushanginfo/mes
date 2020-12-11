@@ -18,9 +18,18 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
+      <groupId>org.beangle.ems</groupId>
+      <artifactId>beangle-ems-app_2.13</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.beangle.commons</groupId>
       <artifactId>beangle-commons-file_2.13</artifactId>
       <version>${beangle.commons.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.beangle.db</groupId>
+      <artifactId>beangle-db-transport_2.13</artifactId>
+      <version>0.0.7-SNAPSHOT</version>
     </dependency>
   </dependencies>
 </project>

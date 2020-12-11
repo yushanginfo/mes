@@ -5,6 +5,7 @@
   <div class="search-panel">
     [@b.form name="technicSchemeSearchForm" action="!search" target="technicSchemelist" title="ui.searchForm" theme="search"]
       [@b.textfields names="technicScheme.product.code;品号"/]
+      [@b.textfields names="technicScheme.product.specification;图号"/]
       [@b.textfields names="technicScheme.product.name;品名"/]
       [@b.textfields names="technicScheme.indexno;编号"/]
       [@b.textfields names="technicScheme.name;名称"/]

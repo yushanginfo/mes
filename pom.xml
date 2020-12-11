@@ -32,7 +32,7 @@
     <bundle.namespace>com.yushanginfo</bundle.namespace>
     <beangle.commons.version>5.2.0</beangle.commons.version>
     <beangle.cdi.version>0.2.3</beangle.cdi.version>
-    <beangle.data.version>5.3.13</beangle.data.version>
+    <beangle.data.version>5.3.16</beangle.data.version>
     <beangle.template.version>0.0.28</beangle.template.version>
     <beangle.serializer.version>0.0.16</beangle.serializer.version>
     <beangle.cache.version>0.0.20</beangle.cache.version>

@@ -1,11 +1,10 @@
 [#ftl]
 [@b.head/]
-[@b.toolbar title="工单信息"/]
+[@b.toolbar title="工单到料信息"/]
 <div class="search-container">
   <div class="search-panel">
     [@b.form name="materialSearchForm" action="!search" target="materiallist" title="ui.searchForm" theme="search"]
-      [@b.textfields names="workOrder.salesOrderNo;订单编号"/]
-      [@b.textfields names="workOrder.batchNum;生产批号"/]
+      [@b.textfields names="workOrder.batchNum;工单单号"/]
       [@b.textfield name="workOrder.product.specification" label="产品图号" /]
       [@b.datepicker name="workOrder.deadline" label="客户交期" format="yyyy-MM-dd" /]
       [@b.field label="工单状态"]
@@ -19,10 +18,10 @@
           <option value="5">取消</option>
         </select>
       [/@]
-      <input type="hidden" name="orderBy" value="salesOrderNo desc"/>
+      <input type="hidden" name="orderBy" value="workOrder.createdAt desc"/>
     [/@]
   </div>
-  <div class="search-list">[@b.div id="materiallist" href="!search?materialBy=salesOrderNo desc"/]
+  <div class="search-list">[@b.div id="materiallist" href="!search?materialBy=workOrder.createdAt desc"/]
   </div>
 </div>
 
