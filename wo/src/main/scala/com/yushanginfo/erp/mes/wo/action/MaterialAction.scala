@@ -21,7 +21,7 @@ package com.yushanginfo.erp.mes.wo.action
 import java.time.Instant
 
 import com.yushanginfo.erp.base.model.User
-import com.yushanginfo.erp.mes.model.{AssessStatus, MaterialAssess, WorkOrder}
+import com.yushanginfo.erp.mes.model._
 import com.yushanginfo.erp.order.service.OrderService
 import org.beangle.security.Securities
 import org.beangle.webmvc.api.view.View
@@ -31,6 +31,8 @@ class MaterialAction extends RestfulAction[WorkOrder] {
   var orderService: OrderService = _
 
   override protected def indexSetting(): Unit = {
+    put("orderTypes", entityDao.getAll(classOf[WorkOrderType]))
+    put("orderStatuses", entityDao.getAll(classOf[WorkOrderStatus]))
   }
 
   override def editSetting(entity: WorkOrder): Unit = {

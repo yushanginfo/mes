@@ -49,23 +49,17 @@
   <tr>
     <td class="title">工艺列表</td>
     <td class="content"  colspan="3">
-      [#assign scheme  = workOrder.technicScheme]
-      ${scheme.name}([#list scheme.technics as t]<span title="${(t.technic.assessGroup.name)!'--'}">${t.technic.name}</span>[#if t_has_next],[/#if][/#list])
+       [#list workOrder.technics as wt]<span title="${(wt.technic.assessGroup.name)!'--'}">${wt.technic.name}</span>[#if wt_has_next],[/#if][/#list]
     </td>
   </tr>
   <tr>
     <td class="title">评审信息</td>
     <td class="content" colspan="3">
-    [#assign assessMap={}/]
-[#list workOrder.assesses as assess]
-     [#assign assessMap=assessMap+{assess.technic.id?string:assess}]
-[/#list]
-      [#list workOrder.technicScheme.technics as pt]
-         ${pt.technic.name}(${pt.description!})
-         [#if assessMap[pt.technic.id?string]??]
-         [#assign assess=assessMap[pt.technic.id?string]/]
-         ${assess.factory.name} ${assess.days}天 <span style="font-size:0.8rem;color: #999;">${(assess.assessedBy.name)!} ${assess.updatedAt?string("yyyy-MM-dd HH:mm")}</span>
-         [#else]尚未评审[/#if] [#if pt_has_next]<br>[/#if]
+      [#list workOrder.technics as wt]
+         ${wt.indexno} ${wt.technic.name}(${wt.technic.description!})
+         [#if wt.days??]
+         ${wt.factory.name} ${wt.days}天 <span style="font-size:0.8rem;color: #999;">${(wt.assessedBy.name)!} ${wt.updatedAt?string("yyyy-MM-dd HH:mm")} [#if !wt.passed]需要复审[/#if]</span>
+         [#else]尚未评审[/#if] [#if wt_has_next]<br>[/#if]
       [/#list]
     </td>
   </tr>

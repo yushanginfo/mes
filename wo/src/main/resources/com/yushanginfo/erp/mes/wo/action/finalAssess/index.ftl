@@ -7,7 +7,7 @@
       [@b.select name="workOrder.orderType.id" label="工单单别" items=orderTypes empty="..." option="id,name"/]
       [@b.textfields names="workOrder.batchNum;工单单号,workOrder.product.specification;产品图号"/]
       [@b.select name="workOrder.status.id" label="工单状态" items=orderStatuses empty="..." option="id,name"/]
-      [@b.field label="审核状态"]
+      [@b.field label="评审状态"]
         <select name="workOrder.assessStatus">
           <option value="">...</option>
           <option value="0">初始</option>
@@ -21,7 +21,7 @@
       <input type="hidden" name="orderBy" value="workOrder.createdAt desc"/>
     [/@]
   </div>
-  <div class="search-list">[@b.div id="workOrderlist" href="!search?workOrderBy=workOrder.createdAt desc"/]
+  <div class="search-list">[@b.div id="workOrderlist" href="!search?orderBy=workOrder.createdAt desc"/]
   </div>
 </div>
 

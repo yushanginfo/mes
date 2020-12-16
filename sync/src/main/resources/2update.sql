@@ -134,3 +134,28 @@ shtz.mocta ta where ta.ta001=wot.code and wot.id=wo.order_type_id and ta.ta002=w
 
 --28. 更新工单评审状态
 update  mes.work_orders wo set assess_status=4 where assess_status=0 and status_id in(4,5);
+
+--29 更新工单工艺-性质
+update mes.work_order_technics tech set internal = (select case when ta.ta005 ='1' then true else false end from mes.work_orders wo,mes.work_order_types wot,shtz.sfcta ta
+where wo.order_type_id = wot.id and ta.ta001=wot.code and ta.ta002=wo.batch_num and ta.ta003=tech.indexno and tech.work_order_id=wo.id
+and ta.ta006=tech.machine_supplier_code)
+where exists (select * from mes.work_orders wo,mes.work_order_types wot,shtz.sfcta ta
+where wo.order_type_id = wot.id and ta.ta001=wot.code and ta.ta002=wo.batch_num and ta.ta003=tech.indexno and tech.work_order_id=wo.id
+and ta.ta006=tech.machine_supplier_code and case when ta.ta005 ='1' then true else false end <> tech.internal);
+
+--30 更新工单工艺-描述
+update mes.work_order_technics tech set description = (select ta024 from mes.work_orders wo,mes.work_order_types wot,shtz.sfcta ta
+where wo.order_type_id = wot.id and ta.ta001=wot.code and ta.ta002=wo.batch_num and ta.ta003=tech.indexno and tech.work_order_id=wo.id
+and ta.ta006=tech.machine_supplier_code)
+where exists (select * from mes.work_orders wo,mes.work_order_types wot,shtz.sfcta ta
+where wo.order_type_id = wot.id and ta.ta001=wot.code and ta.ta002=wo.batch_num and ta.ta003=tech.indexno and tech.work_order_id=wo.id
+and ta.ta006=tech.machine_supplier_code and coalesce(ta024,'-')<> coalesce(tech.description,'-'));
+
+--31 更新工单工艺-工艺
+update mes.work_order_technics tech set technic_id = (select t.id from mes.work_orders wo,mes.work_order_types wot,shtz.sfcta ta,mes.technics t
+where wo.order_type_id = wot.id and ta.ta001=wot.code and ta.ta002=wo.batch_num and ta.ta003=tech.indexno and tech.work_order_id=wo.id
+and t.code=ta.ta004
+and ta.ta006=tech.machine_supplier_code)
+where exists (select * from mes.work_orders wo,mes.work_order_types wot,shtz.sfcta ta,mes.technics t
+where wo.order_type_id = wot.id and ta.ta001=wot.code and ta.ta002=wo.batch_num and ta.ta003=tech.indexno and tech.work_order_id=wo.id
+and ta.ta006=tech.machine_supplier_code and t.code=ta.ta004 and t.id <> tech.technic_id);

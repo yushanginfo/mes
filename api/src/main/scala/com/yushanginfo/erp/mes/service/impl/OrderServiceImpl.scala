@@ -29,21 +29,15 @@ class OrderServiceImpl extends OrderService {
   var entityDao: EntityDao = _
 
   override def recalcState(order: WorkOrder): Unit = {
-    val notComplete =
-      order.technicScheme.technics.exists { pt =>
-        val passed = order.assesses.exists { assess =>
-          assess.technic == pt.technic && assess.passed
-        }
-        !passed
-      }
+    val notComplete = order.technics.exists(!_.passed.getOrElse(false))
 
     //计算计划完工时间
     order.materialAssess foreach { materialAssess =>
       if (!notComplete && order.scheduledOn.isEmpty) {
-        val processDays = order.assesses.foldLeft(0)(_ + _.days)
+        val processDays = order.technics.foldLeft(0)(_ + _.days.get)
         val startOn =
           if (materialAssess.ready) {
-            LocalDate.ofInstant(order.assesses.map(_.updatedAt).max, ZoneId.systemDefault()).plusDays(1)
+            LocalDate.ofInstant(order.technics.map(_.updatedAt).max, ZoneId.systemDefault()).plusDays(1)
           } else {
             materialAssess.readyOn.get
           }

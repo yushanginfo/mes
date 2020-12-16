@@ -18,7 +18,7 @@
  */
 package com.yushanginfo.erp.mes.model
 
-import com.yushanginfo.erp.base.model.{Factory, User}
+import com.yushanginfo.erp.base.model.{Factory, Supplier, User}
 import org.beangle.data.model.LongId
 import org.beangle.data.model.pojo.Updated
 
@@ -26,9 +26,9 @@ import org.beangle.data.model.pojo.Updated
 /**
  * 评估信息
  */
-class DepartAssess extends LongId with Updated {
+class WorkOrderTechnic extends LongId with Updated {
 
-  def this(workOrder: WorkOrder, technic: Technic)= {
+  def this(workOrder: WorkOrder, technic: Technic) = {
     this()
     this.workOrder = workOrder
     this.technic = technic
@@ -40,14 +40,29 @@ class DepartAssess extends LongId with Updated {
   /** 工序 */
   var technic: Technic = _
 
-  /** 需要天数 */
-  var days: Int = _
+  /** 加工顺序 */
+  var indexno: String = _
+
+  /** 工艺说明 */
+  var description: Option[String] = _
+
+  /** 场内生产/委托外部 */
+  var internal: Boolean = _
+
+  /** 加工中心 */
+  var machine: Option[Machine] = None
+
+  /** 供应商 */
+  var supplier: Option[Supplier] = None
 
   /** 生产厂区 */
   var factory: Factory = _
 
+  /** 需要天数 */
+  var days: Option[Int] = None
+
   /** 是否通过 */
-  var passed: Boolean = _
+  var passed: Option[Boolean] = None
 
   /** 评估人 */
   var assessedBy: Option[User] = None

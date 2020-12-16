@@ -40,9 +40,6 @@ class WorkOrder extends LongId with Updated with Remark {
   /** 产品信息 */
   var product: Product = _
 
-  /** 工单工艺 */
-  var technicScheme: TechnicScheme = _
-
   /** 数量 */
   var amount: Int = _
 
@@ -50,12 +47,12 @@ class WorkOrder extends LongId with Updated with Remark {
   var deadline: Option[LocalDate] = None
 
   /** 计划交付日期 */
-  var plannedEndOn: LocalDate = _
+  var plannedEndOn: Option[LocalDate] = None
 
   /** 评审交付日期 */
   var scheduledOn: Option[LocalDate] = None
 
-  /**工单状态*/
+  /** 工单状态 */
   var status: WorkOrderStatus = _
 
   /** 工单评审状态 */
@@ -64,12 +61,20 @@ class WorkOrder extends LongId with Updated with Remark {
   /** 到料日期 */
   var materialAssess: Option[MaterialAssess] = None
 
-  /** 部门评审 */
-  var assesses: mutable.Buffer[DepartAssess] = Collections.newBuffer[DepartAssess]
+  /** 工单工艺 */
+  var technics: mutable.Buffer[WorkOrderTechnic] = Collections.newBuffer[WorkOrderTechnic]
 
   /** 生产工厂 */
   var factory: Factory = _
 
   /** 创建日期 */
   var createdAt: Instant = _
+
+  def canAssess: Boolean = {
+    assessStatus != AssessStatus.Unpassed && assessStatus != AssessStatus.Passed
+  }
+
+  def inReview: Boolean = {
+    assessStatus == AssessStatus.Review  || assessStatus == AssessStatus.Unpassed
+  }
 }

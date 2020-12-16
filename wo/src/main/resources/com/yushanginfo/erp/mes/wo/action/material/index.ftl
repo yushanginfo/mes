@@ -4,10 +4,12 @@
 <div class="search-container">
   <div class="search-panel">
     [@b.form name="materialSearchForm" action="!search" target="materiallist" title="ui.searchForm" theme="search"]
+      [@b.select name="workOrder.orderType.id" label="工单单别" items=orderTypes empty="..." option="id,name"/]
       [@b.textfields names="workOrder.batchNum;工单单号"/]
       [@b.textfield name="workOrder.product.specification" label="产品图号" /]
       [@b.datepicker name="workOrder.deadline" label="客户交期" format="yyyy-MM-dd" /]
-      [@b.field label="工单状态"]
+      [@b.select name="workOrder.status.id" label="工单状态" items=orderStatuses empty="..." option="id,name"/]
+      [@b.field label="评审状态"]
         <select name="status">
           <option value="">...</option>
           <option value="0">初始</option>
@@ -21,7 +23,7 @@
       <input type="hidden" name="orderBy" value="workOrder.createdAt desc"/>
     [/@]
   </div>
-  <div class="search-list">[@b.div id="materiallist" href="!search?materialBy=workOrder.createdAt desc"/]
+  <div class="search-list">[@b.div id="materiallist" href="!search?orderBy=workOrder.createdAt desc"/]
   </div>
 </div>
 

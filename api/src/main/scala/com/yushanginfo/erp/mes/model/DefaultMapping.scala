@@ -60,10 +60,10 @@ class DefaultMapping extends MappingModule {
     bind[OrderSetting]
 
     bind[WorkOrder].declare { e =>
-      e.assesses is depends("workOrder")
+      e.technics is depends("workOrder")
     }
 
-    bind[DepartAssess].declare { e =>
+    bind[WorkOrderTechnic].declare { e =>
     }
 
     bind[MaterialAssess].declare { e =>

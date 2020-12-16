@@ -67,7 +67,7 @@ class WorkOrderAction extends RestfulAction[WorkOrder] {
 
   @response
   def downloadTemplate(): Any = {
-    val salesOrderTypes = entityDao.search(OqlBuilder.from(classOf[SalesOrderType], "p").orderBy("p.code")).map(_.name)
+    val workOrderStatuses = entityDao.search(OqlBuilder.from(classOf[WorkOrderStatus], "p").orderBy("p.code")).map(_.name)
     val workOrderTypes = entityDao.search(OqlBuilder.from(classOf[WorkOrderType], "p").orderBy("p.code")).map(_.name)
     val factories = entityDao.search(OqlBuilder.from(classOf[Factory], "p").orderBy("p.code")).map(_.name)
 
@@ -77,7 +77,7 @@ class WorkOrderAction extends RestfulAction[WorkOrder] {
     sheet.remark("特别说明：\n1、不可改变本表格的行列结构以及批注，否则将会导入失败！\n2、必须按照规格说明的格式填写。\n3、可以多次导入，重复的信息会被新数据更新覆盖。\n4、保存的excel文件名称可以自定。")
     sheet.add("顾客代码", "workOrder.customer.code").length(5).required().remark("≤5位")
     sheet.add("公司图号", "workOrder.product.specification").length(100).remark("≤100位")
-    sheet.add("订单类型", "workOrder.salesOrderType.code").ref(salesOrderTypes)
+    sheet.add("工单状态", "workOrder.status.code").ref(workOrderStatuses)
 
     sheet.add("客户交期", "workOrder.deadline").date().required()
     sheet.add("计划交期", "workOrder.plannedEndOn").date().required()
@@ -89,7 +89,7 @@ class WorkOrderAction extends RestfulAction[WorkOrder] {
     sheet.add("工艺路线编号", "technicScheme.indexno").remark("默认为编号中的第一个")
 
     val code = schema.createScheet("数据字典")
-    code.add("订单类型").data(salesOrderTypes)
+    code.add("工单状态").data(workOrderStatuses)
     code.add("工单单别").data(workOrderTypes)
     code.add("厂区信息").data(factories)
     val os = new ByteArrayOutputStream()

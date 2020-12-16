@@ -35,6 +35,11 @@
       <artifactId>beangle-serializer-text_2.13</artifactId>
     </dependency>
     <dependency>
+      <groupId>org.beangle.notify</groupId>
+      <artifactId>beangle-notify-core</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+    </dependency>
+    <dependency>
       <groupId>org.beangle.commons</groupId>
       <artifactId>beangle-commons-file_2.13</artifactId>
       <version>${beangle.commons.version}</version>

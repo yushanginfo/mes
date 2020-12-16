@@ -13,6 +13,10 @@ insert into mes.technics(id,code,name,description,internal,updated_at)
 select next_id('mes.technics'),mw.mw001,mw.mw002,mw.mw003,false,now() from shtz.cmsmw mw
 where coalesce(mw.mw004,'0')<>'1' and not exists(select * from mes.technics  t where t.code=mw.mw001);
 
+--3.1 根据工艺名称更新评审组
+update mes.technics t set assess_group_id = (select g.id from mes.assess_groups g where g.name =t.name )
+where t.assess_group_id is null;
+
 --4. 新增品号
 insert into mes.materials(id,code,name,specification,material_type_id,unit_id,updated_at)
 select datetime_id(),i.mb001,i.mb002,i.mb003,mt.id,mu.id,now() from shtz.invmb i ,mes.material_types mt,mes.measurement_units mu
@@ -59,3 +63,19 @@ select datetime_id(),0,p.id,ta.ta015,now(),ta.ta002,f.id, TO_TIMESTAMP(substr(ta
 from shtz.mocta ta,mes.products p,base.factories f,mes.work_order_types wot,mes.work_order_statuses wos
 where ta.ta001 = wot.code and ta.ta019=f.code and ta.ta011=wos.code and ta.ta006=p.code
  and not exists(select * from mes.work_orders wo where wo.order_type_id=wot.id and wo.batch_num=ta.ta002);
+
+--11. 新增工单工艺（厂内）
+insert into mes.work_order_technics(id,work_order_id,indexno,machine_id,technic_id,description,internal,machine_supplier_code,updated_at,factory_id)
+select datetime_id(),wo.id,ta.ta003,m.id,t.id,ta.ta024,true,ta.ta006,now(),wo.factory_id from shtz.sfcta ta,mes.work_orders wo,
+mes.machines m,mes.technics t,mes.work_order_types wotp
+where wo.order_type_id=wotp.id and wotp.code=ta.ta001 and ta.ta002=wo.batch_num and m.code=ta.ta006 and t.code=ta.ta004
+and ta.ta005='1'
+and not exists(select * from  mes.work_order_technics tech where tech.work_order_id=wo.id and tech.indexno=ta.ta003);
+
+--12. 新增工单工艺（委外）
+insert into mes.work_order_technics(id,work_order_id,indexno,supplier_id,technic_id,description,internal,machine_supplier_code,updated_at,factory_id)
+select datetime_id(),wo.id,ta.ta003,m.id,t.id,ta.ta024,false,ta.ta006,now(),wo.factory_id from shtz.sfcta ta,mes.work_orders wo,
+base.suppliers m,mes.technics t,mes.work_order_types wotp
+where wo.order_type_id=wotp.id and wotp.code=ta.ta001 and ta.ta002=wo.batch_num and m.code=ta.ta006 and t.code=ta.ta004
+and ta.ta005='2'
+and not exists(select * from  mes.work_order_technics tech where tech.work_order_id=wo.id and tech.indexno=ta.ta003);

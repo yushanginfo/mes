@@ -9,8 +9,8 @@
       [@b.textfield name="workOrder.product.specification" label="产品图号"/]
       [@b.datepicker name="workOrder.deadline" label="客户交期" format="yyyy-MM-dd" /]
       [@b.select name="workOrder.status.id" label="工单状态" items=orderStatuses empty="..." option="id,name"/]
-      [@b.field label="审核状态"]
-        <select name="workOrder.status">
+      [@b.field label="评审状态"]
+        <select name="workOrder.assessStatus">
           <option value="">...</option>
           <option value="0">初始</option>
           <option value="1">评审中</option>
@@ -23,7 +23,7 @@
       <input type="hidden" name="orderBy" value="workOrder.createdAt desc"/>
     [/@]
   </div>
-  <div class="search-list">[@b.div id="workOrderlist" href="!search?workOrderBy=workOrder.createdAt desc"/]
+  <div class="search-list">[@b.div id="workOrderlist" href="!search?orderBy=workOrder.createdAt desc"/]
   </div>
 </div>
 

@@ -29,30 +29,39 @@ import org.beangle.security.Securities
 import org.beangle.webmvc.api.view.View
 import org.beangle.webmvc.entity.action.RestfulAction
 
-
-class DepartAssessAction extends RestfulAction[DepartAssess] {
+class DepartAssessAction extends RestfulAction[WorkOrderTechnic] {
 
   var orderService: OrderService = _
 
   override protected def indexSetting(): Unit = {
     put("orderTypes", entityDao.getAll(classOf[WorkOrderType]))
-    put("orderStatuses",entityDao.getAll(classOf[WorkOrderStatus]))
+    put("orderStatuses", entityDao.getAll(classOf[WorkOrderStatus]))
   }
 
   override def search(): View = {
+    val members = entityDao.findBy(classOf[AssessMember], "user.code", List(Securities.user))
+    val myGroups = members.map(_.group).toSet
+    val myFactories = members.map(_.factory).toSet
+    put("myGroups", myGroups)
+
     val builder = OqlBuilder.from(classOf[WorkOrder], "workOrder")
     populateConditions(builder)
     get(Order.OrderStr) foreach { orderClause =>
       builder.orderBy(orderClause)
     }
-    builder.tailOrder("workOrder.id")
-    builder.limit(getPageLimit)
+    if (myGroups.isEmpty || myFactories.isEmpty) {
+      builder.where("workOrder.id < 0")
+    } else {
+      builder.where("exists(from workOrder.technics wt where wt.technic.assessGroup in(:groups) and wt.factory in(:factories))", myGroups, myFactories)
+      builder.tailOrder("workOrder.id")
+      builder.limit(getPageLimit)
+    }
     val workOrders = entityDao.search(builder)
     put("workOrders", workOrders)
     forward()
   }
 
-  override def editSetting(entity: DepartAssess): Unit = {
+  override def editSetting(entity: WorkOrderTechnic): Unit = {
     put("factories", entityDao.getAll(classOf[Factory]))
     get("technicId").foreach(technicId => {
       put("technic", entityDao.get(classOf[Technic], technicId.toInt))
@@ -82,23 +91,15 @@ class DepartAssessAction extends RestfulAction[DepartAssess] {
   def saveAssess(): View = {
     val group = entityDao.get(classOf[AssessGroup], longId("assessGroup"))
     val order = entityDao.get(classOf[WorkOrder], longId("workOrder"))
-    val technicSet = order.technicScheme.technics.map(_.technic).toSet
-    val removedAssess = order.assesses.filter { x => !technicSet.contains(x.technic) }
-    order.assesses.subtractAll(removedAssess)
-    val assessMap = order.assesses.map(x => (x.technic, x)).toMap
+    val assessMap = order.technics.map(x => (x.technic, x)).toMap
     val users = entityDao.findBy(classOf[User], "code", List(Securities.user))
-    order.technicScheme.technics foreach { pt =>
-      if (pt.technic.assessGroup.contains(group)) {
-        val assess = assessMap.get(pt.technic) match {
-          case Some(assess) => assess
-          case None => val assess = new DepartAssess(order, pt.technic)
-            order.assesses.addOne(assess)
-            assess
-        }
+    order.technics foreach { wt =>
+      if (wt.technic.assessGroup.contains(group)) {
+        val assess = assessMap.get(wt.technic).orNull
         assess.updatedAt = Instant.now
-        assess.passed = true
-        assess.days = getInt("technic_" + pt.technic.id + ".days", 0)
-        assess.factory = entityDao.get(classOf[Factory], getInt("technic_" + pt.technic.id + ".factory.id", 0))
+        assess.passed = Some(true)
+        assess.days = getInt(wt.id + ".days")
+        assess.factory = entityDao.get(classOf[Factory], getInt(wt.id + ".factory.id", 0))
         assess.assessedBy = users.headOption
         entityDao.saveOrUpdate(assess)
       }
@@ -108,7 +109,7 @@ class DepartAssessAction extends RestfulAction[DepartAssess] {
     redirect("search", "info.save.success")
   }
 
-  override def saveAndRedirect(entity: DepartAssess): View = {
+  override def saveAndRedirect(entity: WorkOrderTechnic): View = {
     get("technicId").foreach(technicId => {
       val technic = entityDao.get(classOf[Technic], technicId.toInt)
       entity.technic = technic
@@ -118,7 +119,7 @@ class DepartAssessAction extends RestfulAction[DepartAssess] {
       entity.workOrder = workOrder
     })
     val users = entityDao.findBy(classOf[User], "code", List(Securities.user))
-    entity.passed = true
+    entity.passed = Some(true)
     entity.assessedBy = users.headOption
     entityDao.saveOrUpdate(entity)
 

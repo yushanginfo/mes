@@ -15,7 +15,7 @@
     [@b.boxcol /]
     [@b.col width="10%" property="code" title="代码"]${technic.code}[/@]
     [@b.col width="15%" property="name" title="名称"][@b.a href="!info?id=${technic.id}"]${technic.name}[/@][/@]
-    [@b.col width="15%" property="assessGroup.name" title="评审组"/]
+    [@b.col width="15%" property="assessGroup.id" title="评审组"]${(technic.assessGroup.name)!'--'}[/@]
     [@b.col width="8%" property="internal" title="性质"]
       [#if technic.internal]厂内[#else]委外[/#if]
     [/@]

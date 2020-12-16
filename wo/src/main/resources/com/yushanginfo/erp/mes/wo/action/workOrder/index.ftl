@@ -12,7 +12,7 @@
       [@b.select name="workOrder.status.id" label="工单状态" items=workOrderStatuses empty="..." style="width:100px"/]
 
       [@b.field label="评审状态"]
-        <select name="workOrder.status">
+        <select name="workOrder.assessStatus">
           <option value="">...</option>
           <option value="0">初始</option>
           <option value="1">评审中</option>
@@ -25,7 +25,7 @@
       <input type="hidden" name="orderBy" value="workOrder.batchNum desc"/>
     [/@]
   </div>
-  <div class="search-list">[@b.div id="workOrderlist" href="!search?workOrderBy=workOrder.batchNum desc"/]
+  <div class="search-list">[@b.div id="workOrderlist" href="!search?orderBy=workOrder.batchNum desc"/]
   </div>
 </div>
 

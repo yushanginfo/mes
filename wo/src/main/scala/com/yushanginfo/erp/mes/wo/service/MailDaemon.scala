@@ -16,25 +16,42 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.yushanginfo.erp.mes.sync
+package com.yushanginfo.erp.mes.wo.service
 
+import java.time.{LocalDate, LocalTime}
 import java.util.{Timer, TimerTask}
 
 import org.beangle.commons.logging.Logging
 
-object SyncDaemon extends Logging {
-  def start(name: String, intervalHours: Int, syncService: SyncService): Unit = {
-    logger.info(s"Starting $name Daemon,Running within every $intervalHours hours.")
-    val daemon = new SyncDaemon(syncService)
+import scala.collection.mutable
+
+object MailDaemon extends Logging {
+  def start(name: String, mailNotifier: MailNotifier,times: Set[LocalTime]): Unit = {
+    logger.info(s"Starting $name Daemon")
+    val daemon = new MailDaemon(mailNotifier,times)
     new Timer(s"$name Daemon", true).schedule(daemon,
-      new java.util.Date(System.currentTimeMillis + 5000), intervalHours * 3600 * 1000)
+      new java.util.Date(System.currentTimeMillis + 5000), 60 * 1000)
   }
 }
 
-class SyncDaemon(syncService: SyncService) extends TimerTask with Logging {
+class MailDaemon(mailNotifier: MailNotifier, times: Set[LocalTime]) extends TimerTask with Logging {
+  private val sended = new mutable.HashMap[LocalDate, List[LocalTime]]
+
   override def run(): Unit = {
     try {
-      syncService.sync()
+      val today = LocalDate.now()
+      val now = LocalTime.now()
+      sended.remove(today.minusDays(1))
+      sended.get(today) match {
+        case Some(l) =>
+          if (!l.exists(_.getHour == now.getHour)) {
+            logger.info(mailNotifier.sendMail())
+            sended.put(today, now :: l)
+          }
+        case None =>
+          logger.info(mailNotifier.sendMail())
+          sended.put(today, List(now))
+      }
     } catch {
       case e: Throwable => e.printStackTrace()
     }

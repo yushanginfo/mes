@@ -29,19 +29,6 @@ class OrderImportHelper(entityDao: EntityDao) extends ImportListener {
   override def onItemFinish(tr: ImportResult): Unit = {
     val order = transfer.current.asInstanceOf[WorkOrder]
     order.updatedAt = Instant.now
-    if (null != order.product) {
-      transfer.curData.get("technicScheme.indexno") foreach { indexno =>
-        order.product.technicSchemes.find(x => x.indexno == indexno) foreach { scheme =>
-          order.technicScheme = scheme
-        }
-      }
-      if (null == order.technicScheme && order.product.technicSchemes.nonEmpty) {
-        order.technicScheme = order.product.technicSchemes.head
-      }
-    }
-    if (order.technicScheme == null) {
-      tr.addFailure("缺少工艺路线", transfer.curData.get("workOrder.product.code"))
-    }
     if (null == order.createdAt) {
       order.createdAt = Instant.now()
     }

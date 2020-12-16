@@ -21,14 +21,16 @@ package com.yushanginfo.erp.mes.sync
 import javax.sql.DataSource
 import org.beangle.commons.bean.Initializing
 import org.beangle.commons.io.IOs
+import org.beangle.commons.lang.time.Stopwatch
 import org.beangle.commons.lang.{ClassLoaders, Strings}
+import org.beangle.commons.logging.Logging
 import org.beangle.data.jdbc.engine.Engines
 import org.beangle.data.jdbc.query.JdbcExecutor
 import org.beangle.db.transport.Config.{SeqConfig, TableConfig}
 import org.beangle.db.transport.{Config, ConversionModel, Reactor}
 import org.beangle.ems.app.datasource.AppDataSourceFactory
 
-class SyncServiceImpl extends SyncService with Initializing {
+class SyncServiceImpl extends SyncService with Initializing with Logging {
 
   var dataSource: DataSource = _
 
@@ -69,7 +71,7 @@ class SyncServiceImpl extends SyncService with Initializing {
     tableConfig.lowercase = true
     tableConfig.withIndex = true
     tableConfig.withConstraint = true
-    tableConfig.includes = Strings.split("cmsmd,cmsmw,invmb,bomme,bommf,bomcb,mocta").toSeq
+    tableConfig.includes = Strings.split("cmsmd,cmsmw,invmb,bomme,bommf,bomcb,mocta,sfcta").toSeq
     tableConfig.excludes = List.empty
     source.table = tableConfig
     source.sequence = new SeqConfig
@@ -88,8 +90,10 @@ class SyncServiceImpl extends SyncService with Initializing {
         var statement = Strings.substringAfter(s, "\n").trim()
         statement = Strings.replace(statement, "\n", " ")
         log.append(comment)
+        val sw = new Stopwatch(true)
         val rs = executor.update(statement)
         log.append(s"${rs}条\n")
+        logger.info(comment + s"${rs}条 用时 ${sw}")
       } else {
         executor.update(s)
       }
