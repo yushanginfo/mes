@@ -8,6 +8,9 @@
       [@b.textfields names="workOrder.batchNum;工单单号"/]
       [@b.textfield name="workOrder.product.specification" label="产品图号"/]
       [@b.datepicker name="workOrder.deadline" label="客户交期" format="yyyy-MM-dd" /]
+      [@b.datepicker name="assessStartOn" label="评审开始" format="yyyy-MM-dd" /]
+      [@b.select name="assessDuration" label="评审历时" items={'12':'12小时内','24':'24小时以内','25':'一天以上'} empty="..."/]
+
       [@b.select name="workOrder.status.id" label="工单状态" items=orderStatuses empty="..." option="id,name"/]
       [@b.field label="评审状态"]
         <select name="workOrder.assessStatus">

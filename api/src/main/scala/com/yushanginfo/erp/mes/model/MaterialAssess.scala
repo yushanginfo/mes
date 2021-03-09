@@ -18,11 +18,11 @@
  */
 package com.yushanginfo.erp.mes.model
 
-import java.time.LocalDate
-
 import com.yushanginfo.erp.base.model.User
 import org.beangle.data.model.LongId
 import org.beangle.data.model.pojo.Updated
+
+import java.time.{Instant, LocalDate}
 
 /** 到料信息 */
 class MaterialAssess extends LongId with Updated {
@@ -38,4 +38,7 @@ class MaterialAssess extends LongId with Updated {
 
   /** 评估人 */
   var assessedBy: Option[User] = None
+
+  /** 创建时间 */
+  var createdAt: Instant = Instant.now
 }

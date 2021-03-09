@@ -19,6 +19,8 @@
 package com.yushanginfo.erp.mes.wo.action
 
 import com.yushanginfo.erp.mes.model._
+import org.beangle.commons.lang.Strings
+import org.beangle.data.dao.OqlBuilder
 import org.beangle.webmvc.api.view.View
 import org.beangle.webmvc.entity.action.RestfulAction
 
@@ -28,12 +30,23 @@ class FinalAssessAction extends RestfulAction[WorkOrder] {
     put("orderStatuses", entityDao.getAll(classOf[WorkOrderStatus]))
   }
 
-  override def search(): View = {
-    super.search()
-  }
-
-  override def info(id: String): View = {
-    super.info(id)
+  protected override def getQueryBuilder: OqlBuilder[WorkOrder] = {
+    val query = super.getQueryBuilder
+    get("customerCode") foreach { a =>
+      if (Strings.isNotEmpty(a)) {
+        var i = 0
+        var str = Strings.replace(a, "，", ",");
+        str = Strings.replace(str, ";", ",");
+        val codeQueryStr = Strings.split(str, ",") map { b =>
+          i += 1
+          query.param(s"customerCode${i}", b+"%")
+          s"workOrder.product.specification like :customerCode${i}"
+        }
+        println(codeQueryStr.mkString(" or "))
+        query.where(codeQueryStr.mkString(" or "))
+      }
+    }
+    query
   }
 
   def review(): View = {

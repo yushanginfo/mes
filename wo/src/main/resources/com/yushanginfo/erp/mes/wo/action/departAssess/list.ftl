@@ -4,12 +4,12 @@
   [@b.row]
     [@b.boxcol /]
     [@b.col width="8%" property="batchNum" title="工单单号"]
-       [@b.a href="work-order!info?id=${workOrder.id}" title="${workOrder.orderType.code} ${workOrder.orderType.name}"]${workOrder.batchNum}[/@]
+       [@b.a href="!info?id=${workOrder.id}" title="${workOrder.orderType.code} ${workOrder.orderType.name}"]${workOrder.batchNum}[/@]
     [/@]
     [@b.col width="15%" property="product.code" title="产品图号"]${workOrder.product.specification!}[/@]
-    [@b.col width="8%" property="deadline" title="客户交期"]${(workOrder.deadline?string("yy-MM-dd"))!}[/@]
-    [@b.col width="8%" property="plannedEndOn" title="计划交期"]${(workOrder.plannedEndOn?string("yy-MM-dd"))!}[/@]
+    [@b.col width="8%" property="deadline" title="客户交期"]<span title="计划交期:${(workOrder.plannedEndOn?string("yy-MM-dd"))!}">${(workOrder.deadline?string("yy-MM-dd"))!}</span>[/@]
     [@b.col width="5%" property="amount" title="数量"/]
+    [@b.col width="8%" property="plannedEndOn" title="评审开始"]${((workOrder.materialAssess.createdAt)?string("yy-MM-dd"))!}[/@]
 
     [@b.col width="8%" property="materialDate" title="到料日期"]
       [#if workOrder.materialAssess??][#if workOrder.materialAssess.ready]有料[#else] ${(workOrder.materialAssess.readyOn?string("yy-MM-dd"))!}[/#if][/#if]
@@ -33,13 +33,13 @@
            [#assign cannotAssessed = cannotAssessed + [wt.technic]/]
         [/#if]
       [/#list]
-    [#if workOrder.canAssess && cannotAssessed?size=0]
+    [#if workOrder.canAssess && cannotAssessed?size=0][#--所有工艺均设置了评审组，具备评审条件--]
       [#assign btnClz][#if workOrder.inReview]btn btn-warning[#else]btn btn-info[/#if][/#assign]
       <div class="btn-group btn-group-sm" role="group">
-      [#list assessGroups as assessGroup]
+      [#list assessGroups?sort_by("code") as assessGroup]
        [#if assessMap[assessGroup.id?string]??]
          [#if myGroups?seq_contains(assessGroup)]
-           [@b.a class=btnClz style="font-size:0.8em" href="!assess?workOrderId=${workOrder.id}&assessGroupId=${assessGroup.id}"]${assessGroup.name} ${assessMap[assessGroup.id?string]}[/@]
+           <button class="${btnClz}" style="font-size:0.8em" onclick="assess('${workOrder.id}','${assessGroup.id}')">${assessGroup.name} ${assessMap[assessGroup.id?string]}</button>
          [#else]
            <button class="${btnClz}" style="font-size:0.8em">${assessGroup.name} ${assessMap[assessGroup.id?string]}</button>
          [/#if]
@@ -58,7 +58,7 @@
       [#else]
         [#assign btnClz][#if workOrder.inReview]btn btn-warning[#else]btn btn-success[/#if][/#assign]
         <div class="btn-group btn-group-sm" role="group">
-        [#list assessGroups as assessGroup]
+        [#list assessGroups?sort_by("code") as assessGroup]
          [#if assessMap[assessGroup.id?string]??]
            <button class="${btnClz}" style="font-size:0.8em">${assessGroup.name} ${assessMap[assessGroup.id?string]}</button>
          [#else]
@@ -73,4 +73,12 @@
     [@b.col width="7%" property="assessStatus" title="评审状态"]${workOrder.assessStatus.name}[/@]
   [/@]
 [/@]
+[@b.form name="assessForm" action="!assess"]
+  <input type="hidden" name="_params" value="${b.paramstring}"/>
+[/@]
+<script>
+   function assess(workOrderId,assessGroupId){
+      bg.form.submit(document.assessForm,"${base}/depart-assess/assess?workOrderId="+workOrderId+"&assessGroupId="+assessGroupId);
+   }
+</script>
 [@b.foot/]

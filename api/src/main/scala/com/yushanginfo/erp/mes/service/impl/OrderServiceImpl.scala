@@ -16,12 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.yushanginfo.erp.order.service.impl
+package com.yushanginfo.erp.mes.service.impl
 
 import java.time.{LocalDate, ZoneId}
 
 import com.yushanginfo.erp.mes.model.{AssessStatus, WorkOrder}
-import com.yushanginfo.erp.order.service.OrderService
+import com.yushanginfo.erp.mes.service.OrderService
 import org.beangle.data.dao.EntityDao
 
 class OrderServiceImpl extends OrderService {
@@ -29,11 +29,11 @@ class OrderServiceImpl extends OrderService {
   var entityDao: EntityDao = _
 
   override def recalcState(order: WorkOrder): Unit = {
-    val notComplete = order.technics.exists(!_.passed.getOrElse(false))
+    val allComplete = order.technics.nonEmpty && !order.technics.exists(!_.passed.getOrElse(false))
 
     //计算计划完工时间
     order.materialAssess foreach { materialAssess =>
-      if (!notComplete && order.scheduledOn.isEmpty) {
+      if (allComplete && order.scheduledOn.isEmpty) {
         val processDays = order.technics.foldLeft(0)(_ + _.days.get)
         val startOn =
           if (materialAssess.ready) {

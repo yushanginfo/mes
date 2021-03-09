@@ -31,8 +31,7 @@ and i.mb003 is not null;
 --6. 新增工艺路线
 insert into mes.technic_schemes(id,product_id,name,indexno,updated_at)
 select datetime_id(),p.id,me.me003,me.me002,now() from shtz.bomme me,mes.products p where p.code=me.me001 and
-not exists(select * from mes.technic_schemes ts
-where ts.product_id=p.id and ts.indexno=me.me002);
+not exists(select * from mes.technic_schemes ts where ts.product_id=p.id and ts.indexno=me.me002);
 
 --7. 新增产品工艺（厂内）
 insert into mes.product_technics(id,scheme_id,indexno,machine_id,technic_id,description,internal,machine_supplier_code)

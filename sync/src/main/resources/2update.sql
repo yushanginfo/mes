@@ -132,9 +132,6 @@ shtz.mocta ta where ta.ta001=wot.code and wot.id=wo.order_type_id and ta.ta002=w
 where exists(select p.id from mes.products p,mes.work_order_types wot,
 shtz.mocta ta where ta.ta001=wot.code and wot.id=wo.order_type_id and ta.ta002=wo.batch_num and ta.ta006=p.code and p.id <> wo.product_id);
 
---28. 更新工单评审状态
-update  mes.work_orders wo set assess_status=4 where assess_status=0 and status_id in(4,5);
-
 --29 更新工单工艺-性质
 update mes.work_order_technics tech set internal = (select case when ta.ta005 ='1' then true else false end from mes.work_orders wo,mes.work_order_types wot,shtz.sfcta ta
 where wo.order_type_id = wot.id and ta.ta001=wot.code and ta.ta002=wo.batch_num and ta.ta003=tech.indexno and tech.work_order_id=wo.id
@@ -159,3 +156,6 @@ and ta.ta006=tech.machine_supplier_code)
 where exists (select * from mes.work_orders wo,mes.work_order_types wot,shtz.sfcta ta,mes.technics t
 where wo.order_type_id = wot.id and ta.ta001=wot.code and ta.ta002=wo.batch_num and ta.ta003=tech.indexno and tech.work_order_id=wo.id
 and ta.ta006=tech.machine_supplier_code and t.code=ta.ta004 and t.id <> tech.technic_id);
+
+--32 样品工单无需评审
+update mes.work_orders set assess_status=4 where assess_status<>4 and order_type_id=5103;

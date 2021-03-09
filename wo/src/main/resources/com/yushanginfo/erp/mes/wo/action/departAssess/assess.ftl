@@ -8,15 +8,22 @@
     [@b.field label="数量"]${workOrder.amount}[/@]
     [@b.field label="客户交期"]${(workOrder.deadline?string("yyyy-MM-dd"))!'--'}[/@]
     [@b.field label="计划交期"]${(workOrder.plannedEndOn?string("yyyy-MM-dd"))!"--"}[/@]
-    [@b.field label="到料日期"][#if workOrder.materialAssess??] [#if workOrder.materialAssess.ready]有料[#else] ${(workOrder.materialAssess.readyOn?string("yyyy-MM-dd"))!}[/#if][/#if][/@]
+    [@b.field label="到料日期"]
+      [#if workOrder.materialAssess??]
+        [#if workOrder.materialAssess.ready]有料[#else] ${(workOrder.materialAssess.readyOn?string("yyyy-MM-dd"))!}[/#if]
+        <span style="font-size:0.8rem;color: #999;">${(workOrder.materialAssess.assessedBy.name)!} ${(workOrder.materialAssess.createdAt)?string("yyyy-MM-dd HH:mm")}</span>
+      [#else]
+        尚未填写到料信息
+      [/#if]
+    [/@]
     [@b.field label="备注"]${(workOrder.remark)?default("无")}[/@]
 
-    [#list workOrder.technics as wt]
+    [#list workOrder.technics?sort_by("indexno") as wt]
     [#if !wt.technic.assessGroup??][#continue/][/#if]
     [#if assessGroup.id==wt.technic.assessGroup.id]
     [#assign technic=wt.technic/]
     [@b.field label=wt.indexno+" "+ wt.technic.name]
-        <select name="${wt.id}.factory.id" style="width:80px">
+        <select name="${wt.id}.factory.id" style="width:100px">
           [#if (wt.factory)??]
             [#assign assessFactory = wt.factory/]
           [#else]
@@ -27,10 +34,11 @@
           [/#list]
         </select>
         <input name="${wt.id}.days" style="width:80px" type="number" value="${wt.days!}"/>天
-        <label class="comment">${wt.technic.description!}
-           [#if wt.technic.machine??]${wt.technic.machine.code} ${wt.technic.machine.name}
-           [#elseif wt.technic.supplier??] ${wt.technic.supplier.code} ${wt.technic.supplier.name}
+        <label class="comment">
+           [#if wt.machine??]${wt.machine.code} ${wt.machine.name}
+           [#elseif wt.supplier??] ${wt.supplier.code} ${wt.supplier.name}
            [/#if]
+           &nbsp;${wt.description!}
         </label>
     [/@]
     [/#if]

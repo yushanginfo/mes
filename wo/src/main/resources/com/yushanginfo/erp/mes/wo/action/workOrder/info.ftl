@@ -36,7 +36,7 @@
   </tr>
   <tr>
     <td class="title">到料日期</td>
-    <td class="content">[#if workOrder.materialAssess??] [#if workOrder.materialAssess.ready]有料[#else] ${(workOrder.materialAssess.readyOn?string("yyyy-MM-dd"))!}[/#if][/#if]</td>
+    <td class="content">[#if workOrder.materialAssess??] [#if workOrder.materialAssess.ready]有料[#else] ${(workOrder.materialAssess.readyOn?string("yyyy-MM-dd"))!}[/#if] <span style="font-size:0.8rem;color: #999;">${(workOrder.materialAssess.assessedBy.name)!} ${(workOrder.materialAssess.createdAt)?string("yyyy-MM-dd HH:mm")}</span>[/#if]</td>
     <td class="title">评审交期</td>
     <td class="content">${(workOrder.scheduledOn?string("yyyy-MM-dd" ))!}</td>
   </tr>
@@ -55,7 +55,7 @@
   <tr>
     <td class="title">评审信息</td>
     <td class="content" colspan="3">
-      [#list workOrder.technics as wt]
+      [#list workOrder.technics?sort_by("indexno") as wt]
          ${wt.indexno} ${wt.technic.name}(${wt.technic.description!})
          [#if wt.days??]
          ${wt.factory.name} ${wt.days}天 <span style="font-size:0.8rem;color: #999;">${(wt.assessedBy.name)!} ${wt.updatedAt?string("yyyy-MM-dd HH:mm")} [#if !wt.passed]需要复审[/#if]</span>

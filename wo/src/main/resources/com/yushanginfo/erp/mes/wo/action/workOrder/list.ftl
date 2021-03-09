@@ -25,7 +25,7 @@
     [/@]
     [@b.col width="5%"  property="amount" title="数量"/]
     [@b.col width="8%" property="deadline" title="客户交期"]${(workOrder.deadline?string("yy-MM-dd"))!}[/@]
-    [@b.col width="7%"  property="assessStatus.name" title="评审状态"/]
+    [@b.col width="7%"  property="assessStatus" title="评审状态"]${workOrder.assessStatus.name}[/@]
     [@b.col width="7%"  property="status.name" title="工单状态"/]
   [/@]
 [/@]

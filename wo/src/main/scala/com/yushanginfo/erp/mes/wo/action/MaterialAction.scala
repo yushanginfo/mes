@@ -22,7 +22,7 @@ import java.time.Instant
 
 import com.yushanginfo.erp.base.model.User
 import com.yushanginfo.erp.mes.model._
-import com.yushanginfo.erp.order.service.OrderService
+import com.yushanginfo.erp.mes.service.OrderService
 import org.beangle.security.Securities
 import org.beangle.webmvc.api.view.View
 import org.beangle.webmvc.entity.action.RestfulAction

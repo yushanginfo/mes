@@ -16,9 +16,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.yushanginfo.erp.order.service
+package com.yushanginfo.erp.mes.service
 
-import com.yushanginfo.erp.order.service.impl.OrderServiceImpl
+import com.yushanginfo.erp.mes.service.impl.OrderServiceImpl
 import org.beangle.cdi.bind.BindModule
 
 class DefaultModule extends BindModule {

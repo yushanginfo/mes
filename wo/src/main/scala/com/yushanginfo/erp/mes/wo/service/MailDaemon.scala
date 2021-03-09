@@ -44,13 +44,15 @@ class MailDaemon(mailNotifier: MailNotifier, times: Set[LocalTime]) extends Time
       sended.remove(today.minusDays(1))
       sended.get(today) match {
         case Some(l) =>
-          if (!l.exists(_.getHour == now.getHour)) {
+          if (times.exists(_.getHour==now.getHour) && !l.exists(_.getHour == now.getHour)) {
             logger.info(mailNotifier.sendMail())
             sended.put(today, now :: l)
           }
         case None =>
-          logger.info(mailNotifier.sendMail())
-          sended.put(today, List(now))
+          if(times.exists(_.getHour==now.getHour) ){
+            logger.info(mailNotifier.sendMail())
+            sended.put(today, List(now))
+          }
       }
     } catch {
       case e: Throwable => e.printStackTrace()
