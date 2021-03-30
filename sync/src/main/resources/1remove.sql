@@ -8,8 +8,13 @@ where not exists(select * from mes.work_orders wo,mes.work_order_types wot,shtz.
 delete from mes.work_orders wo where not exists(select * from shtz.mocta ta,mes.work_order_types mot where mot.id=wo.order_type_id and mot.code=ta.ta001 and wo.batch_num=ta.ta002)
 and not exists(select * from mes.work_order_technics wot where wot.work_order_id=wo.id and wot.days is not null);
 
+--2.0 检查被删除的工单是否重用了工单号
+update mes.work_orders wo set remark=null,assess_status=0 where assess_status=5
+ and exists(select * from shtz.mocta ta,mes.work_order_types mot where mot.id=wo.order_type_id and mot.code=ta.ta001 and wo.batch_num=ta.ta002);
+
 --2.1 更新被删除的工单
-update mes.work_orders wo set remark='removed',assess_status=5 where not exists(select * from shtz.mocta ta,mes.work_order_types mot where mot.id=wo.order_type_id and mot.code=ta.ta001 and wo.batch_num=ta.ta002);
+update mes.work_orders wo set remark='removed',assess_status=5 where not exists(select * from shtz.mocta ta,mes.work_order_types mot
+where mot.id=wo.order_type_id and mot.code=ta.ta001 and wo.batch_num=ta.ta002);
 
 --3. 删除bom清单
 delete from mes.product_material_items pmi

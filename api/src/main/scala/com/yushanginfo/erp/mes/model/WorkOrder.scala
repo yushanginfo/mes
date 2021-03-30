@@ -18,13 +18,12 @@
  */
 package com.yushanginfo.erp.mes.model
 
-import java.time.{Instant, LocalDate}
-
 import com.yushanginfo.erp.base.model.Factory
 import org.beangle.commons.collection.Collections
 import org.beangle.data.model.LongId
 import org.beangle.data.model.pojo.{Remark, Updated}
 
+import java.time.{Instant, LocalDate}
 import scala.collection.mutable
 
 /** 工单
@@ -58,6 +57,9 @@ class WorkOrder extends LongId with Updated with Remark {
   /** 工单评审状态 */
   var assessStatus: AssessStatus.Status = AssessStatus.Original
 
+  /** 复审轮次 */
+  var reviewRound: Int = _
+
   /** 到料日期 */
   var materialAssess: Option[MaterialAssess] = None
 
@@ -75,6 +77,6 @@ class WorkOrder extends LongId with Updated with Remark {
   }
 
   def inReview: Boolean = {
-    assessStatus == AssessStatus.Review  || assessStatus == AssessStatus.Unpassed
+    assessStatus == AssessStatus.Review || assessStatus == AssessStatus.Unpassed
   }
 }

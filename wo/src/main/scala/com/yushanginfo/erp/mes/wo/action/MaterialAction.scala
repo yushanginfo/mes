@@ -18,14 +18,17 @@
  */
 package com.yushanginfo.erp.mes.wo.action
 
-import java.time.Instant
-
 import com.yushanginfo.erp.base.model.User
 import com.yushanginfo.erp.mes.model._
 import com.yushanginfo.erp.mes.service.OrderService
+import org.beangle.commons.web.util.RequestUtils
+import org.beangle.data.dao.OqlBuilder
 import org.beangle.security.Securities
+import org.beangle.webmvc.api.context.ActionContext
 import org.beangle.webmvc.api.view.View
 import org.beangle.webmvc.entity.action.RestfulAction
+
+import java.time.Instant
 
 class MaterialAction extends RestfulAction[WorkOrder] {
   var orderService: OrderService = _
@@ -33,6 +36,17 @@ class MaterialAction extends RestfulAction[WorkOrder] {
   override protected def indexSetting(): Unit = {
     put("orderTypes", entityDao.getAll(classOf[WorkOrderType]))
     put("orderStatuses", entityDao.getAll(classOf[WorkOrderStatus]))
+  }
+
+  override def getQueryBuilder: OqlBuilder[WorkOrder] = {
+    val builder = super.getQueryBuilder
+    val users = entityDao.findBy(classOf[User], "code", List(Securities.user))
+    users.map(_.factory).headOption foreach { u =>
+      u foreach { f =>
+        builder.where("workOrder.factory=:factory", f)
+      }
+    }
+    builder
   }
 
   override def editSetting(entity: WorkOrder): Unit = {
@@ -44,17 +58,22 @@ class MaterialAction extends RestfulAction[WorkOrder] {
     super.editSetting(entity)
   }
 
-  override def saveAndRedirect(entity: WorkOrder): View = {
+  override def saveAndRedirect(order: WorkOrder): View = {
     val materialAssess = populateEntity(classOf[MaterialAssess], "materialAssess")
-    entity.assessStatus = AssessStatus.Submited
-    materialAssess.order = entity
+    val originStatus = order.assessStatus
+    order.assessStatus = AssessStatus.Submited
+    materialAssess.order = order
     materialAssess.updatedAt = Instant.now
     val users = entityDao.findBy(classOf[User], "code", List(Securities.user))
     materialAssess.assessedBy = users.headOption
     entityDao.saveOrUpdate(materialAssess)
-    entity.materialAssess = Some(materialAssess)
-    orderService.recalcState(entity)
-    super.saveAndRedirect(entity)
+    order.materialAssess = Some(materialAssess)
+    orderService.recalcState(order)
+    if (order.assessStatus != order.assessStatus) {
+      val log = new AssessLog(originStatus, order, users.head, RequestUtils.getIpAddr(ActionContext.current.request))
+      entityDao.saveOrUpdate(log)
+    }
+    super.saveAndRedirect(order)
   }
 
 }

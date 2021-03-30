@@ -18,25 +18,31 @@
  */
 package com.yushanginfo.erp.mes.wo.action
 
-import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
-import java.time.Instant
-
-import com.yushanginfo.erp.base.model.Factory
-import com.yushanginfo.erp.mes.model.{SalesOrderType, WorkOrder, WorkOrderStatus, WorkOrderType}
+import com.yushanginfo.erp.base.model.{Factory, User}
+import com.yushanginfo.erp.mes.model._
+import com.yushanginfo.erp.mes.service.OrderService
 import com.yushanginfo.erp.mes.sync.SyncServiceImpl
 import com.yushanginfo.erp.mes.wo.helper.OrderImportHelper
+import org.beangle.commons.web.util.RequestUtils
 import org.beangle.data.dao.OqlBuilder
 import org.beangle.data.transfer.excel.ExcelSchema
 import org.beangle.data.transfer.importer.ImportSetting
 import org.beangle.data.transfer.importer.listener.ForeignerListener
 import org.beangle.ems.app.Ems
-import org.beangle.webmvc.api.annotation.response
+import org.beangle.security.Securities
+import org.beangle.webmvc.api.annotation.{mapping, param, response}
+import org.beangle.webmvc.api.context.ActionContext
 import org.beangle.webmvc.api.view.{Stream, View}
 import org.beangle.webmvc.entity.action.RestfulAction
+
+import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
+import java.time.Instant
 
 class WorkOrderAction extends RestfulAction[WorkOrder] {
 
   var syncService: SyncServiceImpl = _
+
+  var orderService: OrderService = _
 
   override protected def indexSetting(): Unit = {
     put("workOrderTypes", entityDao.getAll(classOf[WorkOrderType]))
@@ -52,11 +58,18 @@ class WorkOrderAction extends RestfulAction[WorkOrder] {
     super.editSetting(entity)
   }
 
-  override def saveAndRedirect(entity: WorkOrder): View = {
-    if (null == entity.createdAt) {
-      entity.createdAt = Instant.now
+  override def saveAndRedirect(o: WorkOrder): View = {
+    if (null == o.createdAt) {
+      o.createdAt = Instant.now
     }
-    super.saveAndRedirect(entity)
+    val originStatus = o.assessStatus
+    orderService.recalcState(o)
+    if (originStatus != o.assessStatus) {
+      val users = entityDao.findBy(classOf[User], "code", List(Securities.user))
+      val log = new AssessLog(originStatus, o, users.head, RequestUtils.getIpAddr(ActionContext.current.request))
+      entityDao.saveOrUpdate(log)
+    }
+    super.saveAndRedirect(o)
   }
 
   def sync(): View = {
@@ -103,5 +116,16 @@ class WorkOrderAction extends RestfulAction[WorkOrder] {
     fl.addForeigerKey("name")
     fl.addForeigerKey("specification")
     setting.listeners = List(fl, new OrderImportHelper(entityDao))
+  }
+
+  @mapping(value = "{id}")
+  override def info(@param("id") id: String): View = {
+    val order = entityDao.get(classOf[WorkOrder], id.toLong)
+    val logQuery = OqlBuilder.from(classOf[AssessLog], "al").where("al.orderId=:orderId", order.id)
+    logQuery.orderBy("al.updatedAt")
+    val logs = entityDao.search(logQuery)
+    put("logs", logs)
+    put("workOrder", order)
+    forward()
   }
 }

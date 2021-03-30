@@ -22,8 +22,11 @@ import com.yushanginfo.erp.base.model.{Factory, User}
 import com.yushanginfo.erp.mes.model._
 import com.yushanginfo.erp.mes.service.OrderService
 import org.beangle.commons.collection.Order
+import org.beangle.commons.web.util.RequestUtils
 import org.beangle.data.dao.OqlBuilder
 import org.beangle.security.Securities
+import org.beangle.webmvc.api.annotation.{mapping, param}
+import org.beangle.webmvc.api.context.ActionContext
 import org.beangle.webmvc.api.view.View
 import org.beangle.webmvc.entity.action.RestfulAction
 
@@ -67,13 +70,13 @@ class DepartAssessAction extends RestfulAction[WorkOrder] {
       assessDuration match {
         case 12 =>
           builder.where("workOrder.assessStatus not in(:endStatuses) and :time<= workOrder.materialAssess.createdAt",
-            Array(AssessStatus.Passed,AssessStatus.Cancel),Instant.now().minusSeconds(12*2600))
+            Array(AssessStatus.Passed, AssessStatus.Cancel), Instant.now().minusSeconds(12 * 2600))
         case 24 =>
           builder.where("workOrder.assessStatus not in(:endStatuses) and :time<= workOrder.materialAssess.createdAt",
-            Array(AssessStatus.Passed,AssessStatus.Cancel),Instant.now().minusSeconds(24*2600))
+            Array(AssessStatus.Passed, AssessStatus.Cancel), Instant.now().minusSeconds(24 * 2600))
         case _ =>
           builder.where("workOrder.assessStatus not in(:endStatuses) and :time > workOrder.materialAssess.createdAt",
-            Array(AssessStatus.Passed,AssessStatus.Cancel),Instant.now().minusSeconds(24*2600))
+            Array(AssessStatus.Passed, AssessStatus.Cancel), Instant.now().minusSeconds(24 * 2600))
       }
     }
     val workOrders = entityDao.search(builder)
@@ -96,15 +99,19 @@ class DepartAssessAction extends RestfulAction[WorkOrder] {
   def saveAssess(): View = {
     val group = entityDao.get(classOf[AssessGroup], longId("assessGroup"))
     val order = entityDao.get(classOf[WorkOrder], longId("workOrder"))
+    val originStatus = order.assessStatus;
     val users = entityDao.findBy(classOf[User], "code", List(Securities.user))
     order.technics foreach { wt =>
       if (wt.technic.assessGroup.contains(group)) {
-        wt.updatedAt = Instant.now
-        wt.passed = Some(true)
-        wt.days = getInt(wt.id + ".days")
-        wt.factory = entityDao.get(classOf[Factory], getInt(wt.id + ".factory.id", 0))
-        wt.assessedBy = users.headOption
-        entityDao.saveOrUpdate(wt)
+        val days = getInt(wt.id + ".days")
+        if (days.isDefined) {
+          wt.updatedAt = Instant.now
+          wt.passed = Some(true)
+          wt.days = days
+          wt.factory = entityDao.get(classOf[Factory], getInt(wt.id + ".factory.id", 0))
+          wt.assessedBy = users.headOption
+          entityDao.saveOrUpdate(wt)
+        }
       } else {
         if (wt.technic.duration > 0 && wt.days.isEmpty) {
           wt.days = Some(wt.technic.duration)
@@ -118,27 +125,21 @@ class DepartAssessAction extends RestfulAction[WorkOrder] {
 
     entityDao.saveOrUpdate(order)
     orderService.recalcState(order)
+    if (originStatus != order.assessStatus) {
+      val log = new AssessLog(originStatus, order, users.head, RequestUtils.getIpAddr(ActionContext.current.request))
+      entityDao.saveOrUpdate(log)
+    }
     redirect("search", "info.save.success")
   }
 
-  //
-  //  override def saveAndRedirect(entity: WorkOrderTechnic): View = {
-  //    get("technicId").foreach(technicId => {
-  //      val technic = entityDao.get(classOf[Technic], technicId.toInt)
-  //      entity.technic = technic
-  //    })
-  //    get("workOrderId").foreach(workOrderId => {
-  //      val workOrder = entityDao.get(classOf[WorkOrder], workOrderId.toLong)
-  //      entity.workOrder = workOrder
-  //    })
-  //    val users = entityDao.findBy(classOf[User], "code", List(Securities.user))
-  //    entity.passed = Some(true)
-  //    entity.assessedBy = users.headOption
-  //    entityDao.saveOrUpdate(entity)
-  //
-  //    entityDao.refresh(entity)
-  //    orderService.recalcState(entity.workOrder)
-  //    super.saveAndRedirect(entity)
-  //  }
-
+  @mapping(value = "{id}")
+  override def info(@param("id") id: String): View = {
+    val order = entityDao.get(classOf[WorkOrder], id.toLong)
+    val logQuery = OqlBuilder.from(classOf[AssessLog], "al").where("al.orderId=:orderId", order.id)
+    logQuery.orderBy("al.updatedAt")
+    val logs = entityDao.search(logQuery)
+    put("logs", logs)
+    put("workOrder", order)
+    forward()
+  }
 }

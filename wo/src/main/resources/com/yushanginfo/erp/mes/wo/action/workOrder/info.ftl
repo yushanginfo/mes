@@ -67,6 +67,16 @@
     <td class="title">说明</td>
     <td class="content" colspan="3">${workOrder.remark!}</td>
   </tr>
+  [#if logs?? && logs?size >0 ]
+  <tr>
+    <td class="title">审核日志</td>
+    <td class="content" colspan="3">
+      [#list logs as log]
+        ${log.fromStatus.name} -> ${log.toStatus.name} ${log.user.name} ${log.updatedAt?string("yyyy-MM-dd HH:mm:ss")} ${log.ip} ${log.remark!} [#if log_has_next]<br>[/#if]
+      [/#list]
+    </td>
+  </tr>
+  [/#if]
 </table>
 
 [@b.foot/]

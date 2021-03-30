@@ -45,7 +45,7 @@
          [/#if]
        [#else]
          [#if myGroups?seq_contains(assessGroup)]
-           [@b.a class="btn btn-primary" style="font-size:0.8em" href="!assess?workOrderId=${workOrder.id}&assessGroupId=${assessGroup.id}"]${assessGroup.name}[/@]
+           <button class="btn btn-primary" style="font-size:0.8em" onclick="assess('${workOrder.id}','${assessGroup.id}')">${assessGroup.name}</button>
          [#else]
            <button class="btn btn-primary" style="font-size:0.8em">${assessGroup.name}</button>
          [/#if]

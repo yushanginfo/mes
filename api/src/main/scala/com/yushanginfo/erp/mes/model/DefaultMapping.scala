@@ -84,5 +84,7 @@ class DefaultMapping extends MappingModule {
     bind[WorkOrderStatus] declare { e =>
       e.code.is (length(10),unique)
     }
+
+    bind[AssessLog]
   }
 }

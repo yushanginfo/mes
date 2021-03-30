@@ -18,11 +18,11 @@
  */
 package com.yushanginfo.erp.mes.service.impl
 
-import java.time.{LocalDate, ZoneId}
-
 import com.yushanginfo.erp.mes.model.{AssessStatus, WorkOrder}
 import com.yushanginfo.erp.mes.service.OrderService
 import org.beangle.data.dao.EntityDao
+
+import java.time.{LocalDate, ZoneId}
 
 class OrderServiceImpl extends OrderService {
 
@@ -33,7 +33,7 @@ class OrderServiceImpl extends OrderService {
 
     //计算计划完工时间
     order.materialAssess foreach { materialAssess =>
-      if (allComplete && order.scheduledOn.isEmpty) {
+      if (allComplete && order.assessStatus != AssessStatus.Passed) {
         val processDays = order.technics.foldLeft(0)(_ + _.days.get)
         val startOn =
           if (materialAssess.ready) {
@@ -45,6 +45,8 @@ class OrderServiceImpl extends OrderService {
         order.scheduledOn = Some(startOn.plusDays(processDays))
         order.deadline foreach { deadline =>
           if (order.scheduledOn.get.compareTo(deadline) > 0) {
+            //此处注意复审轮次
+            order.reviewRound = order.reviewRound + 1
             order.assessStatus = AssessStatus.Unpassed
           } else {
             order.assessStatus = AssessStatus.Passed

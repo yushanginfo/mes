@@ -18,9 +18,14 @@
  */
 package com.yushanginfo.erp.mes.wo.action
 
+import com.yushanginfo.erp.base.model.User
 import com.yushanginfo.erp.mes.model._
 import org.beangle.commons.lang.Strings
+import org.beangle.commons.web.util.RequestUtils
 import org.beangle.data.dao.OqlBuilder
+import org.beangle.security.Securities
+import org.beangle.webmvc.api.annotation.{mapping, param}
+import org.beangle.webmvc.api.context.ActionContext
 import org.beangle.webmvc.api.view.View
 import org.beangle.webmvc.entity.action.RestfulAction
 
@@ -39,7 +44,7 @@ class FinalAssessAction extends RestfulAction[WorkOrder] {
         str = Strings.replace(str, ";", ",");
         val codeQueryStr = Strings.split(str, ",") map { b =>
           i += 1
-          query.param(s"customerCode${i}", b+"%")
+          query.param(s"customerCode${i}", b + "%")
           s"workOrder.product.specification like :customerCode${i}"
         }
         println(codeQueryStr.mkString(" or "))
@@ -52,15 +57,22 @@ class FinalAssessAction extends RestfulAction[WorkOrder] {
   def review(): View = {
     val ids = longIds("workOrder")
     val workOrders = entityDao.find(classOf[WorkOrder], ids)
-    workOrders.foreach(workOrder => {
-      workOrder.scheduledOn = null
-      workOrder.assessStatus = AssessStatus.Review
+    val users = entityDao.findBy(classOf[User], "code", List(Securities.user))
+    workOrders.foreach(order => {
+      order.scheduledOn = null
+      val originStatus = order.assessStatus
+      order.assessStatus = AssessStatus.Review
+      if (originStatus != order.assessStatus) {
+        val log = new AssessLog(originStatus, order, users.head, RequestUtils.getIpAddr(ActionContext.current.request))
+        entityDao.saveOrUpdate(log)
+      }
     })
     val wts = entityDao.findBy(classOf[WorkOrderTechnic], "workOrder", workOrders)
     wts.foreach(departAssess => {
       departAssess.passed = Some(false)
     })
     entityDao.saveOrUpdate(wts)
+
     redirect("search", "info.save.success")
   }
 
@@ -77,4 +89,14 @@ class FinalAssessAction extends RestfulAction[WorkOrder] {
     redirect("search", "info.save.success")
   }
 
+  @mapping(value = "{id}")
+  override def info(@param("id") id: String): View = {
+    val order = entityDao.get(classOf[WorkOrder], id.toLong)
+    val logQuery = OqlBuilder.from(classOf[AssessLog], "al").where("al.orderId=:orderId", order.id)
+    logQuery.orderBy("al.updatedAt")
+    val logs = entityDao.search(logQuery)
+    put("logs", logs)
+    put("workOrder", order)
+    forward()
+  }
 }

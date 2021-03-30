@@ -16,27 +16,34 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.yushanginfo.erp.mes.sync
+package com.yushanginfo.erp.mes.model
 
-import org.beangle.commons.logging.Logging
+import com.yushanginfo.erp.base.model.User
+import org.beangle.data.model.LongId
+import org.beangle.data.model.pojo.{Remark, Updated}
 
-import java.util.{Calendar, Timer, TimerTask}
+import java.time.Instant
 
-object SyncDaemon extends Logging {
-  def start(name: String, intervalHours: Int, syncService: SyncService): Unit = {
-    logger.info(s"Starting $name Daemon,Running within every $intervalHours hours.")
-    val daemon = new SyncDaemon(syncService)
-    new Timer(s"$name Daemon", true).schedule(daemon,
-      new java.util.Date(System.currentTimeMillis + 5000), intervalHours * 3600 * 1000)
+class AssessLog extends LongId with Updated with Remark {
+
+  def this(fromStatus: AssessStatus.Status, order: WorkOrder, user: User, ip: String) {
+    this()
+    this.orderId = order.id
+    this.updatedAt = Instant.now
+    this.user = user
+    this.ip = ip
+    this.fromStatus = fromStatus
+    this.toStatus = order.assessStatus
   }
-}
 
-class SyncDaemon(syncService: SyncService) extends TimerTask with Logging {
-  override def run(): Unit = {
-    try {
-      syncService.sync()
-    } catch {
-      case e: Throwable => e.printStackTrace()
-    }
-  }
+  var orderId: Long = _
+
+  var user: User = _
+
+  var fromStatus: AssessStatus.Status = _
+
+  var toStatus: AssessStatus.Status = _
+
+  var ip: String = _
+
 }
