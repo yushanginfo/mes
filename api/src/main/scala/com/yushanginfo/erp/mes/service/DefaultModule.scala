@@ -19,12 +19,37 @@
 package com.yushanginfo.erp.mes.service
 
 import com.yushanginfo.erp.mes.service.impl.OrderServiceImpl
+import org.beangle.cdi.PropertySource
 import org.beangle.cdi.bind.BindModule
+import org.beangle.commons.collection.Collections
+import org.beangle.ems.app.EmsApp
 
-class DefaultModule extends BindModule {
+import java.io.FileInputStream
+
+class DefaultModule extends BindModule  with PropertySource {
 
   override protected def binding(): Unit = {
     bind(classOf[OrderServiceImpl])
+    bind(classOf[MailNotifierBuilder])
+      .property("host", $("smtp.host"))
+      .property("username", $("smtp.username"))
+      .property("password", $("smtp.password"))
+      .property("port", $("smtp.port")).lazyInit(false)
   }
 
+  override def properties: collection.Map[String, String] = {
+    val datas = Collections.newMap[String, String]
+    EmsApp.getAppFile foreach { file =>
+      val is = new FileInputStream(file)
+      val app = scala.xml.XML.load(is)
+      (app \\ "smtp") foreach { e =>
+        datas += ("smtp.host" -> (e \\ "host").text.trim)
+        datas += ("smtp.username" -> (e \\ "username").text.trim)
+        datas += ("smtp.password" -> (e \\ "password").text.trim)
+        datas += ("smtp.port" -> (e \\ "port").text.trim)
+      }
+      is.close()
+    }
+    datas.toMap
+  }
 }

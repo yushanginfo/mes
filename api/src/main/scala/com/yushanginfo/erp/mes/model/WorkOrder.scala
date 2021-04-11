@@ -57,14 +57,14 @@ class WorkOrder extends LongId with Updated with Remark {
   /** 工单评审状态 */
   var assessStatus: AssessStatus.Status = AssessStatus.Original
 
-  /** 复审轮次 */
-  var reviewRound: Int = _
-
   /** 到料日期 */
   var materialAssess: Option[MaterialAssess] = None
 
   /** 工单工艺 */
   var technics: mutable.Buffer[WorkOrderTechnic] = Collections.newBuffer[WorkOrderTechnic]
+
+  /** 复审事件 */
+  var reviewEvents: mutable.Buffer[ReviewEvent] = Collections.newBuffer[ReviewEvent]
 
   /** 生产工厂 */
   var factory: Factory = _

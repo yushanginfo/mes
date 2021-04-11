@@ -62,14 +62,20 @@ class WorkOrderAction extends RestfulAction[WorkOrder] {
     if (null == o.createdAt) {
       o.createdAt = Instant.now
     }
-    val originStatus = o.assessStatus
-    orderService.recalcState(o)
-    if (originStatus != o.assessStatus) {
-      val users = entityDao.findBy(classOf[User], "code", List(Securities.user))
-      val log = new AssessLog(originStatus, o, users.head, RequestUtils.getIpAddr(ActionContext.current.request))
-      entityDao.saveOrUpdate(log)
-    }
+    val users = entityDao.findBy(classOf[User], "code", List(Securities.user))
+    orderService.recalcState(o, users.head, RequestUtils.getIpAddr(ActionContext.current.request))
     super.saveAndRedirect(o)
+  }
+
+  def setPass(): View = {
+    val orderIds = longIds("workOrder")
+    val orders = entityDao.find(classOf[WorkOrder], orderIds)
+    orders foreach { o =>
+      o.assessStatus = AssessStatus.Passed
+      o.remark = Some("手动设置为通过")
+    }
+    entityDao.saveOrUpdate(orders)
+    redirect("search", "info.save.success")
   }
 
   def sync(): View = {
@@ -128,4 +134,6 @@ class WorkOrderAction extends RestfulAction[WorkOrder] {
     put("workOrder", order)
     forward()
   }
+
+
 }

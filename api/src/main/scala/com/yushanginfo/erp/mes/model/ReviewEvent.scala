@@ -16,13 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.yushanginfo.erp.mes.wo.service
+package com.yushanginfo.erp.mes.model
 
-import org.beangle.cdi.bind.BindModule
+import com.yushanginfo.erp.base.model.User
+import org.beangle.commons.collection.Collections
+import org.beangle.data.model.LongId
+import org.beangle.data.model.pojo.{Remark, Updated}
 
-class DefaultModule extends BindModule {
+import scala.collection.mutable
 
-  override protected def binding(): Unit = {
-    bind(classOf[CronMailNotifier]).lazyInit(false)
-  }
+class ReviewEvent extends LongId with Remark with Updated {
+
+  var workOrder: WorkOrder = _
+
+  var comments: String = _
+
+  var issueBy: User = _
+
+  var watchers: mutable.Buffer[User] = Collections.newBuffer[User]
+
 }

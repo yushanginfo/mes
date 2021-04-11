@@ -25,16 +25,16 @@ import org.beangle.commons.logging.Logging
 
 import scala.collection.mutable
 
-object MailDaemon extends Logging {
-  def start(name: String, mailNotifier: MailNotifier,times: Set[LocalTime]): Unit = {
+object CronMailDaemon extends Logging {
+  def start(name: String, mailNotifier: CronMailNotifier, times: Set[LocalTime]): Unit = {
     logger.info(s"Starting $name Daemon")
-    val daemon = new MailDaemon(mailNotifier,times)
+    val daemon = new CronMailDaemon(mailNotifier,times)
     new Timer(s"$name Daemon", true).schedule(daemon,
       new java.util.Date(System.currentTimeMillis + 5000), 60 * 1000)
   }
 }
 
-class MailDaemon(mailNotifier: MailNotifier, times: Set[LocalTime]) extends TimerTask with Logging {
+class CronMailDaemon(mailNotifier: CronMailNotifier, times: Set[LocalTime]) extends TimerTask with Logging {
   private val sended = new mutable.HashMap[LocalDate, List[LocalTime]]
 
   override def run(): Unit = {

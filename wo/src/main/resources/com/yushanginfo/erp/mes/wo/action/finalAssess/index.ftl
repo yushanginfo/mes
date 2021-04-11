@@ -19,6 +19,15 @@
           <option value="5">取消</option>
         </select>
       [/@]
+      [@b.field label="复审轮次"]
+        <select name="reviewRound">
+          <option value="">...</option>
+          <option value="1">第一轮</option>
+          <option value="2">第二轮</option>
+          <option value="3">第三轮</option>
+        </select>
+      [/@]
+
       <input type="hidden" name="orderBy" value="workOrder.createdAt desc"/>
     [/@]
   </div>

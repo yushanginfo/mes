@@ -20,16 +20,22 @@ package com.yushanginfo.erp.mes.wo.action
 
 import com.yushanginfo.erp.base.model.User
 import com.yushanginfo.erp.mes.model._
+import com.yushanginfo.erp.mes.service.OrderService
 import org.beangle.commons.lang.Strings
 import org.beangle.commons.web.util.RequestUtils
 import org.beangle.data.dao.OqlBuilder
+import org.beangle.ems.app.Ems
 import org.beangle.security.Securities
 import org.beangle.webmvc.api.annotation.{mapping, param}
 import org.beangle.webmvc.api.context.ActionContext
 import org.beangle.webmvc.api.view.View
 import org.beangle.webmvc.entity.action.RestfulAction
 
+import java.time.Instant
+
 class FinalAssessAction extends RestfulAction[WorkOrder] {
+  var orderService: OrderService = _
+
   override protected def indexSetting(): Unit = {
     put("orderTypes", entityDao.getAll(classOf[WorkOrderType]))
     put("orderStatuses", entityDao.getAll(classOf[WorkOrderStatus]))
@@ -51,27 +57,34 @@ class FinalAssessAction extends RestfulAction[WorkOrder] {
         query.where(codeQueryStr.mkString(" or "))
       }
     }
+    getInt("reviewRound") foreach { round =>
+      query.where("size(workOrder.reviewEvents) = :round", round)
+    }
     query
   }
 
   def review(): View = {
-    val ids = longIds("workOrder")
-    val workOrders = entityDao.find(classOf[WorkOrder], ids)
+    val id = longId("workOrder")
+    val order = entityDao.get(classOf[WorkOrder], id)
+    put("workOrder", order)
+    put("ems", Ems)
+    forward()
+  }
+
+  def issueReview(): View = {
+    val id = longId("workOrder")
+    val order = entityDao.get(classOf[WorkOrder], id)
     val users = entityDao.findBy(classOf[User], "code", List(Securities.user))
-    workOrders.foreach(order => {
-      order.scheduledOn = null
-      val originStatus = order.assessStatus
-      order.assessStatus = AssessStatus.Review
-      if (originStatus != order.assessStatus) {
-        val log = new AssessLog(originStatus, order, users.head, RequestUtils.getIpAddr(ActionContext.current.request))
-        entityDao.saveOrUpdate(log)
-      }
-    })
-    val wts = entityDao.findBy(classOf[WorkOrderTechnic], "workOrder", workOrders)
-    wts.foreach(departAssess => {
-      departAssess.passed = Some(false)
-    })
-    entityDao.saveOrUpdate(wts)
+    val event = populateEntity(classOf[ReviewEvent], "reviewEvent")
+    event.workOrder = order
+    event.issueBy = users.head
+    event.updatedAt = Instant.now
+    val watcherIds = longIds("watcher")
+    if (watcherIds.nonEmpty) {
+      event.watchers ++= entityDao.find(classOf[User], watcherIds)
+    }
+    orderService.issueReview(order, event, users.head, RequestUtils.getIpAddr(ActionContext.current.request))
+    entityDao.saveOrUpdate(event, order)
 
     redirect("search", "info.save.success")
   }

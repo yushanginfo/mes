@@ -158,4 +158,4 @@ where wo.order_type_id = wot.id and ta.ta001=wot.code and ta.ta002=wo.batch_num 
 and ta.ta006=tech.machine_supplier_code and t.code=ta.ta004 and t.id <> tech.technic_id);
 
 --32 样品工单无需评审
-update mes.work_orders set assess_status=4 where assess_status<>4 and order_type_id=5103;
+update mes.work_orders set assess_status=4 where assess_status<>4 and order_type_id in(5103,5201) ;

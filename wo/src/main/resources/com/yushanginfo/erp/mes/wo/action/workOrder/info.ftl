@@ -67,6 +67,20 @@
     <td class="title">说明</td>
     <td class="content" colspan="3">${workOrder.remark!}</td>
   </tr>
+  [#if  workOrder.reviewEvents?size>0]
+  [#list workOrder.reviewEvents?sort_by("updatedAt") as reviewEvent]
+  <tr>
+    <td class="title">复审信息：第${reviewEvent_index+1}轮</td>
+    <td class="content" colspan="3">
+         <ul>
+          <li>原因：${reviewEvent.comments}</li>
+          <li>说明：${reviewEvent.remark!}</li>
+          <li>反馈：[#list reviewEvent.watchers as w]${w.name}&nbsp;[/#list]&nbsp;</li>
+         </ul>
+    </td>
+  </tr>
+  [/#list]
+  [/#if]
   [#if logs?? && logs?size >0 ]
   <tr>
     <td class="title">审核日志</td>

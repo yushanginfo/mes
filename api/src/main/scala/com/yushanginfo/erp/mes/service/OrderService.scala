@@ -18,8 +18,18 @@
  */
 package com.yushanginfo.erp.mes.service
 
-import com.yushanginfo.erp.mes.model.WorkOrder
+import com.yushanginfo.erp.base.model.User
+import com.yushanginfo.erp.mes.model.{ReviewEvent, WorkOrder}
 
 trait OrderService {
-  def recalcState(order: WorkOrder): Unit
+  def recalcState(order: WorkOrder, user: User, ip: String): Unit
+
+  /** 发起复审 */
+  def issueReview(order: WorkOrder, reviewEvent: ReviewEvent, operator: User, ip: String): Unit
+
+  /** 通知复审需要反馈的人员 */
+  def notifyReviewers(order: WorkOrder, reviewEvent: ReviewEvent): Unit
+
+  /** 通知业务（销售代表） */
+  def notifySaler(order: WorkOrder): Unit
 }

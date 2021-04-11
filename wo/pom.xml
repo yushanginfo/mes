@@ -37,7 +37,7 @@
     <dependency>
       <groupId>org.beangle.notify</groupId>
       <artifactId>beangle-notify-core</artifactId>
-      <version>0.0.1-SNAPSHOT</version>
+      <version>${beangle.notify.version}</version>
     </dependency>
     <dependency>
       <groupId>org.beangle.commons</groupId>

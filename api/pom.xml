@@ -26,9 +26,22 @@
       <artifactId>beangle-security-core_2.13</artifactId>
     </dependency>
     <dependency>
+      <groupId>org.beangle.notify</groupId>
+      <artifactId>beangle-notify-core</artifactId>
+      <version>${beangle.notify.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.beangle.cdi</groupId>
       <artifactId>beangle-cdi-api_2.13</artifactId>
       <version>${beangle.cdi.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.beangle.template</groupId>
+      <artifactId>beangle-template-freemarker_2.13</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.beangle.ems</groupId>
+      <artifactId>beangle-ems-app_2.13</artifactId>
     </dependency>
   </dependencies>
 </project>

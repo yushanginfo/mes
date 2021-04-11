@@ -2,8 +2,7 @@
 [@b.head/]
 [@b.grid items=workOrders var="workOrder"]
   [@b.gridbar]
-    bar.addItem("打回复审",action.multi('review',"确定复审吗?"));
-    //bar.addItem("取消工单",'cancel()');
+    bar.addItem("打回复审",action.single('review'));
   [/@]
   [@b.row]
     [@b.boxcol /]
@@ -42,7 +41,9 @@
       [/#list]
      </div>
     [/@]
-    [@b.col width="7%" property="assessStatus" title="评审状态"]${workOrder.assessStatus.name}[/@]
+    [@b.col width="7%" property="assessStatus" title="评审状态"]
+      ${workOrder.assessStatus.name} [#if workOrder.assessStatus.name=="复审中"]${workOrder.reviewEvents?size}[/#if]
+    [/@]
   [/@]
 [/@]
 <script>

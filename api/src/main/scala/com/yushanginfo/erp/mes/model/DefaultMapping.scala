@@ -61,6 +61,7 @@ class DefaultMapping extends MappingModule {
 
     bind[WorkOrder].declare { e =>
       e.technics is depends("workOrder")
+      e.reviewEvents is depends("workOrder")
     }
 
     bind[WorkOrderTechnic].declare { e =>
@@ -82,7 +83,12 @@ class DefaultMapping extends MappingModule {
     }
 
     bind[WorkOrderStatus] declare { e =>
-      e.code.is (length(10),unique)
+      e.code.is(length(10), unique)
+    }
+
+    bind[ReviewEvent] declare { e =>
+      e.comments is length(300)
+      e.remark is length(500)
     }
 
     bind[AssessLog]

@@ -70,7 +70,7 @@
    [/#if]
     [/@]
     [@b.col width="8%" property="status.name" title="工单状态"/]
-    [@b.col width="7%" property="assessStatus" title="评审状态"]${workOrder.assessStatus.name}[/@]
+    [@b.col width="7%" property="assessStatus" title="评审状态"]${workOrder.assessStatus.name} [#if workOrder.assessStatus.name=="复审中"]${workOrder.reviewEvents?size}[/#if][/@]
   [/@]
 [/@]
 [@b.form name="assessForm" action="!assess"]

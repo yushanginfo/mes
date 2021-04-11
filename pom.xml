@@ -42,7 +42,7 @@
     <beangle.ids.version>0.2.13</beangle.ids.version>
     <beangle.ems.version>4.1.9</beangle.ems.version>
     <beangle.maven.version>0.3.30</beangle.maven.version>
-
+    <beangle.notify.version>0.0.1-SNAPSHOT</beangle.notify.version>
     <HikariCP.version>3.4.5</HikariCP.version>
     <hibernate.version>5.4.17.Final</hibernate.version>
     <ehcache.version>3.8.1</ehcache.version>

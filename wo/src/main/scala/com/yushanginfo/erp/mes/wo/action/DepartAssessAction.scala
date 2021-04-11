@@ -124,11 +124,7 @@ class DepartAssessAction extends RestfulAction[WorkOrder] {
     }
 
     entityDao.saveOrUpdate(order)
-    orderService.recalcState(order)
-    if (originStatus != order.assessStatus) {
-      val log = new AssessLog(originStatus, order, users.head, RequestUtils.getIpAddr(ActionContext.current.request))
-      entityDao.saveOrUpdate(log)
-    }
+    orderService.recalcState(order,users.head, RequestUtils.getIpAddr(ActionContext.current.request))
     redirect("search", "info.save.success")
   }
 
