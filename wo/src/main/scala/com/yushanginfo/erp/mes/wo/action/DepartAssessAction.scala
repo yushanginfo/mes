@@ -99,7 +99,6 @@ class DepartAssessAction extends RestfulAction[WorkOrder] {
   def saveAssess(): View = {
     val group = entityDao.get(classOf[AssessGroup], longId("assessGroup"))
     val order = entityDao.get(classOf[WorkOrder], longId("workOrder"))
-    val originStatus = order.assessStatus;
     val users = entityDao.findBy(classOf[User], "code", List(Securities.user))
     order.technics foreach { wt =>
       if (wt.technic.assessGroup.contains(group)) {
@@ -122,7 +121,7 @@ class DepartAssessAction extends RestfulAction[WorkOrder] {
         }
       }
     }
-
+    order.updateAssessBeginAt(Instant.now())
     entityDao.saveOrUpdate(order)
     orderService.recalcState(order,users.head, RequestUtils.getIpAddr(ActionContext.current.request))
     redirect("search", "info.save.success")

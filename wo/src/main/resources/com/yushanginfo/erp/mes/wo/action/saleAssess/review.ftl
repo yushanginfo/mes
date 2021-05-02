@@ -27,13 +27,22 @@
     [/@]
     [@b.field label="备注"]${(workOrder.remark)?default("无")}[/@]
     [#if workOrder.assessStatus.name='待复审' && workOrder.status!="通过"]
-      [@b.textfield name="reviewEvent.comments"  label="复审原因" maxlength="200" style="width:300px" required="true"/]
-      [@b.textarea name="reviewEvent.remark" maxlength="300"  label="其他说明" style="width:300px" rows="3" cols="80"/]
-      [@b.select name="watcherIds" label="结果反馈"  style="width:300px;"  option="id,name" empty="..." href=ems.base +"/mes/base/users.json?q={term}"/]
-      [@b.formfoot]
-        <input type="hidden" name="workOrder.id" value="${workOrder.id!}"/>
-        [@b.reset/]&nbsp;&nbsp;[@b.submit value="action.submit"/]
-      [/@]
+      [#if watchers?size>0]
+        [@b.textfield name="reviewEvent.comments"  label="复审原因" maxlength="200" style="width:300px" required="true"/]
+        [@b.textarea name="reviewEvent.remark" maxlength="300"  label="其他说明" style="width:300px" rows="3" cols="80"/]
+        [@b.field label="结果反馈"]
+            <input name="watcherIds" type="hidden" value="[#list watchers as w]${w.id}[#if w_has_next],[/#if][/#list]">
+            [#list watchers as w]${w.name} ${w.email}[#if w_has_next],[/#if][/#list]
+        [/@]
+        [@b.formfoot]
+          <input type="hidden" name="workOrder.id" value="${workOrder.id!}"/>
+          [@b.reset/]&nbsp;&nbsp;[@b.submit value="action.submit"/]
+        [/@]
+      [#else]
+         [@b.field label="结果反馈"]
+           <span style="color:red">无对应${workOrder.factory.name} 第${workOrder.reviewEvents?size+1}轮复审的复审人员，请先行维护。</span>
+         [/@]
+      [/#if]
     [#else]
       [#if workOrder.reviewEvents?size>0]
        [#assign reviewEvent=workOrder.reviewEvents?sort_by("updatedAt")?reverse?first/]
@@ -45,17 +54,4 @@
       [/#if]
     [/#if]
   [/@]
-  <script>
-  function displayReadyOn(ele){
-        var hidden=ele.checked && jQuery(ele).val()=='1';
-        for(var i=8;i<=8;i++){
-          if(hidden){
-            jQuery(ele).parentsUntil("ol").parent().children("li:nth("+i+")").hide();
-            jQuery("#readyOn").val("");
-          }else{
-            jQuery(ele).parentsUntil("ol").parent().children("li:nth("+i+")").show();
-          }
-        }
-      }
-  </script>
 [@b.foot/]

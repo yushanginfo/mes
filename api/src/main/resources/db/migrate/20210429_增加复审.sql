@@ -1,0 +1,15 @@
+alter table mes.work_orders add assess_begin_at timestamp;
+alter table mes.work_orders add review_assess_begin_at timestamp;
+create table mes.reviewers (id bigint not null, begin_on date not null, end_on date, user_id bigint not null unique);
+create table mes.reviewers_factories (reviewer_id bigint not null, factory_id integer not null);
+create table mes.reviewers_rounds (reviewer_id bigint not null, value_ integer not null);
+create table mes.assess_items (matchine varchar(255) not null, id bigint not null, indexno varchar(255) not null, technic_id integer not null, record_id bigint not null, days integer not null);
+create table mes.assess_records (updated_at timestamp not null, id bigint not null, order_id bigint not null, material_ready boolean not null, material_ready_on date, scheduled_on date not null, assess_status integer not null);
+alter table mes.assess_items add constraint pk_9hq36hbnqiaem0i10y7133hdb primary key (id);
+alter table mes.assess_records add constraint pk_q6osa9yd7hflatl86icm3cadv primary key (id);
+alter table mes.reviewers add constraint pk_ktoo8f8xd22lfe2tbml64tbx primary key (id);
+alter table mes.reviewers_factories add constraint pk_mwx57qhy2wy4rwux6qp0qx38l primary key (reviewer_id,factory_id);
+alter table mes.reviewers_rounds add constraint pk_ins796xng0rml5goshb260yrr primary key (reviewer_id,value_);
+create index idx_o019dq0nctfoh1p94cul1ax4u on mes.reviewers_factories (reviewer_id);
+create index idx_jav04leq2d7o94m9wdtfa0uk9 on mes.reviewers_rounds (reviewer_id);
+create index idx_supioe5aa6tgiu208r5m0vvij on mes.assess_items (record_id);

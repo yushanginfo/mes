@@ -58,7 +58,6 @@ class UserAction extends RestfulAction[User] {
     sheet.add("所在部门", "user.department.code").ref(departs).required()
     sheet.add("所在厂区", "user.factory.code").ref(factories)
 
-
     val code = schema.createScheet("数据字典")
     code.add("部门").data(departs)
     code.add("厂区").data(factories)

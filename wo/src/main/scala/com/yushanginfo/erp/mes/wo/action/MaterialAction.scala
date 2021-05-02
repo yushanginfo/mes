@@ -60,7 +60,10 @@ class MaterialAction extends RestfulAction[WorkOrder] {
 
   override def saveAndRedirect(order: WorkOrder): View = {
     val materialAssess = populateEntity(classOf[MaterialAssess], "materialAssess")
-    order.assessStatus = AssessStatus.Submited
+    if (order.assessStatus == AssessStatus.Original) {
+      order.assessStatus = AssessStatus.Submited
+      order.updateAssessBeginAt(Instant.now())
+    }
     materialAssess.order = order
     materialAssess.updatedAt = Instant.now
     val users = entityDao.findBy(classOf[User], "code", List(Securities.user))

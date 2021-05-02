@@ -33,7 +33,7 @@ import org.beangle.webmvc.entity.action.RestfulAction
 
 import java.time.Instant
 
-class FinalAssessAction extends RestfulAction[WorkOrder] {
+class SaleAssessAction extends RestfulAction[WorkOrder] {
   var orderService: OrderService = _
 
   override protected def indexSetting(): Unit = {
@@ -66,9 +66,30 @@ class FinalAssessAction extends RestfulAction[WorkOrder] {
   def review(): View = {
     val id = longId("workOrder")
     val order = entityDao.get(classOf[WorkOrder], id)
+    val query = OqlBuilder.from(classOf[Reviewer].getName, "r")
+    query.where(":factory in elements (r.factories)", order.factory)
+    query.where(":roundIdx in elements (r.rounds)", order.reviewEvents.size + 1)
+    query.select("distinct r.user")
+    put("watchers", entityDao.search(query))
     put("workOrder", order)
     put("ems", Ems)
     forward()
+  }
+
+  def accept(): View = {
+    val id = longId("workOrder")
+    val order = entityDao.get(classOf[WorkOrder], id)
+    val users = entityDao.findBy(classOf[User], "code", List(Securities.user))
+    if (order.assessStatus == AssessStatus.Unpassed) {
+      order.assessStatus = AssessStatus.Passed
+      order.remark = Some("业务接受评审交期，直接通过")
+      val log = new AssessLog(AssessStatus.Unpassed, order, users.head, RequestUtils.getIpAddr(ActionContext.current.request))
+      entityDao.saveOrUpdate(log, order)
+      redirect("search", "info.action.success")
+    } else {
+      redirect("search", order.assessStatus.name + " 中的工单不能直接通过")
+    }
+
   }
 
   def issueReview(): View = {

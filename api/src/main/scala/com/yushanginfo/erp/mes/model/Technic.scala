@@ -48,5 +48,5 @@ class Technic extends IntId with Coded with Named with Updated with Remark {
 
   /** 评审预计需要的天数，默认为0 */
   var duration: Int = _
-  
+
 }

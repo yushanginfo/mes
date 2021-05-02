@@ -72,11 +72,31 @@ class WorkOrder extends LongId with Updated with Remark {
   /** 创建日期 */
   var createdAt: Instant = _
 
+  /** 评审开始于 */
+  var assessBeginAt: Option[Instant] = None
+
+  /** 复审开始于 */
+  var reviewAssessBeginAt: Option[Instant] = None
+
   def canAssess: Boolean = {
     assessStatus != AssessStatus.Unpassed && assessStatus != AssessStatus.Passed
   }
 
   def inReview: Boolean = {
     assessStatus == AssessStatus.Review || assessStatus == AssessStatus.Unpassed
+  }
+
+  def updateAssessBeginAt(now: Instant): Unit = {
+    assessBeginAt match {
+      case Some(beginAt) => if (now.isBefore(beginAt)) assessBeginAt = Some(now)
+      case None => assessBeginAt = Some(now)
+    }
+  }
+
+  def updateReviewAssessBeginAt(now: Instant): Unit = {
+    reviewAssessBeginAt match {
+      case Some(beginAt) => if (now.isBefore(beginAt)) reviewAssessBeginAt = Some(now)
+      case None => reviewAssessBeginAt = Some(now)
+    }
   }
 }

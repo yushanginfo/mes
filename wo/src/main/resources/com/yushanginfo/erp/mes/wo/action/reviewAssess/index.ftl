@@ -1,6 +1,6 @@
 [#ftl]
 [@b.head/]
-[@b.toolbar title="工单最终评审信息"/]
+[@b.toolbar title="工单复审信息"/]
 <div class="search-container">
   <div class="search-panel">
     [@b.form name="workOrderSearchForm" action="!search" target="workOrderlist" title="ui.searchForm" theme="search"]
@@ -14,7 +14,7 @@
           <option value="0">初始</option>
           <option value="1">评审中</option>
           <option value="2">待复审</option>
-          <option value="3">复审中</option>
+          <option value="3" selected>复审中</option>
           <option value="4">通过</option>
           <option value="5">取消</option>
         </select>
@@ -31,7 +31,7 @@
       <input type="hidden" name="orderBy" value="workOrder.createdAt desc"/>
     [/@]
   </div>
-  <div class="search-list">[@b.div id="workOrderlist" href="!search?orderBy=workOrder.createdAt desc"/]
+  <div class="search-list">[@b.div id="workOrderlist" href="!search?workOrder.assessStatus=3&orderBy=workOrder.createdAt desc"/]
   </div>
 </div>
 

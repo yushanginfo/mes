@@ -25,5 +25,5 @@ import org.beangle.data.model.pojo.{Coded, Named, Updated}
 
 class Factory extends IntId with Coded with Named with Updated {
 
-	var address: String = _
+  var address: String = _
 }

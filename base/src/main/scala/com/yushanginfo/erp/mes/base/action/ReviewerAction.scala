@@ -16,14 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.yushanginfo.erp.mes.base.action.code
+package com.yushanginfo.erp.mes.base.action
 
-import org.beangle.webmvc.api.action.ActionSupport
+import com.yushanginfo.erp.base.model.Factory
+import com.yushanginfo.erp.mes.model.Reviewer
 import org.beangle.webmvc.api.view.View
+import org.beangle.webmvc.entity.action.RestfulAction
 
-class CodeAction extends ActionSupport {
+class ReviewerAction extends RestfulAction[Reviewer] {
 
-  def index: View = {
-    forward()
+  override protected def editSetting(entity: Reviewer): Unit = {
+    put("factories", entityDao.getAll(classOf[Factory]))
+    put("rounds", List(1, 2, 3))
+    super.editSetting(entity)
+  }
+
+  override protected def saveAndRedirect(entity: Reviewer): View = {
+    val factoryIds = intIds("factory")
+    entity.factories.clear()
+    entity.factories ++= entityDao.find(classOf[Factory], factoryIds.toSeq)
+    entity.rounds.clear()
+    entity.rounds ++= getAll("round", classOf[Int])
+    super.saveAndRedirect(entity)
   }
 }

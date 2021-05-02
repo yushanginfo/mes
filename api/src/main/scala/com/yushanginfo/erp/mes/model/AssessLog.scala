@@ -26,7 +26,7 @@ import java.time.Instant
 
 class AssessLog extends LongId with Updated with Remark {
 
-  def this(fromStatus: AssessStatus.Status, order: WorkOrder, user: User, ip: String) {
+  def this(fromStatus: AssessStatus.Status, order: WorkOrder, user: User, ip: String)= {
     this()
     this.orderId = order.id
     this.updatedAt = Instant.now

@@ -16,15 +16,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.yushanginfo.erp.mes.wo.action
+package com.yushanginfo.erp.mes.model
 
-import org.beangle.cdi.bind.BindModule
+import com.yushanginfo.erp.base.model.{Factory, User}
+import org.beangle.commons.collection.Collections
+import org.beangle.data.model.LongId
+import org.beangle.data.model.pojo.TemporalOn
 
-class DefaultModule extends BindModule {
-  override protected def binding(): Unit = {
-    bind(classOf[WorkOrderAction], classOf[MaterialAction], classOf[DepartAssessAction], classOf[ReviewAssessAction])
-    bind(classOf[OrderSearchAction])
-    bind(classOf[AssessLogAction])
-    bind(classOf[SaleAssessAction])
-  }
+import scala.collection.mutable
+
+/** 复审员
+ *
+ */
+class Reviewer extends LongId with TemporalOn {
+  /** 用户 */
+  var user: User = _
+  /** 工厂 */
+  var factories: mutable.Set[Factory] = Collections.newSet[Factory]
+  /** 复审轮次 */
+  var rounds: mutable.Set[Int] = Collections.newSet[Int]
 }

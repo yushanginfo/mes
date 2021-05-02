@@ -79,6 +79,8 @@ class SyncServiceImpl extends SyncService with Initializing with Logging {
     source.sequence.excludes = List.empty
 
     val config = new Config(source, target, 1, 10000, Tuple2(0, Int.MaxValue), ConversionModel.Recreate)
+    config.beforeActions=List.empty
+    config.afterActions=List.empty
     new Reactor(config).start()
   }
 

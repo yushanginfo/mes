@@ -1,0 +1,16 @@
+[#ftl]
+[@b.head/]
+[@b.toolbar title="复审成员信息"]bar.addBack();[/@]
+  [#assign rounds={"1":"复审第一轮","2":"复审第二轮","3":"复审第三轮"}/]
+  [@b.form action=sa theme="list" action=b.rest.save(reviewer)]
+    [@b.select name="reviewer.user.id" label="成员" value=reviewer.user!
+               style="width:300px;" href="/users.json?q={term}" option="id,description" empty="..."/]
+    [@b.select name="factory.id" label="工厂" values=reviewer.factories items=factories option="id,name" required="true" empty="..." multiple="true" chosenMin="1"/]
+    [@b.select name="round" label="复审轮次" values=reviewer.rounds items=rounds multiple="true" required="true" style="width:300px;" empty="..." chosenMin="1"/]
+    [@b.startend name="reviewer.beginOn,reviewer.endOn"  label="有效期限" start=reviewer.beginOn end=reviewer.endOn! required="true,false"/]
+    [@b.formfoot]
+      [@b.reset/]&nbsp;&nbsp;[@b.submit value="action.submit"/]
+    [/@]
+  [/@]
+<div style="margin-bottom:20px"></div>
+[@b.foot/]

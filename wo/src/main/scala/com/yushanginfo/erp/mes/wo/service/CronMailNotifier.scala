@@ -19,7 +19,7 @@
 package com.yushanginfo.erp.mes.wo.service
 
 import com.yushanginfo.erp.mes.model.{AssessMember, AssessStatus, WorkOrder}
-import com.yushanginfo.erp.mes.service.{MailContentGenerator, MailNotifierBuilder}
+import com.yushanginfo.erp.mes.service.{MailNotifierBuilder}
 import org.beangle.commons.bean.Initializing
 import org.beangle.commons.collection.Collections
 import org.beangle.commons.logging.Logging
@@ -28,6 +28,7 @@ import org.beangle.data.hibernate.spring.SessionUtils
 import org.beangle.ems.app.Ems
 import org.beangle.notify.SendingObserver
 import org.beangle.notify.mail.{DefaultMailNotifier, MailMessage}
+import org.beangle.template.freemarker.DefaultTemplateEngine
 import org.hibernate.SessionFactory
 
 import java.time.{LocalDate, LocalTime}
@@ -71,7 +72,7 @@ class CronMailNotifier extends Initializing with Logging {
     val members = entityDao.search(OqlBuilder.from(classOf[AssessMember], "m").where("m.user.email is not null"))
     val groups = members.groupBy(f => (f.group, f.factory))
 
-    val generator = MailContentGenerator().forTemplate("/com/yushanginfo/erp/mes/wo/mail/body.ftl")
+    val generator = DefaultTemplateEngine().forTemplate("/com/yushanginfo/erp/mes/wo/mail/body.ftl")
     val mails = new mutable.ArrayBuffer[MailMessage]
     groups foreach { kv =>
       val gf = kv._1
@@ -89,7 +90,7 @@ class CronMailNotifier extends Initializing with Logging {
           model.put("assessGroup", gf._1)
           model.put("factory", gf._2)
           model.put("user", am.user)
-          val body = generator.generate(model)
+          val body = generator.render(model)
           val subject = s"${LocalDate.now()} ${gf._2.name} ${gf._1.name} ${orders.size}个待评审工单提醒"
           mails += new MailMessage(subject, body, am.user.email.get)
         }
@@ -102,6 +103,5 @@ class CronMailNotifier extends Initializing with Logging {
       "none mail is sended"
     }
   }
-
 
 }

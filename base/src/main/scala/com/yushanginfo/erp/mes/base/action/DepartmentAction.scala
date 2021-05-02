@@ -29,7 +29,6 @@ import org.beangle.webmvc.api.annotation.response
 import org.beangle.webmvc.api.view.Stream
 import org.beangle.webmvc.entity.action.RestfulAction
 
-
 class DepartmentAction extends RestfulAction[Department] {
 
   override protected def editSetting(entity: Department): Unit = {

@@ -30,5 +30,7 @@ class DefaultModule extends BindModule {
     bind(classOf[ProductTechnicAction])
     bind(classOf[AssessGroupAction])
     bind(classOf[AssessMemberAction])
+
+    bind(classOf[ReviewerAction])
   }
 }

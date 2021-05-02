@@ -26,5 +26,5 @@ import org.beangle.data.model.pojo.TemporalAt
  */
 class OrderSetting extends IntId with TemporalAt {
 
-	var workOrder: WorkOrder = _
+  var workOrder: WorkOrder = _
 }

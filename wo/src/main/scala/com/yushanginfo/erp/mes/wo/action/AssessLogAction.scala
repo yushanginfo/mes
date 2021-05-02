@@ -18,13 +18,9 @@
  */
 package com.yushanginfo.erp.mes.wo.action
 
-import org.beangle.cdi.bind.BindModule
+import com.yushanginfo.erp.mes.model.AssessLog
+import org.beangle.webmvc.entity.action.EntityAction
 
-class DefaultModule extends BindModule {
-  override protected def binding(): Unit = {
-    bind(classOf[WorkOrderAction], classOf[MaterialAction], classOf[DepartAssessAction], classOf[ReviewAssessAction])
-    bind(classOf[OrderSearchAction])
-    bind(classOf[AssessLogAction])
-    bind(classOf[SaleAssessAction])
-  }
+class AssessLogAction extends EntityAction[AssessLog] {
+
 }

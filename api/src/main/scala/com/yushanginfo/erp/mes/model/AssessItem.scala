@@ -18,52 +18,26 @@
  */
 package com.yushanginfo.erp.mes.model
 
-import com.yushanginfo.erp.base.model.{Factory, Supplier, User}
 import org.beangle.data.model.LongId
-import org.beangle.data.model.pojo.Updated
 
-/**
- * 评估信息
- */
-class WorkOrderTechnic extends LongId with Updated {
+class AssessItem extends LongId {
 
-  def this(workOrder: WorkOrder, technic: Technic) = {
-    this()
-    this.workOrder = workOrder
-    this.technic = technic
-  }
+  var record: AssessRecord = _
 
-  /** 工单 */
-  var workOrder: WorkOrder = _
+  var matchine: String = _
 
-  /** 工序 */
   var technic: Technic = _
 
-  /** 加工顺序 */
   var indexno: String = _
 
-  /** 工艺说明 */
-  var description: Option[String] = _
+  var days: Int = _
 
-  /** 场内生产/委托外部 */
-  var internal: Boolean = _
-
-  /** 加工中心 */
-  var machine: Option[Machine] = None
-
-  /** 供应商 */
-  var supplier: Option[Supplier] = None
-
-  /** 生产厂区 */
-  var factory: Factory = _
-
-  /** 需要天数 */
-  var days: Option[Int] = None
-
-  /** 是否通过 */
-  var passed: Option[Boolean] = None
-
-  /** 评估人 */
-  var assessedBy: Option[User] = None
-
+  def this(record: AssessRecord, indexno: String, matchine: String, technic: Technic, days: Int) = {
+    this()
+    this.record = record
+    this.indexno = indexno
+    this.matchine = matchine
+    this.technic = technic
+    this.days = days
+  }
 }

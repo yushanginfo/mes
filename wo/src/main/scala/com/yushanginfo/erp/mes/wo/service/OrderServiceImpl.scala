@@ -16,30 +16,31 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.yushanginfo.erp.mes.service.impl
+package com.yushanginfo.erp.mes.wo.service
 
 import com.yushanginfo.erp.base.model.{Customer, User}
-import com.yushanginfo.erp.mes.model.{AssessLog, AssessStatus, ReviewEvent, WorkOrder}
-import com.yushanginfo.erp.mes.service.{MailContentGenerator, MailNotifierBuilder, OrderService}
+import com.yushanginfo.erp.mes.model._
+import com.yushanginfo.erp.mes.service.{MailNotifierBuilder, OrderService}
 import org.beangle.commons.bean.Initializing
 import org.beangle.commons.collection.Collections
 import org.beangle.commons.lang.Strings
 import org.beangle.commons.logging.Logging
 import org.beangle.data.dao.{EntityDao, OqlBuilder}
 import org.beangle.ems.app.Ems
-import org.beangle.notify.SendingObserver
-import org.beangle.notify.mail.{DefaultMailNotifier, JavaMailSender, MailMessage}
 
-import java.time.{LocalDate, ZoneId}
+import java.time.{Instant, LocalDate, ZoneId}
 import scala.collection.mutable
+import org.beangle.notify.mail._
+import org.beangle.notify._
+import org.beangle.template.freemarker.DefaultTemplateEngine
 
 class OrderServiceImpl extends OrderService with Logging with Initializing {
 
   var entityDao: EntityDao = _
   var mailNotifier: DefaultMailNotifier = _
   var mailNotifierBuilder: MailNotifierBuilder = _
-  var mailGenerator = MailContentGenerator().forTemplate("/com/yushanginfo/erp/mes/wo/mail/order.ftl")
-  var reviewGenerator = MailContentGenerator().forTemplate("/com/yushanginfo/erp/mes/wo/mail/review.ftl")
+  var mailGenerator = DefaultTemplateEngine().forTemplate("/com/yushanginfo/erp/mes/wo/mail/order.ftl")
+  var reviewGenerator = DefaultTemplateEngine().forTemplate("/com/yushanginfo/erp/mes/wo/mail/review.ftl")
 
   override def init(): Unit = {
     mailNotifierBuilder.builder().foreach { nf =>
@@ -57,6 +58,7 @@ class OrderServiceImpl extends OrderService with Logging with Initializing {
         val processDays = order.technics.foldLeft(0)(_ + _.days.get)
         val startOn =
           if (materialAssess.ready) {
+            //评审结束后的一天
             LocalDate.ofInstant(order.technics.map(_.updatedAt).max, ZoneId.systemDefault()).plusDays(1)
           } else {
             materialAssess.readyOn.get
@@ -65,7 +67,6 @@ class OrderServiceImpl extends OrderService with Logging with Initializing {
         order.scheduledOn = Some(startOn.plusDays(processDays))
         order.deadline foreach { deadline =>
           if (order.scheduledOn.get.compareTo(deadline) > 0) {
-            //此处注意复审轮次
             order.assessStatus = AssessStatus.Unpassed
           } else {
             order.assessStatus = AssessStatus.Passed
@@ -75,8 +76,10 @@ class OrderServiceImpl extends OrderService with Logging with Initializing {
     }
     entityDao.saveOrUpdate(order)
     if (originStatus != order.assessStatus) {
-      val log = new AssessLog(originStatus, order, operator, ip)
-      entityDao.saveOrUpdate(log)
+      //记录评审日志
+      entityDao.saveOrUpdate(new AssessLog(originStatus, order, operator, ip))
+      //记录评审快照信息
+      entityDao.saveOrUpdate(new AssessRecord(order))
       notifySaler(order)
     }
   }
@@ -84,6 +87,7 @@ class OrderServiceImpl extends OrderService with Logging with Initializing {
   override def issueReview(order: WorkOrder, reviewEvent: ReviewEvent, operator: User, ip: String): Unit = {
     val originStatus = order.assessStatus
     order.scheduledOn = null
+    order.updateReviewAssessBeginAt(Instant.now)
     order.assessStatus = AssessStatus.Review
     order.technics.foreach(departAssess => {
       departAssess.passed = Some(false)
@@ -105,7 +109,7 @@ class OrderServiceImpl extends OrderService with Logging with Initializing {
         model.put("workOrder", order)
         model.put("reviewEvent", reviewEvent)
         model.put("ems", Ems)
-        val body = reviewGenerator.generate(model)
+        val body = reviewGenerator.render(model)
         val subject = s"${order.product.name}(${order.batchNum})  ${reviewEvent.issueBy.name}发起${order.reviewEvents.size}轮复审"
         mails += new MailMessage(subject, body, saler.email.get)
       }
@@ -127,7 +131,7 @@ class OrderServiceImpl extends OrderService with Logging with Initializing {
         val model = Collections.newMap[String, Any]
         model.put("workOrder", order)
         model.put("ems", Ems)
-        val body = mailGenerator.generate(model)
+        val body = mailGenerator.render(model)
         val subject = s"${order.product.name}(${order.batchNum})评审状态变更为${order.assessStatus.name}"
         mails += new MailMessage(subject, body, saler.email.get)
       }

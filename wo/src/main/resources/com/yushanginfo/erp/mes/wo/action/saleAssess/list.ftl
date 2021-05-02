@@ -3,6 +3,7 @@
 [@b.grid items=workOrders var="workOrder"]
   [@b.gridbar]
     bar.addItem("打回复审",action.single('review'));
+    bar.addItem("直接通过",action.single('accept',"接受评审结果，结束复审?"));
   [/@]
   [@b.row]
     [@b.boxcol /]

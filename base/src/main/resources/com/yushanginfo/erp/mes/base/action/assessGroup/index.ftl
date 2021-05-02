@@ -1,13 +1,6 @@
 [#ftl]
 [@b.head/]
 [#include "nav.ftl"/]
-[@b.toolbar title="评审组信息"]
-  bar.addItem("导入","importForm()")
-  function importForm(){
-    bg.form.submit(document.indexForm,"${b.url('!importForm')}","_blank")
-  }
-[/@]
-
 <div class="search-container">
     <div class="search-panel">
     [@b.form name="searchForm" action="!search" target="assessGrouplist" title="ui.searchForm" theme="search"]

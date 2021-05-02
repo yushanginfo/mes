@@ -92,5 +92,15 @@ class DefaultMapping extends MappingModule {
     }
 
     bind[AssessLog]
+
+    bind[AssessRecord].declare { e =>
+      e.items is depends("record")
+    }
+
+    bind[AssessItem]
+
+    bind[Reviewer] declare { e =>
+      e.user is unique
+    }
   }
 }
