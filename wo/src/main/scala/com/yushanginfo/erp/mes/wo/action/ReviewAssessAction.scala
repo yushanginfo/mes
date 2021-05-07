@@ -101,12 +101,15 @@ class ReviewAssessAction extends RestfulAction[WorkOrder] {
     order.technics foreach { wt =>
       val days = getInt(wt.id + ".days")
       if (days.isDefined) {
-        wt.updatedAt = Instant.now
         wt.passed = Some(true)
-        wt.days = days
-        wt.factory = entityDao.get(classOf[Factory], getInt(wt.id + ".factory.id", 0))
-        wt.assessedBy = me
-        entityDao.saveOrUpdate(wt)
+        val nf = entityDao.get(classOf[Factory], getInt(wt.id + ".factory.id", 0))
+        if (wt.days.getOrElse(0) != days.get || nf != wt.factory) {
+          wt.updatedAt = Instant.now
+          wt.days = days
+          wt.factory = nf
+          wt.assessedBy = me
+          entityDao.saveOrUpdate(wt)
+        }
       }
     }
     order.updateAssessBeginAt(Instant.now())

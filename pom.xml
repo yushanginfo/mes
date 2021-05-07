@@ -17,7 +17,6 @@
     <module>web</module>
     <module>base</module>
     <module>wo</module>
-    <module>sync</module>
   </modules>
 
   <organization>

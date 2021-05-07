@@ -21,7 +21,6 @@ package com.yushanginfo.erp.mes.wo.action
 import com.yushanginfo.erp.base.model.{Factory, User}
 import com.yushanginfo.erp.mes.model._
 import com.yushanginfo.erp.mes.service.OrderService
-import com.yushanginfo.erp.mes.sync.SyncServiceImpl
 import com.yushanginfo.erp.mes.wo.helper.OrderImportHelper
 import org.beangle.commons.web.util.RequestUtils
 import org.beangle.data.dao.OqlBuilder
@@ -39,8 +38,6 @@ import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
 import java.time.Instant
 
 class WorkOrderAction extends RestfulAction[WorkOrder] {
-
-  var syncService: SyncServiceImpl = _
 
   var orderService: OrderService = _
 
@@ -76,12 +73,6 @@ class WorkOrderAction extends RestfulAction[WorkOrder] {
     }
     entityDao.saveOrUpdate(orders)
     redirect("search", "info.save.success")
-  }
-
-  def sync(): View = {
-    val rs = syncService.sync()
-    put("rs", rs)
-    forward()
   }
 
   @response
