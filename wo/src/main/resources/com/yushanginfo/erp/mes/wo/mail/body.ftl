@@ -24,7 +24,6 @@
              <th style="${tdStyle}">产品名称</th>
              <th style="${tdStyle}">数量</th>
              <th style="${tdStyle}">客户交期</th>
-             <th style="${tdStyle}">计划交期</th>
              <th style="${tdStyle}">创建于</th>
              <th style="${tdStyle}">状态</th>
            </tr>
@@ -37,7 +36,6 @@
             <td style="${tdStyle}">${order.product.name}</td>
             <td style="${tdStyle}">${order.amount}</td>
             <td style="${tdStyle}">${(order.deadline?string("yyyy-MM-dd"))!}</td>
-            <td style="${tdStyle}">${(order.plannedEndOn?string("yyyy-MM-dd"))!}</td>
             <td style="${tdStyle}">${order.createdAt?string("yyyy-MM-dd HH:mm")}</td>
             <td style="${tdStyle}">${order.assessStatus.name}</td>
            </tr>

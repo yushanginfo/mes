@@ -66,4 +66,14 @@ class WorkOrderTechnic extends LongId with Updated {
   /** 评估人 */
   var assessedBy: Option[User] = None
 
+  def machineOrSupplierName: String = {
+    machine match {
+      case Some(m) => m.name
+      case None =>
+        supplier match {
+          case Some(s) => s.name
+          case None => "--"
+        }
+    }
+  }
 }

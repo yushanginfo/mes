@@ -41,8 +41,8 @@
         <tr>
           <td class="title">客户交期</td>
           <td class="content">${(workOrder.deadline?string("yyyy-MM-dd" ))!}</td>
-          <td class="title">计划交期</td>
-          <td class="content">${(workOrder.plannedEndOn?string("yyyy-MM-dd"))!}</td>
+          <td class="title">开单日期</td>
+          <td class="content">${(workOrder.createdAt?string("yyyy-MM-dd"))!}</td>
         </tr>
         <tr>
           <td class="title">到料日期</td>

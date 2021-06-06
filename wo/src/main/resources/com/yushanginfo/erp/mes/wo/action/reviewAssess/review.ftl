@@ -9,6 +9,7 @@
     [@b.field label="材料清单"]
       <div style="margin-left:100px">
       [#list workOrder.product.bom as i]${i.material.name} ${i.material.specification!} [#if i.amount??]${i.amount*workOrder.amount} ${i.material.unit.name}[#else]??[/#if][#if i_has_next]<br>[/#if][/#list]
+      [#if workOrder.product.bom?size==0]无[/#if]
       </div>
     [/@]
     [#if !materialAssess.ready]
@@ -40,7 +41,6 @@
         </label>
     [/@]
     [/#list]
-    [@b.field label="计划交期"]${(workOrder.plannedEndOn?string("yyyy-MM-dd"))!"未设置"}[/@]
     [@b.field label="客户交期"]${(workOrder.deadline?string("yyyy-MM-dd"))!"未设置"}[/@]
     [@b.field label="评审交期"]<span id="scheduleOn">${(workOrder.scheduleOn?string("yyyy-MM-dd"))!"--"}[/@]
     [@b.field label="备注"]${(workOrder.remark)?default("无")}[/@]

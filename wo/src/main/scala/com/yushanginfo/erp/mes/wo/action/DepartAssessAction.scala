@@ -29,6 +29,7 @@ import org.beangle.webmvc.api.annotation.{mapping, param}
 import org.beangle.webmvc.api.context.ActionContext
 import org.beangle.webmvc.api.view.View
 import org.beangle.webmvc.entity.action.RestfulAction
+import org.beangle.webmvc.entity.helper.QueryHelper
 
 import java.time.{Instant, ZoneId}
 
@@ -79,6 +80,7 @@ class DepartAssessAction extends RestfulAction[WorkOrder] {
             Array(AssessStatus.Passed, AssessStatus.Cancel), Instant.now().minusSeconds(24 * 2600))
       }
     }
+    QueryHelper.dateBetween(builder, null, "createdAt", "createdOn", "createdOn")
     val workOrders = entityDao.search(builder)
     put("workOrders", workOrders)
     forward()
@@ -135,6 +137,10 @@ class DepartAssessAction extends RestfulAction[WorkOrder] {
     val logs = entityDao.search(logQuery)
     put("logs", logs)
     put("workOrder", order)
+    val recQuery= OqlBuilder.from(classOf[AssessRecord],"r")
+    recQuery.where("r.order=:order",order)
+    recQuery.orderBy("r.updatedAt")
+    put("assessRecords",entityDao.search(recQuery))
     forward()
   }
 }

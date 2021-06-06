@@ -11,7 +11,7 @@
     [/@]
     [@b.col width="19%" property="product.code" title="产品图号"]${workOrder.product.specification!}[/@]
     [@b.col width="9%" property="deadline" title="客户交期"]${(workOrder.deadline?string("yy-MM-dd"))!}[/@]
-    [@b.col width="9%" property="plannedEndOn" title="计划交期"]${(workOrder.plannedEndOn?string("yy-MM-dd"))!}[/@]
+    [@b.col width="9%" property="createdAt" title="开单日期"]${(workOrder.createdAt?string("yy-MM-dd"))!}[/@]
     [@b.col width="9%" property="scheduledOn" title="评审交期"]${(workOrder.scheduledOn?string("yy-MM-dd"))!}[/@]
     [@b.col width="6%" property="amount" title="数量"/]
     [@b.col width="9%" property="materialDate" title="到料日期"]

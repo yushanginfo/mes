@@ -30,6 +30,7 @@ import org.beangle.webmvc.api.annotation.{mapping, param}
 import org.beangle.webmvc.api.context.ActionContext
 import org.beangle.webmvc.api.view.View
 import org.beangle.webmvc.entity.action.RestfulAction
+import org.beangle.webmvc.entity.helper.QueryHelper
 
 import java.time.Instant
 
@@ -53,10 +54,10 @@ class SaleAssessAction extends RestfulAction[WorkOrder] {
           query.param(s"customerCode${i}", b + "%")
           s"workOrder.product.specification like :customerCode${i}"
         }
-        println(codeQueryStr.mkString(" or "))
         query.where(codeQueryStr.mkString(" or "))
       }
     }
+    QueryHelper.dateBetween(query, null, "createdAt", "createdOn", "createdOn")
     getInt("reviewRound") foreach { round =>
       query.where("size(workOrder.reviewEvents) = :round", round)
     }
@@ -131,6 +132,11 @@ class SaleAssessAction extends RestfulAction[WorkOrder] {
     val logs = entityDao.search(logQuery)
     put("logs", logs)
     put("workOrder", order)
+
+    val recQuery= OqlBuilder.from(classOf[AssessRecord],"r")
+    recQuery.where("r.order=:order",order)
+    recQuery.orderBy("r.updatedAt")
+    put("assessRecords",entityDao.search(recQuery))
     forward()
   }
 }

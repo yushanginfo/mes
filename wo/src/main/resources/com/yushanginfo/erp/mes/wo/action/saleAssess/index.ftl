@@ -27,7 +27,8 @@
           <option value="3">第三轮</option>
         </select>
       [/@]
-
+      [@b.textfield name="workOrder.saler.name"  label="业务员" placeholder="姓名"/]
+      [@b.date name="createdOn"  label="开单日期" /]
       <input type="hidden" name="orderBy" value="workOrder.createdAt desc"/>
     [/@]
   </div>

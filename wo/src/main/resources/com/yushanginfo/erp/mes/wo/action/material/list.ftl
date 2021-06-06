@@ -3,7 +3,7 @@
 [@b.grid items=workOrders var="workOrder"]
   [@b.gridbar]
     bar.addItem("${b.text("编辑到料日期")}",action.edit());
-    bar.addItem("${b.text("action.export")}",action.exportData("orderType.name:工单单别,batchNum:工单单号,product.code:品号,product.specification:公司图号,technicScheme.name:工单工艺,amount:数量,deadline:客户交付日期,plannedEndOn:计划交付日期,scheduledOn:评审交付日期,status.name:工单状态,assessStatus:评审状态,materialAssess.ready:是否有料,materialAssess.readyOn:到料日期,factory.name:工厂,createdAt:创建日期",null,'fileName=工单信息'));
+    bar.addItem("${b.text("action.export")}",action.exportData("orderType.name:工单单别,batchNum:工单单号,product.code:品号,product.specification:公司图号,technicScheme.name:工单工艺,amount:数量,deadline:客户交付日期,scheduledOn:评审交付日期,status.name:工单状态,assessStatus:评审状态,materialAssess.ready:是否有料,materialAssess.readyOn:到料日期,factory.name:工厂,createdAt:开单时间",null,'fileName=工单信息'));
   [/@]
   [@b.row]
     [@b.boxcol /]

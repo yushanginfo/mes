@@ -90,7 +90,6 @@ class WorkOrderAction extends RestfulAction[WorkOrder] {
     sheet.add("工单状态", "workOrder.status.code").ref(workOrderStatuses)
 
     sheet.add("客户交期", "workOrder.deadline").date().required()
-    sheet.add("计划交期", "workOrder.plannedEndOn").date().required()
     sheet.add("工单单号", "workOrder.batchNum").required()
     sheet.add("计划数量", "workOrder.amount").required()
 
@@ -123,6 +122,11 @@ class WorkOrderAction extends RestfulAction[WorkOrder] {
     val logs = entityDao.search(logQuery)
     put("logs", logs)
     put("workOrder", order)
+
+    val recQuery= OqlBuilder.from(classOf[AssessRecord],"r")
+    recQuery.where("r.order=:order",order)
+    recQuery.orderBy("r.updatedAt")
+    put("assessRecords",entityDao.search(recQuery))
     forward()
   }
 

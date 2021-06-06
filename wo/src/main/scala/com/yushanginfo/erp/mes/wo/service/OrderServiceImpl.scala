@@ -27,12 +27,12 @@ import org.beangle.commons.lang.Strings
 import org.beangle.commons.logging.Logging
 import org.beangle.data.dao.{EntityDao, OqlBuilder}
 import org.beangle.ems.app.Ems
+import org.beangle.notify._
+import org.beangle.notify.mail._
+import org.beangle.template.freemarker.DefaultTemplateEngine
 
 import java.time.{Instant, LocalDate, ZoneId}
 import scala.collection.mutable
-import org.beangle.notify.mail._
-import org.beangle.notify._
-import org.beangle.template.freemarker.DefaultTemplateEngine
 
 class OrderServiceImpl extends OrderService with Logging with Initializing {
 
@@ -78,15 +78,12 @@ class OrderServiceImpl extends OrderService with Logging with Initializing {
     if (originStatus != order.assessStatus) {
       //记录评审日志
       entityDao.saveOrUpdate(new AssessLog(originStatus, order, operator, ip))
-      //记录评审快照信息
-      entityDao.saveOrUpdate(new AssessRecord(order))
       notifySaler(order)
     }
   }
 
   override def issueReview(order: WorkOrder, reviewEvent: ReviewEvent, operator: User, ip: String): Unit = {
     val originStatus = order.assessStatus
-    order.scheduledOn = null
     order.updateReviewAssessBeginAt(Instant.now)
     order.assessStatus = AssessStatus.Review
     order.technics.foreach(departAssess => {
@@ -95,6 +92,8 @@ class OrderServiceImpl extends OrderService with Logging with Initializing {
     if (originStatus != order.assessStatus) {
       val log = new AssessLog(originStatus, order, operator, ip)
       entityDao.saveOrUpdate(log)
+      //记录评审快照信息
+      entityDao.saveOrUpdate(new AssessRecord(order))
     }
     order.reviewEvents += reviewEvent
     entityDao.saveOrUpdate(order)

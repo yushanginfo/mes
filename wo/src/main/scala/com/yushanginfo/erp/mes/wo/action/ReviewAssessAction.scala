@@ -33,6 +33,9 @@ import org.beangle.webmvc.entity.action.RestfulAction
 
 import java.time.{Instant, LocalDate}
 
+/**
+ * 经理复审
+ */
 class ReviewAssessAction extends RestfulAction[WorkOrder] {
   var orderService: OrderService = _
 
@@ -130,6 +133,10 @@ class ReviewAssessAction extends RestfulAction[WorkOrder] {
     val logs = entityDao.search(logQuery)
     put("logs", logs)
     put("workOrder", order)
+    val recQuery= OqlBuilder.from(classOf[AssessRecord],"r")
+    recQuery.where("r.order=:order",order)
+    recQuery.orderBy("r.updatedAt")
+    put("assessRecords",entityDao.search(recQuery))
     forward()
   }
 }

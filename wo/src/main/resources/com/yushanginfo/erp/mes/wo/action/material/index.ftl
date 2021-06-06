@@ -20,6 +20,7 @@
           <option value="5">取消</option>
         </select>
       [/@]
+      [@b.date name="createdOn"  label="开单日期" /]
       <input type="hidden" name="orderBy" value="workOrder.createdAt desc"/>
     [/@]
   </div>

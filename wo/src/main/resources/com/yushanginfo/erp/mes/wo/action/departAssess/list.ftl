@@ -7,9 +7,9 @@
        [@b.a href="!info?id=${workOrder.id}" title="${workOrder.orderType.code} ${workOrder.orderType.name}"]${workOrder.batchNum}[/@]
     [/@]
     [@b.col width="15%" property="product.code" title="产品图号"]${workOrder.product.specification!}[/@]
-    [@b.col width="8%" property="deadline" title="客户交期"]<span title="计划交期:${(workOrder.plannedEndOn?string("yy-MM-dd"))!}">${(workOrder.deadline?string("yy-MM-dd"))!}</span>[/@]
+    [@b.col width="8%" property="deadline" title="客户交期"]<span title="开单日期:${(workOrder.createdAt?string("yy-MM-dd"))!}">${(workOrder.deadline?string("yy-MM-dd"))!}</span>[/@]
     [@b.col width="5%" property="amount" title="数量"/]
-    [@b.col width="8%" property="plannedEndOn" title="评审开始"]${((workOrder.materialAssess.createdAt)?string("yy-MM-dd"))!}[/@]
+    [@b.col width="8%" property="assessBeginAt" title="评审开始"]${((workOrder.assessBeginAt)?string("yy-MM-dd"))!}[/@]
 
     [@b.col width="8%" property="materialDate" title="到料日期"]
       [#if workOrder.materialAssess??][#if workOrder.materialAssess.ready]有料[#else] ${(workOrder.materialAssess.readyOn?string("yy-MM-dd"))!}[/#if][/#if]

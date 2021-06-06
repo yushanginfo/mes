@@ -6,7 +6,7 @@
     [@b.field label="产品图号"]${workOrder.product.specification!}[/@]
     [@b.field label="计划数量"]${workOrder.amount}[/@]
     [@b.field label="客户交期"]${(workOrder.deadline?string("yyyy-MM-dd"))!"未设置"}[/@]
-    [@b.field label="计划交期"]${(workOrder.plannedEndOn?string("yyyy-MM-dd"))!"未设置"}[/@]
+    [@b.field label="开单日期"]${(workOrder.createdAt?string("yyyy-MM-dd"))!"未设置"}[/@]
     [@b.field label="评审交期"]${(workOrder.scheduledOn?string("yyyy-MM-dd"))!"未设置"}[/@]
     [@b.field label="材料清单"]
       [#list workOrder.product.bom as i]${i.material.name} ${i.material.specification!} [#if i.amount??]${i.amount*workOrder.amount} ${i.material.unit.name}[#else]??[/#if][#if i_has_next]<br>[/#if][/#list]

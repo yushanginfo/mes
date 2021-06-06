@@ -95,6 +95,7 @@ class DefaultMapping extends MappingModule {
 
     bind[AssessRecord].declare { e =>
       e.items is depends("record")
+      index("",false,e.order)
     }
 
     bind[AssessItem]

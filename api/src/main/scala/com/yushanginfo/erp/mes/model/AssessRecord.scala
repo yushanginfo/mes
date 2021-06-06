@@ -46,20 +46,19 @@ class AssessRecord extends LongId with Updated {
   /** 状态 */
   var assessStatus: AssessStatus.Status = _
 
+  def getItem(technic: WorkOrderTechnic): Option[AssessItem] = {
+    items.find { x =>
+      x.indexno == technic.indexno && x.matchine == technic.machineOrSupplierName
+    }
+  }
+
   def this(order: WorkOrder) = {
     this()
     this.order = order
     this.updatedAt = Instant.now
 
     order.technics foreach { technic =>
-      val machine = technic.machine match {
-        case Some(m) => m.name
-        case None =>
-          technic.supplier match {
-            case Some(s) => s.name
-            case None => "--"
-          }
-      }
+      val machine = technic.machineOrSupplierName
       val item = new AssessItem(this, technic.indexno, machine, technic.technic, technic.days.get)
       items += item
     }

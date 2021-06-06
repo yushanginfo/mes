@@ -18,7 +18,7 @@
  */
 package com.yushanginfo.erp.mes.model
 
-import com.yushanginfo.erp.base.model.Factory
+import com.yushanginfo.erp.base.model.{Factory, User}
 import org.beangle.commons.collection.Collections
 import org.beangle.data.model.LongId
 import org.beangle.data.model.pojo.{Remark, Updated}
@@ -45,7 +45,7 @@ class WorkOrder extends LongId with Updated with Remark {
   /** 客户交付日期 */
   var deadline: Option[LocalDate] = None
 
-  /** 计划交付日期 */
+  /** 计划完工日期 */
   var plannedEndOn: Option[LocalDate] = None
 
   /** 评审交付日期 */
@@ -69,7 +69,7 @@ class WorkOrder extends LongId with Updated with Remark {
   /** 生产工厂 */
   var factory: Factory = _
 
-  /** 创建日期 */
+  /** 开单时间 */
   var createdAt: Instant = _
 
   /** 评审开始于 */
@@ -77,6 +77,9 @@ class WorkOrder extends LongId with Updated with Remark {
 
   /** 复审开始于 */
   var reviewAssessBeginAt: Option[Instant] = None
+
+  /** 业务员 */
+  var saler: Option[User] = None
 
   def canAssess: Boolean = {
     assessStatus != AssessStatus.Unpassed && assessStatus != AssessStatus.Passed

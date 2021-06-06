@@ -24,9 +24,11 @@ import com.yushanginfo.erp.mes.service.OrderService
 import org.beangle.commons.web.util.RequestUtils
 import org.beangle.data.dao.OqlBuilder
 import org.beangle.security.Securities
+import org.beangle.webmvc.api.annotation.{mapping, param}
 import org.beangle.webmvc.api.context.ActionContext
 import org.beangle.webmvc.api.view.View
 import org.beangle.webmvc.entity.action.RestfulAction
+import org.beangle.webmvc.entity.helper.QueryHelper
 
 import java.time.Instant
 
@@ -46,6 +48,7 @@ class MaterialAction extends RestfulAction[WorkOrder] {
         builder.where("workOrder.factory=:factory", f)
       }
     }
+    QueryHelper.dateBetween(builder, null, "createdAt", "createdOn", "createdOn")
     builder
   }
 
@@ -60,18 +63,36 @@ class MaterialAction extends RestfulAction[WorkOrder] {
 
   override def saveAndRedirect(order: WorkOrder): View = {
     val materialAssess = populateEntity(classOf[MaterialAssess], "materialAssess")
+    val users = entityDao.findBy(classOf[User], "code", List(Securities.user))
     if (order.assessStatus == AssessStatus.Original) {
+      val originStatus = order.assessStatus
       order.assessStatus = AssessStatus.Submited
       order.updateAssessBeginAt(Instant.now())
+      entityDao.saveOrUpdate(new AssessLog(originStatus, order, users.head, RequestUtils.getIpAddr(ActionContext.current.request)))
     }
     materialAssess.order = order
     materialAssess.updatedAt = Instant.now
-    val users = entityDao.findBy(classOf[User], "code", List(Securities.user))
+
     materialAssess.assessedBy = users.headOption
     entityDao.saveOrUpdate(materialAssess)
     order.materialAssess = Some(materialAssess)
     orderService.recalcState(order, users.head, RequestUtils.getIpAddr(ActionContext.current.request))
     super.saveAndRedirect(order)
+  }
+
+  @mapping(value = "{id}")
+  override def info(@param("id") id: String): View = {
+    val order = entityDao.get(classOf[WorkOrder], id.toLong)
+    val logQuery = OqlBuilder.from(classOf[AssessLog], "al").where("al.orderId=:orderId", order.id)
+    logQuery.orderBy("al.updatedAt")
+    val logs = entityDao.search(logQuery)
+    put("logs", logs)
+    put("workOrder", order)
+    val recQuery = OqlBuilder.from(classOf[AssessRecord], "r")
+    recQuery.where("r.order=:order", order)
+    recQuery.orderBy("r.updatedAt")
+    put("assessRecords", entityDao.search(recQuery))
+    forward()
   }
 
 }
