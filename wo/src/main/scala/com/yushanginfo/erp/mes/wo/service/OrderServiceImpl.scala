@@ -53,15 +53,15 @@ class OrderServiceImpl extends OrderService with Logging with Initializing {
     val allComplete = order.technics.nonEmpty && !order.technics.exists(!_.passed.getOrElse(false))
 
     //计算计划完工时间
-    order.materialAssess foreach { materialAssess =>
-      if (allComplete && order.assessStatus != AssessStatus.Passed) {
+    order.materialAssess foreach { ma =>
+      if (allComplete && order.assessStatus != AssessStatus.Passed && ma.assessComplete) {
         val processDays = order.technics.foldLeft(0)(_ + _.days.get)
         val startOn =
-          if (materialAssess.ready) {
+          if (ma.ready) {
             //评审结束后的一天
             LocalDate.ofInstant(order.technics.map(_.updatedAt).max, ZoneId.systemDefault()).plusDays(1)
           } else {
-            materialAssess.readyOn.get
+            ma.readyOn.get
           }
 
         order.scheduledOn = Some(startOn.plusDays(processDays))

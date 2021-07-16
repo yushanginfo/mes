@@ -5,7 +5,7 @@
 [/@]
 <table class="infoTable">
   <tr>
-    <td class="title" width="20%">产品图号</td>
+    <td class="title" width="20%">品号</td>
     <td class="content">${product.code}</td>
   </tr>
   <tr>

@@ -18,7 +18,7 @@
  */
 package com.yushanginfo.erp.mes.wo.action
 
-import com.yushanginfo.erp.mes.model.{AssessStatus, WorkOrder, WorkOrderType}
+import com.yushanginfo.erp.mes.model.{AssessLog, AssessRecord, AssessStatus, WorkOrder, WorkOrderType}
 import org.beangle.data.dao.OqlBuilder
 import org.beangle.webmvc.api.annotation.{mapping, param}
 import org.beangle.webmvc.api.view.View
@@ -63,7 +63,17 @@ class OrderSearchAction extends EntityAction[WorkOrder] {
 
   @mapping(value = "{id}")
   def info(@param("id") id: String): View = {
-    put(simpleEntityName, getModel[WorkOrder](entityName, convertId(id)))
+    val order = entityDao.get(classOf[WorkOrder], id.toLong)
+    val logQuery = OqlBuilder.from(classOf[AssessLog], "al").where("al.orderId=:orderId", order.id)
+    logQuery.orderBy("al.updatedAt")
+    val logs = entityDao.search(logQuery)
+    put("logs", logs)
+    put("workOrder", order)
+
+    val recQuery= OqlBuilder.from(classOf[AssessRecord],"r")
+    recQuery.where("r.order=:order",order)
+    recQuery.orderBy("r.updatedAt")
+    put("assessRecords",entityDao.search(recQuery))
     forward()
   }
 }

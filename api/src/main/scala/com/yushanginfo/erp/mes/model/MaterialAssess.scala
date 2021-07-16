@@ -19,10 +19,12 @@
 package com.yushanginfo.erp.mes.model
 
 import com.yushanginfo.erp.base.model.User
+import org.beangle.commons.collection.Collections
 import org.beangle.data.model.LongId
 import org.beangle.data.model.pojo.Updated
 
 import java.time.{Instant, LocalDate}
+import scala.collection.mutable
 
 /** 到料信息 */
 class MaterialAssess extends LongId with Updated {
@@ -41,4 +43,15 @@ class MaterialAssess extends LongId with Updated {
 
   /** 创建时间 */
   var createdAt: Instant = Instant.now
+
+  /** bom到料日期 */
+  var items: mutable.Buffer[MaterialItemAssess] = Collections.newBuffer[MaterialItemAssess]
+
+  def getItemAssess(item: ProductMaterialItem): Option[MaterialItemAssess] = {
+    items.find(_.item == item)
+  }
+
+  def assessComplete: Boolean = {
+    ready || readyOn.nonEmpty
+  }
 }

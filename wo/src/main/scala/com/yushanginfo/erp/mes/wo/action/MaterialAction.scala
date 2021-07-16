@@ -30,7 +30,7 @@ import org.beangle.webmvc.api.view.View
 import org.beangle.webmvc.entity.action.RestfulAction
 import org.beangle.webmvc.entity.helper.QueryHelper
 
-import java.time.Instant
+import java.time.{Instant, LocalDate}
 
 class MaterialAction extends RestfulAction[WorkOrder] {
   var orderService: OrderService = _
@@ -53,10 +53,14 @@ class MaterialAction extends RestfulAction[WorkOrder] {
   }
 
   override def editSetting(entity: WorkOrder): Unit = {
-    val ma = entity.materialAssess.getOrElse(new MaterialAssess)
+    val query = OqlBuilder.from(classOf[MaterialAssess], "ma")
+    query.where("ma.order = :o", entity)
+    val assesses = entityDao.search(query)
+    val ma = assesses.headOption.getOrElse(new MaterialAssess)
     if (!ma.persisted) {
       ma.ready = false
     }
+    put("bom", entity.product.bom.sortBy(_.indexno))
     put("materialAssess", ma)
     super.editSetting(entity)
   }
@@ -72,8 +76,36 @@ class MaterialAction extends RestfulAction[WorkOrder] {
     }
     materialAssess.order = order
     materialAssess.updatedAt = Instant.now
-
     materialAssess.assessedBy = users.headOption
+    if (materialAssess.ready) {
+      materialAssess.items.clear()
+    } else {
+      val product = entityDao.get(classOf[Product], order.product.id)
+      var hasEmpty = false
+      var last: LocalDate = null
+      product.bom foreach { bi =>
+        val item = materialAssess.getItemAssess(bi) match {
+          case Some(mia) =>
+            mia.readyOn = getDate(s"bom${bi.id}.readyOn")
+            mia.ready = false
+            mia
+          case None => val mia = new MaterialItemAssess(materialAssess, bi)
+            materialAssess.items += mia
+            mia.readyOn = getDate(s"bom${bi.id}.readyOn")
+            mia.ready = false
+            mia
+        }
+        item.readyOn match {
+          case Some(d) => if (last == null) last = d else if (d.isAfter(last)) last = d
+          case None => hasEmpty = true
+        }
+      }
+      if (!hasEmpty) {
+        materialAssess.readyOn = Some(last)
+      } else {
+        materialAssess.readyOn = None
+      }
+    }
     entityDao.saveOrUpdate(materialAssess)
     order.materialAssess = Some(materialAssess)
     orderService.recalcState(order, users.head, RequestUtils.getIpAddr(ActionContext.current.request))

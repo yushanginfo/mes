@@ -19,21 +19,24 @@
 package com.yushanginfo.erp.mes.model
 
 import org.beangle.data.model.LongId
-import org.beangle.data.model.pojo.Updated
 
-class ProductMaterialItem extends LongId with Updated {
-  var product: Product = _
-  /** 排序 */
-  var indexno: String = _
+import java.time.LocalDate
 
-  /** 材料 */
-  var material: Material = _
+class MaterialItemAssess extends LongId {
 
-  /** 数量 */
-  var amount: Float = _
+  var materialAssess: MaterialAssess = _
 
-  /** 单别 */
-  var cb002: String = _
-  /** 单号 */
-  var cb003: String = _
+  var item: ProductMaterialItem = _
+
+  def this(ma: MaterialAssess, i: ProductMaterialItem) {
+    this
+    materialAssess = ma
+    item = i
+  }
+
+  /** 是否有料 */
+  var ready: Boolean = _
+
+  /** 到料日期 */
+  var readyOn: Option[LocalDate] = None
 }
