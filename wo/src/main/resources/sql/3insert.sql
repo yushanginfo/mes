@@ -29,13 +29,14 @@ where t.assess_group_id is null;
 --4. 新增品号
 insert into mes.materials(id,code,name,specification,material_type_id,unit_id,updated_at)
 select datetime_id(),i.mb001,i.mb002,i.mb003,mt.id,mu.id,now() from shtz.invmb i ,mes.material_types mt,mes.measurement_units mu
-where i.mb025=mt.code and lower(trim(i.mb004))=lower(mu.code) and not exists(select * from mes.materials m where m.code=i.mb001);
+where i.mb025=mt.code and lower(trim(i.mb004))=lower(mu.code) and not exists(select * from mes.materials m where m.code=i.mb001)
+and i.mb002 is not null;
 
 --5. 新增产品
 insert into mes.products(id,code,name,specification,material_type_id,unit_id,updated_at)
 select datetime_id(),i.mb001,i.mb002,i.mb003,mt.id,mu.id,now() from shtz.invmb i ,mes.material_types mt,mes.measurement_units mu
 where i.mb025=mt.code and lower(trim(i.mb004))=lower(mu.code) and not exists(select * from mes.products m where m.code=i.mb001)
-and i.mb003 is not null;
+and i.mb002 is not null and i.mb003 is not null;
 
 --6. 新增工艺路线
 insert into mes.technic_schemes(id,product_id,name,indexno,updated_at)
