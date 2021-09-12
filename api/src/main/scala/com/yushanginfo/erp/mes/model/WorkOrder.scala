@@ -102,4 +102,8 @@ class WorkOrder extends LongId with Updated with Remark {
       case None => reviewAssessBeginAt = Some(now)
     }
   }
+
+  def calcFinishedOn(lastFinishedOn:java.sql.Date,remindDays:Number):LocalDate={
+    lastFinishedOn.toLocalDate.minusDays(remindDays.longValue())
+  }
 }

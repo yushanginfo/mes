@@ -56,23 +56,49 @@
     <td class="title">评审信息</td>
     <td class="content" colspan="3">
       <div class="row">
-        <div class="col-md-3">工艺（描述）机器/供应商</div>
+        <div class="col-md-4">工艺（描述）机器/供应商</div>
         [#list assessRecords as ar]
         <div class="col-md-1">${ar.updatedAt?string("MM-dd HH:mm")}</div>
         [/#list]
-        <div class="col-md-${12-3-assessRecords?size}">最新评审信息</div>
+        <div class="col-md-${12-6-assessRecords?size}">最新评审信息(天数、预计完工日期)</div>
+        <div class="col-md-2">实际(开工~完工 数量)</div>
       </div>
-      [#list workOrder.technics?sort_by("indexno") as wt]
+
+      [#assign technicsFinishedOn={}/]
+      [#assign technics = workOrder.technics?sort_by("indexno")/]
+      [#assign allAssessed=true/]
+      [#if workOrder.scheduledOn??]
+        [#assign allDays=0/]
+        [#list technics as wt]
+           [#if wt.days??]
+             [#assign allDays = allDays + wt.days/]
+           [#else]
+             [#assign allAssessed=false/]
+           [/#if]
+        [/#list]
+        [#if allAssessed]
+          [#assign scheduledOn = workOrder.scheduledOn/]
+          [#list technics as wt]
+             [#assign allDays=allDays - wt.days/]
+             [#assign technicsFinishedOn={wt.id?string:workOrder.calcFinishedOn(scheduledOn,allDays)}+technicsFinishedOn/]
+          [/#list]
+        [#else]
+          [#assign technicsFinishedOn={}/]
+        [/#if]
+      [/#if]
+
+      [#list technics as wt]
        <div class="row">
-         <div class="col-md-3">${wt.indexno} ${wt.technic.name}(${wt.technic.description!}) ${wt.machineOrSupplierName}</div>
+         <div class="col-md-4">${wt.indexno} ${wt.technic.name}(${wt.technic.description!}) ${wt.machineOrSupplierName}</div>
          [#list assessRecords as ar]
          <div class="col-md-1">${ar.getItem(wt).days!'?'}天</div>
          [/#list]
-         <div class="col-md-${12-3-assessRecords?size}">
+         <div class="col-md-${12-6-assessRecords?size}">
          [#if wt.days??]
-         ${wt.days}天 <span style="font-size:0.8rem;color: #999;">${(wt.assessedBy.name)!} ${wt.updatedAt?string("yyyy-MM-dd HH:mm")} [#if !wt.passed]待评审[/#if]</span>
+         ${wt.days}天 ${technicsFinishedOn[wt.id?string]!}<span style="font-size:0.6rem;color: #999; font-style: italic">${(wt.assessedBy.name)!} ${wt.updatedAt?string("MM-dd HH:mm")} [#if !wt.passed]待评审[/#if]</span>
          [#else]尚未评审[/#if]
          </div>
+         <div class="col-md-2">${(wt.beginOn?string("yy-MM-dd"))!}~${(wt.endOn?string("MM-dd"))!} [#if wt.finishedQuantity>0] ${wt.finishedQuantity}[/#if]</div>
        </div>
       [/#list]
     </td>

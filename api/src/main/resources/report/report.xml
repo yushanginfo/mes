@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<report title="数据库表结构说明">
+  <system name="订单评审系统" version="0.0.1"/>
+  <database xml="database.xml"/>
+  <pages template="singlehtml" extension=".html">
+    <page name="index" />
+  </pages>
+
+  <schemas>
+    <schema name="base" title="基础信息">
+      <module>
+        <group name="base" title="基础信息"/>
+      </module>
+    </schema>
+    <schema name="mes" title="订单评审">
+      <module>
+        <group name="mes" title="订单评审">
+          <image name="order" title="工单信息" tables="work_order*"/>
+          <image name="assess" title="评审日志信息" tables="assess*"/>
+        </group>
+      </module>
+    </schema>
+  </schemas>
+</report>

@@ -22,8 +22,10 @@ import com.yushanginfo.erp.base.model.{Factory, Supplier, User}
 import org.beangle.data.model.LongId
 import org.beangle.data.model.pojo.Updated
 
+import java.time.LocalDate
+
 /**
- * 评估信息
+ * 工单工艺信息
  */
 class WorkOrderTechnic extends LongId with Updated {
 
@@ -65,6 +67,15 @@ class WorkOrderTechnic extends LongId with Updated {
 
   /** 评估人 */
   var assessedBy: Option[User] = None
+
+  /**实际开工*/
+  var beginOn:Option[LocalDate]=None
+
+  /**实际完工*/
+  var endOn:Option[LocalDate] =None
+
+  /**完工数量*/
+  var finishedQuantity:Float=_
 
   def machineOrSupplierName: String = {
     machine match {

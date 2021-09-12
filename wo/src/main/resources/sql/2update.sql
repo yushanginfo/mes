@@ -156,3 +156,28 @@ and ta.ta006=tech.machine_supplier_code)
 where exists (select * from mes.work_orders wo,mes.work_order_types wot,shtz.sfcta ta,mes.technics t
 where wo.order_type_id = wot.id and ta.ta001=wot.code and ta.ta002=wo.batch_num and ta.ta003=tech.indexno and tech.work_order_id=wo.id
 and ta.ta006=tech.machine_supplier_code and t.code=ta.ta004 and t.id <> tech.technic_id);
+
+
+--32 更新工单工艺-实际开工
+update mes.work_order_technics tech set begin_on = (select to_date(ta.ta030,'YYYYMMDD') from mes.work_orders wo,mes.work_order_types wot,shtz.sfcta ta
+where wo.order_type_id = wot.id and ta.ta001=wot.code and ta.ta002=wo.batch_num and ta.ta003=tech.indexno and tech.work_order_id=wo.id
+and ta.ta006=tech.machine_supplier_code)
+where exists (select * from mes.work_orders wo,mes.work_order_types wot,shtz.sfcta ta
+where wo.order_type_id = wot.id and ta.ta001=wot.code and ta.ta002=wo.batch_num and ta.ta003=tech.indexno and tech.work_order_id=wo.id
+and ta.ta006=tech.machine_supplier_code and length(ta.ta030) >0 and ta.ta030 <> (case when tech.begin_on is null then '--' else to_char(tech.begin_on,'YYYYMMDD') end));
+
+--33 更新工单工艺-实际完工
+update mes.work_order_technics tech set end_on = (select to_date(ta.ta031,'YYYYMMDD') from mes.work_orders wo,mes.work_order_types wot,shtz.sfcta ta
+where wo.order_type_id = wot.id and ta.ta001=wot.code and ta.ta002=wo.batch_num and ta.ta003=tech.indexno and tech.work_order_id=wo.id
+and ta.ta006=tech.machine_supplier_code)
+where exists (select * from mes.work_orders wo,mes.work_order_types wot,shtz.sfcta ta
+where wo.order_type_id = wot.id and ta.ta001=wot.code and ta.ta002=wo.batch_num and ta.ta003=tech.indexno and tech.work_order_id=wo.id
+and ta.ta006=tech.machine_supplier_code and length(ta.ta031) >0 and ta.ta031 <> (case when tech.end_on is null then '--' else to_char(tech.end_on,'YYYYMMDD') end));
+
+--34 更新工单工艺-完工数量
+update mes.work_order_technics tech set finished_quantity = (select ta.ta011 from mes.work_orders wo,mes.work_order_types wot,shtz.sfcta ta
+where wo.order_type_id = wot.id and ta.ta001=wot.code and ta.ta002=wo.batch_num and ta.ta003=tech.indexno and tech.work_order_id=wo.id
+and ta.ta006=tech.machine_supplier_code)
+where exists (select * from mes.work_orders wo,mes.work_order_types wot,shtz.sfcta ta
+where wo.order_type_id = wot.id and ta.ta001=wot.code and ta.ta002=wo.batch_num and ta.ta003=tech.indexno and tech.work_order_id=wo.id
+and ta.ta006=tech.machine_supplier_code and ta.ta011 is not null and ta.ta011 <> tech.finished_quantity);

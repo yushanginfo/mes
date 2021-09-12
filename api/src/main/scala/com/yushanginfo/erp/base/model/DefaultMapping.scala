@@ -44,5 +44,6 @@ class DefaultMapping extends MappingModule {
     bind[User] declare { e =>
       e.code is unique
     }
+    bind[Supplier]
   }
 }

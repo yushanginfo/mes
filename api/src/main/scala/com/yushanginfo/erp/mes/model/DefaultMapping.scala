@@ -36,9 +36,9 @@ class DefaultMapping extends MappingModule {
       e.code is unique
     }
 
-    bind[Supplier]
     bind[Material] declare { e =>
       e.code is unique
+      e.items is depends("material")
     }
     bind[MaterialItem]
 
