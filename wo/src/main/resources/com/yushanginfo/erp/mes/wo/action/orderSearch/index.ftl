@@ -44,7 +44,7 @@
                <tbody>
                [#list statusStat as stat]
                 <tr>
-                 <td>[@b.a href="!search?workOrder.status="+stat[0] target="order_list"]${stat[1]}[/@]</td>
+                 <td>[@b.a href="!search?workOrder.status.id="+stat[0] target="order_list"]${stat[1]}[/@]</td>
                  <td>${stat[2]}</td>
                 </tr>
                 [/#list]
