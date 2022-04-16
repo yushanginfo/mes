@@ -1,0 +1,540 @@
+<?xml version="1.0"?>
+<db engine="PostgreSQL" version="UNDEFINED">
+<schemas>
+<schema name="base">
+<tables>
+<table name="customers" comment="客户信息@base">
+<columns>
+<column name="id" type="bigint" nullable="false" comment="非业务主键:datetime"/>
+<column name="code" type="varchar(255)" nullable="false" unique="true" comment="代码"/>
+<column name="name" type="varchar(255)" nullable="false" comment="名称"/>
+<column name="parent_id" type="bigint" comment="上级单位ID"/>
+<column name="quick_code" type="varchar(255)" comment="快捷码"/>
+<column name="remark" type="varchar(255)" comment="备注"/>
+<column name="saler_id" type="bigint" comment="对应业务员ID"/>
+<column name="short_name" type="varchar(255)" nullable="false" comment="简称"/>
+<column name="updated_at" type="timestamp" nullable="false" comment="更新时间"/>
+</columns>
+<primary-key name="pk_8rbntkurdahe00lcyb5xe2mg3" columns="id"/>
+<foreign-keys>
+<foreign-key name="fk_9h88iv6jjf6qbcji83n0x515b" column="parent_id" referenced-table="base.customers" referenced-column="id"/>
+<foreign-key name="fk_77lsqv7j4kafxw0nk5bfnb3q1" column="saler_id" referenced-table="base.users" referenced-column="id"/>
+</foreign-keys>
+</table>
+<table name="departments" comment="部门信息@base">
+<columns>
+<column name="id" type="integer" nullable="false" comment="非业务主键:auto_increment"/>
+<column name="code" type="varchar(10)" nullable="false" comment="代码"/>
+<column name="indexno" type="varchar(20)" nullable="false" comment="顺序号"/>
+<column name="name" type="varchar(80)" nullable="false" comment="名称"/>
+<column name="parent_id" type="integer" comment="上级部门ID"/>
+<column name="updated_at" type="timestamp" nullable="false" comment="更新时间"/>
+</columns>
+<primary-key name="pk_njmudssqklm265fj3qxrl6v4i" columns="id"/>
+<foreign-keys>
+<foreign-key name="fk_63q917a0aq92i7gcw6h7f1jrv" column="parent_id" referenced-table="base.departments" referenced-column="id"/>
+</foreign-keys>
+<unique-keys>
+<unique-key name="uk_l7tivi5261wxdnvo6cct9gg6t" columns="code"/>
+</unique-keys>
+<indexes>
+<index name="idx_lloboi12ir2a1q541ntsr7kao" columns="parent_id"/>
+</indexes>
+</table>
+<table name="factories" comment="厂区信息@base">
+<columns>
+<column name="id" type="integer" nullable="false" comment="非业务主键:auto_increment"/>
+<column name="address" type="varchar(255)" nullable="false" comment="厂址"/>
+<column name="code" type="varchar(255)" nullable="false" unique="true" comment="代码"/>
+<column name="name" type="varchar(255)" nullable="false" comment="名称"/>
+<column name="updated_at" type="timestamp" nullable="false" comment="更新时间"/>
+</columns>
+<primary-key name="pk_1rrl3j52vihbaefpyl1x5xx7w" columns="id"/>
+</table>
+<table name="suppliers" comment="供应商信息@base">
+<columns>
+<column name="id" type="integer" nullable="false" comment="非业务主键:auto_increment"/>
+<column name="code" type="varchar(255)" nullable="false" comment="代码"/>
+<column name="name" type="varchar(255)" nullable="false" comment="名称"/>
+<column name="updated_at" type="timestamp" nullable="false" comment="更新时间"/>
+</columns>
+<primary-key name="pk_pclle2dft5j8qw219y5xl9mcb" columns="id"/>
+</table>
+<table name="users" comment="用户信息@base">
+<columns>
+<column name="id" type="bigint" nullable="false" comment="非业务主键:datetime"/>
+<column name="begin_on" type="date" nullable="false" comment="生效日期"/>
+<column name="code" type="varchar(255)" nullable="false" unique="true" comment="代码"/>
+<column name="department_id" type="integer" nullable="false" comment="部门信息ID"/>
+<column name="email" type="varchar(255)" comment="电子邮件"/>
+<column name="end_on" type="date" comment="失效日期"/>
+<column name="factory_id" type="integer" comment="厂区信息ID"/>
+<column name="mobile" type="varchar(255)" comment="移动电话"/>
+<column name="name" type="varchar(255)" nullable="false" comment="名称"/>
+<column name="remark" type="varchar(255)" comment="备注"/>
+<column name="updated_at" type="timestamp" nullable="false" comment="更新时间"/>
+</columns>
+<primary-key name="pk_i4mlr3lp5ixml05sx2wuk8kp8" columns="id"/>
+<foreign-keys>
+<foreign-key name="fk_as2uutawc84l8dnvydc9hlncr" column="factory_id" referenced-table="base.factories" referenced-column="id"/>
+<foreign-key name="fk_sbg59w8q63i0oo53rlgvlcnjq" column="department_id" referenced-table="base.departments" referenced-column="id"/>
+</foreign-keys>
+</table>
+</tables>
+</schema>
+<schema name="mes">
+<tables>
+<table name="assess_groups" comment="评审小组@mes">
+<columns>
+<column name="id" type="bigint" nullable="false" comment="非业务主键:datetime"/>
+<column name="code" type="varchar(255)" nullable="false" comment="代码"/>
+<column name="department_id" type="integer" nullable="false" comment="部门信息ID"/>
+<column name="director_id" type="bigint" comment="用户信息ID"/>
+<column name="name" type="varchar(255)" nullable="false" comment="名称"/>
+<column name="updated_at" type="timestamp" nullable="false" comment="更新时间"/>
+</columns>
+<primary-key name="pk_ai9e7vbv4c4xtm5d913alhiq" columns="id"/>
+<foreign-keys>
+<foreign-key name="fk_mntwgpdptwjom31x1klhicirs" column="director_id" referenced-table="base.users" referenced-column="id"/>
+<foreign-key name="fk_38r9gcl91jx4xosbxt984xt9e" column="department_id" referenced-table="base.departments" referenced-column="id"/>
+</foreign-keys>
+</table>
+<table name="assess_items" comment="评审项@mes">
+<columns>
+<column name="id" type="bigint" nullable="false" comment="非业务主键:datetime"/>
+<column name="days" type="integer" nullable="false" comment="天数"/>
+<column name="indexno" type="varchar(255)" nullable="false" comment="序号"/>
+<column name="matchine" type="varchar(255)" nullable="false" comment="加工中心或者供应商"/>
+<column name="record_id" type="bigint" nullable="false" comment="评审记录ID"/>
+<column name="technic_id" type="integer" nullable="false" comment="工艺ID"/>
+</columns>
+<primary-key name="pk_9hq36hbnqiaem0i10y7133hdb" columns="id"/>
+<foreign-keys>
+<foreign-key name="fk_fyiru340tk2aneu71axu4jld" column="technic_id" referenced-table="mes.technics" referenced-column="id"/>
+<foreign-key name="fk_byv9hmdpesuwfixorxi3wseto" column="record_id" referenced-table="mes.assess_records" referenced-column="id"/>
+</foreign-keys>
+<indexes>
+<index name="idx_supioe5aa6tgiu208r5m0vvij" columns="record_id"/>
+</indexes>
+</table>
+<table name="assess_logs" comment="评审日志@mes">
+<columns>
+<column name="id" type="bigint" nullable="false" comment="非业务主键:datetime"/>
+<column name="from_status" type="integer" nullable="false" comment="起始状态"/>
+<column name="ip" type="varchar(255)" nullable="false" comment="IP"/>
+<column name="order_id" type="bigint" nullable="false" comment="工单ID"/>
+<column name="remark" type="varchar(255)" comment="备注"/>
+<column name="to_status" type="integer" nullable="false" comment="结果状态"/>
+<column name="updated_at" type="timestamp" nullable="false" comment="更新时间"/>
+<column name="user_id" type="bigint" nullable="false" comment="用户信息ID"/>
+</columns>
+<primary-key name="pk_77umkluyle1opd9b605014wa8" columns="id"/>
+<foreign-keys>
+<foreign-key name="fk_pfu2vc6qqljaukoawyw35l406" column="user_id" referenced-table="base.users" referenced-column="id"/>
+</foreign-keys>
+</table>
+<table name="assess_members" comment="评审成员@mes">
+<columns>
+<column name="id" type="bigint" nullable="false" comment="非业务主键:datetime"/>
+<column name="factory_id" type="integer" nullable="false" comment="厂区信息ID"/>
+<column name="group_id" type="bigint" nullable="false" comment="评审小组ID"/>
+<column name="updated_at" type="timestamp" nullable="false" comment="更新时间"/>
+<column name="user_id" type="bigint" nullable="false" comment="用户信息ID"/>
+</columns>
+<primary-key name="pk_4mc5pct176cx43lgcr1857nui" columns="id"/>
+<foreign-keys>
+<foreign-key name="fk_9ddpimhigxxw8l2a6cv1kmfbb" column="factory_id" referenced-table="base.factories" referenced-column="id"/>
+<foreign-key name="fk_i0i2xlhw8j083bovgfks7fmaa" column="user_id" referenced-table="base.users" referenced-column="id"/>
+<foreign-key name="fk_2jos5oscvwxvxp1pkjpbsnxvs" column="group_id" referenced-table="mes.assess_groups" referenced-column="id"/>
+</foreign-keys>
+<unique-keys>
+<unique-key name="uk_d9084em65k4s1ie7i8fnfp125" columns="group_id,user_id,factory_id"/>
+</unique-keys>
+<indexes>
+<index name="idx_cw89ot1gfstybe4rf9sg83vl8" columns="group_id"/>
+</indexes>
+</table>
+<table name="assess_records" comment="评审记录@mes">
+<columns>
+<column name="id" type="bigint" nullable="false" comment="非业务主键:datetime"/>
+<column name="assess_status" type="integer" nullable="false" comment="评审状态"/>
+<column name="material_ready" type="boolean" nullable="false" comment="是否有料"/>
+<column name="material_ready_on" type="date" comment="到料日期"/>
+<column name="order_id" type="bigint" nullable="false" comment="生产工单ID"/>
+<column name="scheduled_on" type="date" nullable="false" comment="评审交付日期"/>
+<column name="updated_at" type="timestamp" nullable="false" comment="更新时间"/>
+</columns>
+<primary-key name="pk_q6osa9yd7hflatl86icm3cadv" columns="id"/>
+<foreign-keys>
+<foreign-key name="fk_13hdb88cr0lefem3qi3s68ybi" column="order_id" referenced-table="mes.work_orders" referenced-column="id"/>
+</foreign-keys>
+<indexes>
+<index name="idx_9ibkmohvwmt2hvbabc79y79pf" columns="order_id"/>
+</indexes>
+</table>
+<table name="machines" comment="加工中心@mes">
+<columns>
+<column name="id" type="integer" nullable="false" comment="非业务主键:auto_increment"/>
+<column name="code" type="varchar(255)" nullable="false" unique="true" comment="代码"/>
+<column name="name" type="varchar(255)" nullable="false" comment="名称"/>
+<column name="updated_at" type="timestamp" nullable="false" comment="更新时间"/>
+</columns>
+<primary-key name="pk_ah9lijttxu8et6ye53r2e68kg" columns="id"/>
+</table>
+<table name="material_assesses" comment="到料评审@mes">
+<columns>
+<column name="id" type="bigint" nullable="false" comment="非业务主键:datetime"/>
+<column name="assessed_by_id" type="bigint" comment="用户信息ID"/>
+<column name="created_at" type="timestamp" nullable="false" comment="创建时间"/>
+<column name="order_id" type="bigint" nullable="false" comment="生产工单ID"/>
+<column name="ready" type="boolean" nullable="false" comment="是否有料"/>
+<column name="ready_on" type="date" comment="到料日期"/>
+<column name="updated_at" type="timestamp" nullable="false" comment="更新时间"/>
+</columns>
+<primary-key name="pk_4tu9slxktdk5liegiiglc9qi8" columns="id"/>
+<foreign-keys>
+<foreign-key name="fk_mc06ge4jkklig6jsn5hf5sjkk" column="assessed_by_id" referenced-table="base.users" referenced-column="id"/>
+<foreign-key name="fk_kxwgs7i18pa90ss069lbwi21l" column="order_id" referenced-table="mes.work_orders" referenced-column="id"/>
+</foreign-keys>
+<unique-keys>
+<unique-key name="uk_dlh25ihrfsda56lme5qhifkhi" columns="order_id"/>
+</unique-keys>
+</table>
+<table name="material_item_assesses" comment="到料评审明细@mes">
+<columns>
+<column name="id" type="bigint" nullable="false" comment="非业务主键:datetime"/>
+<column name="item_id" type="bigint" nullable="false" comment="产品材料明细(bom)ID"/>
+<column name="material_assess_id" type="bigint" nullable="false" comment="到料评审ID"/>
+<column name="ready" type="boolean" nullable="false" comment="是否有料"/>
+<column name="ready_on" type="date" comment="到料日期"/>
+</columns>
+<primary-key name="pk_eggb6oromaracb19483r8jwcf" columns="id"/>
+<foreign-keys>
+<foreign-key name="fk_ig0b5y2ss42ifs4sx9uv1ad7o" column="item_id" referenced-table="mes.product_material_items" referenced-column="id"/>
+<foreign-key name="fk_sbblu8ynkxtwrid0jp9r8wgw5" column="material_assess_id" referenced-table="mes.material_assesses" referenced-column="id"/>
+</foreign-keys>
+<indexes>
+<index name="idx_gb6gcy4pbcgivs6csbrigrbmw" columns="material_assess_id"/>
+</indexes>
+</table>
+<table name="material_items" comment="品号明细@mes">
+<columns>
+<column name="id" type="bigint" nullable="false" comment="非业务主键:datetime"/>
+<column name="amount" type="integer" nullable="false" comment="数量"/>
+<column name="indexno" type="varchar(255)" nullable="false" comment="顺序号"/>
+<column name="material_id" type="bigint" nullable="false" comment="品号信息ID"/>
+<column name="product_id" type="bigint" nullable="false" comment="产品信息ID"/>
+</columns>
+<primary-key name="pk_7ul8knr8ev6m2tvtempcla0qq" columns="id"/>
+<foreign-keys>
+<foreign-key name="fk_88idjp5watnd6xeyw6jx3hheg" column="product_id" referenced-table="mes.products" referenced-column="id"/>
+<foreign-key name="fk_npuxg31wwi0ohcbfdn8pt7jis" column="material_id" referenced-table="mes.materials" referenced-column="id"/>
+</foreign-keys>
+<indexes>
+<index name="idx_pwsw1fkrx2pan1b703ebmnyv" columns="material_id"/>
+</indexes>
+</table>
+<table name="material_types" comment="品号类别@mes">
+<columns>
+<column name="id" type="integer" nullable="false" comment="非业务主键:auto_increment"/>
+<column name="code" type="varchar(255)" nullable="false" comment="代码"/>
+<column name="name" type="varchar(255)" nullable="false" comment="名称"/>
+</columns>
+<primary-key name="pk_g2niq68qj7vtgrjwir9wgf2qp" columns="id"/>
+</table>
+<table name="materials" comment="品号信息@mes">
+<columns>
+<column name="id" type="bigint" nullable="false" comment="非业务主键:datetime"/>
+<column name="code" type="varchar(255)" nullable="false" unique="true" comment="代码"/>
+<column name="material_type_id" type="integer" nullable="false" comment="品号类别ID"/>
+<column name="name" type="varchar(255)" nullable="false" comment="名称"/>
+<column name="remark" type="varchar(255)" comment="备注"/>
+<column name="specification" type="varchar(255)" comment="规格"/>
+<column name="unit_id" type="integer" nullable="false" comment="计量单位ID"/>
+<column name="updated_at" type="timestamp" nullable="false" comment="更新时间"/>
+</columns>
+<primary-key name="pk_590jmdlsq3houbgbs5xcy9f7f" columns="id"/>
+<foreign-keys>
+<foreign-key name="fk_gpjd11vuy2l2vphftu0rjb3m1" column="unit_id" referenced-table="mes.measurement_units" referenced-column="id"/>
+<foreign-key name="fk_jympeb8d1yw5t8kcn1ldn1l7h" column="material_type_id" referenced-table="mes.material_types" referenced-column="id"/>
+</foreign-keys>
+</table>
+<table name="measurement_units" comment="计量单位@mes">
+<columns>
+<column name="id" type="integer" nullable="false" comment="非业务主键:auto_increment"/>
+<column name="code" type="varchar(255)" nullable="false" comment="代码"/>
+<column name="name" type="varchar(255)" nullable="false" comment="名称"/>
+</columns>
+<primary-key name="pk_7iwkvtpw7xm3upykgtxmp9n1o" columns="id"/>
+</table>
+<table name="order_settings" comment="工单评审时效设置@mes">
+<columns>
+<column name="id" type="integer" nullable="false" comment="非业务主键:auto_increment"/>
+<column name="begin_at" type="timestamp" nullable="false" comment="生效时间"/>
+<column name="end_at" type="timestamp" comment="失效时间"/>
+<column name="work_order_id" type="bigint" nullable="false" comment="生产工单ID"/>
+</columns>
+<primary-key name="pk_iuaoroxq5nutxgtx6i6xar6og" columns="id"/>
+<foreign-keys>
+<foreign-key name="fk_44rfihvuliys4kk2n0dkkugao" column="work_order_id" referenced-table="mes.work_orders" referenced-column="id"/>
+</foreign-keys>
+</table>
+<table name="product_material_items" comment="产品材料明细(bom)@mes">
+<columns>
+<column name="id" type="bigint" nullable="false" comment="非业务主键:datetime"/>
+<column name="amount" type="float4" nullable="false" comment="数量"/>
+<column name="cb002" type="varchar(255)" nullable="false" comment="原表cb002"/>
+<column name="cb003" type="varchar(255)" nullable="false" comment="原表cb003"/>
+<column name="indexno" type="varchar(255)" nullable="false" comment="顺序号"/>
+<column name="material_id" type="bigint" nullable="false" comment="品号信息ID"/>
+<column name="product_id" type="bigint" nullable="false" comment="产品信息ID"/>
+<column name="updated_at" type="timestamp" nullable="false" comment="更新时间"/>
+</columns>
+<primary-key name="pk_drew6jw10jq5sybdnmmnga8kd" columns="id"/>
+<foreign-keys>
+<foreign-key name="fk_65j4lrkdl17fweicnheywat5d" column="product_id" referenced-table="mes.products" referenced-column="id"/>
+<foreign-key name="fk_adlia4grd9ri7yko715igv4yt" column="material_id" referenced-table="mes.materials" referenced-column="id"/>
+</foreign-keys>
+<indexes>
+<index name="idx_kyl7aqbs2wq9ube5rqttxpswb" columns="product_id"/>
+</indexes>
+</table>
+<table name="product_technics" comment="产品工艺@mes">
+<columns>
+<column name="id" type="bigint" nullable="false" comment="非业务主键:datetime"/>
+<column name="description" type="varchar(500)" comment="描述"/>
+<column name="indexno" type="varchar(255)" nullable="false" comment="顺序号"/>
+<column name="internal" type="boolean" nullable="false" comment="是否是厂内工艺"/>
+<column name="machine_id" type="integer" comment="加工中心ID"/>
+<column name="scheme_id" type="bigint" nullable="false" comment="工艺路线ID"/>
+<column name="supplier_id" type="integer" comment="供应商信息ID"/>
+<column name="technic_id" type="integer" nullable="false" comment="工艺ID"/>
+</columns>
+<primary-key name="pk_lmigdjc6yqkesfi4u3kynwicn" columns="id"/>
+<foreign-keys>
+<foreign-key name="fk_taqn6nffu86pyd72a3t0y44ii" column="technic_id" referenced-table="mes.technics" referenced-column="id"/>
+<foreign-key name="fk_jljp6ywpy9x0jnorn76s2vpp7" column="scheme_id" referenced-table="mes.technic_schemes" referenced-column="id"/>
+<foreign-key name="fk_i15w81bw6sj183h7v0m2pp8ox" column="machine_id" referenced-table="mes.machines" referenced-column="id"/>
+<foreign-key name="fk_b1o56plwniq5td3qwwneslmm1" column="supplier_id" referenced-table="base.suppliers" referenced-column="id"/>
+</foreign-keys>
+<indexes>
+<index name="idx_gdqqm944bbkos66qkn6rv7x2n" columns="scheme_id"/>
+</indexes>
+</table>
+<table name="products" comment="产品信息@mes">
+<columns>
+<column name="id" type="bigint" nullable="false" comment="非业务主键:datetime"/>
+<column name="code" type="varchar(255)" nullable="false" unique="true" comment="代码"/>
+<column name="material_type_id" type="integer" nullable="false" comment="品号类别ID"/>
+<column name="name" type="varchar(255)" nullable="false" comment="名称"/>
+<column name="remark" type="varchar(255)" comment="备注"/>
+<column name="specification" type="varchar(255)" comment="规格"/>
+<column name="unit_id" type="integer" nullable="false" comment="计量单位ID"/>
+<column name="updated_at" type="timestamp" nullable="false" comment="更新时间"/>
+</columns>
+<primary-key name="pk_fkxwllxw446o2oeikipc4sfxg" columns="id"/>
+<foreign-keys>
+<foreign-key name="fk_4s4vtvhgqwu1yt4imxaymof8y" column="unit_id" referenced-table="mes.measurement_units" referenced-column="id"/>
+<foreign-key name="fk_fnxku3mlyola6eya8p6r5cqxs" column="material_type_id" referenced-table="mes.material_types" referenced-column="id"/>
+</foreign-keys>
+</table>
+<table name="review_events" comment="复审事件@mes">
+<columns>
+<column name="id" type="bigint" nullable="false" comment="非业务主键:datetime"/>
+<column name="comments" type="varchar(300)" nullable="false" comment="反馈回复内容"/>
+<column name="issue_by_id" type="bigint" nullable="false" comment="用户信息ID"/>
+<column name="remark" type="varchar(500)" comment="备注"/>
+<column name="updated_at" type="timestamp" nullable="false" comment="更新时间"/>
+<column name="work_order_id" type="bigint" nullable="false" comment="生产工单ID"/>
+</columns>
+<primary-key name="pk_fmy06jmoouswh6h00picdosnt" columns="id"/>
+<foreign-keys>
+<foreign-key name="fk_35rbcivf7mbtojiy0gcuhfi8o" column="work_order_id" referenced-table="mes.work_orders" referenced-column="id"/>
+<foreign-key name="fk_omchjbm3806ctva01orcxb7ov" column="issue_by_id" referenced-table="base.users" referenced-column="id"/>
+</foreign-keys>
+<indexes>
+<index name="idx_7gshhmknv5ae5mrxgkbeslybi" columns="work_order_id"/>
+</indexes>
+</table>
+<table name="review_events_watchers" comment="反馈人员列表@mes">
+<columns>
+<column name="review_event_id" type="bigint" nullable="false" comment="复审事件ID"/>
+<column name="user_id" type="bigint" nullable="false" comment="用户信息ID"/>
+</columns>
+<primary-key name="pk_hj404ss99vx57n136if0cev51" columns="review_event_id,user_id"/>
+<foreign-keys>
+<foreign-key name="fk_q5t8a12oouf3xuto2kheg4oeh" column="review_event_id" referenced-table="mes.review_events" referenced-column="id"/>
+<foreign-key name="fk_guyj9pqgydkov1cgijb8lh71t" column="user_id" referenced-table="base.users" referenced-column="id"/>
+</foreign-keys>
+<indexes>
+<index name="idx_swsfhhcir1ww43igu61bgi8r8" columns="review_event_id"/>
+</indexes>
+</table>
+<table name="reviewers" comment="复审员@mes">
+<columns>
+<column name="id" type="bigint" nullable="false" comment="非业务主键:datetime"/>
+<column name="begin_on" type="date" nullable="false" comment="生效日期"/>
+<column name="end_on" type="date" comment="失效日期"/>
+<column name="user_id" type="bigint" nullable="false" unique="true" comment="用户信息ID"/>
+</columns>
+<primary-key name="pk_ktoo8f8xd22lfe2tbml64tbx" columns="id"/>
+<foreign-keys>
+<foreign-key name="fk_497vjqxraplr54hsti8w24dh9" column="user_id" referenced-table="base.users" referenced-column="id"/>
+</foreign-keys>
+</table>
+<table name="reviewers_factories" comment="复审员对应的工厂@mes">
+<columns>
+<column name="factory_id" type="integer" nullable="false" comment="厂区信息ID"/>
+<column name="reviewer_id" type="bigint" nullable="false" comment="复审员ID"/>
+</columns>
+<primary-key name="pk_mwx57qhy2wy4rwux6qp0qx38l" columns="reviewer_id,factory_id"/>
+<foreign-keys>
+<foreign-key name="fk_57wwf7q2mah4odl54b4dwkj2o" column="reviewer_id" referenced-table="mes.reviewers" referenced-column="id"/>
+<foreign-key name="fk_p070mgwfun7sg9bofepph5o92" column="factory_id" referenced-table="base.factories" referenced-column="id"/>
+</foreign-keys>
+<indexes>
+<index name="idx_o019dq0nctfoh1p94cul1ax4u" columns="reviewer_id"/>
+</indexes>
+</table>
+<table name="reviewers_rounds" comment="复审员对应的复审轮次@mes">
+<columns>
+<column name="reviewer_id" type="bigint" nullable="false" comment="复审员ID"/>
+<column name="value_" type="integer" nullable="false" comment="复审员对应的复审轮次"/>
+</columns>
+<primary-key name="pk_ins796xng0rml5goshb260yrr" columns="reviewer_id,value_"/>
+<foreign-keys>
+<foreign-key name="fk_bg40qnj1vnuaavcopac8clcsh" column="reviewer_id" referenced-table="mes.reviewers" referenced-column="id"/>
+</foreign-keys>
+<indexes>
+<index name="idx_jav04leq2d7o94m9wdtfa0uk9" columns="reviewer_id"/>
+</indexes>
+</table>
+<table name="sales_order_types" comment="销售订单类型@mes">
+<columns>
+<column name="id" type="integer" nullable="false" comment="非业务主键:auto_increment"/>
+<column name="code" type="varchar(255)" nullable="false" comment="代码"/>
+<column name="name" type="varchar(255)" nullable="false" comment="名称"/>
+<column name="remark" type="varchar(255)" comment="备注"/>
+<column name="updated_at" type="timestamp" nullable="false" comment="更新时间"/>
+</columns>
+<primary-key name="pk_t9se1lve82sk2y9h07ponh377" columns="id"/>
+</table>
+<table name="technic_schemes" comment="工艺路线@mes">
+<columns>
+<column name="id" type="bigint" nullable="false" comment="非业务主键:datetime"/>
+<column name="indexno" type="varchar(255)" nullable="false" comment="顺序号"/>
+<column name="name" type="varchar(255)" nullable="false" comment="名称"/>
+<column name="product_id" type="bigint" nullable="false" comment="产品信息ID"/>
+<column name="updated_at" type="timestamp" nullable="false" comment="更新时间"/>
+</columns>
+<primary-key name="pk_k0p3c3gf8usd9n0kbmybyjmly" columns="id"/>
+<foreign-keys>
+<foreign-key name="fk_527acilom3bappos99m1ddp93" column="product_id" referenced-table="mes.products" referenced-column="id"/>
+</foreign-keys>
+<indexes>
+<index name="idx_40wi71ckbvuwewj5gsg07i0jt" columns="product_id"/>
+</indexes>
+</table>
+<table name="technics" comment="工艺@mes">
+<columns>
+<column name="id" type="integer" nullable="false" comment="非业务主键:auto_increment"/>
+<column name="assess_group_id" type="bigint" comment="评审小组ID"/>
+<column name="code" type="varchar(255)" nullable="false" unique="true" comment="代码"/>
+<column name="description" type="varchar(255)" comment="描述"/>
+<column name="duration" type="integer" nullable="false" comment="评审预计需要的天数，默认为0"/>
+<column name="internal" type="boolean" nullable="false" comment="是否是厂内工艺"/>
+<column name="machine_id" type="integer" comment="加工中心ID"/>
+<column name="name" type="varchar(255)" nullable="false" comment="名称"/>
+<column name="remark" type="varchar(255)" comment="备注"/>
+<column name="supplier_id" type="integer" comment="供应商信息ID"/>
+<column name="updated_at" type="timestamp" nullable="false" comment="更新时间"/>
+</columns>
+<primary-key name="pk_e7iqsbqcep0wfybhgsf310sk8" columns="id"/>
+<foreign-keys>
+<foreign-key name="fk_hirqghp6wjotgoi29bn5wfk46" column="machine_id" referenced-table="mes.machines" referenced-column="id"/>
+<foreign-key name="fk_6rslnt964an2hkqh8g83mmfeo" column="supplier_id" referenced-table="base.suppliers" referenced-column="id"/>
+<foreign-key name="fk_bt1mkweuviwuj44oplu8opa05" column="assess_group_id" referenced-table="mes.assess_groups" referenced-column="id"/>
+</foreign-keys>
+</table>
+<table name="work_order_statuses" comment="生产工单状态@mes">
+<columns>
+<column name="id" type="integer" nullable="false" comment="非业务主键:auto_increment"/>
+<column name="code" type="varchar(10)" nullable="false" unique="true" comment="代码"/>
+<column name="name" type="varchar(255)" nullable="false" comment="名称"/>
+</columns>
+<primary-key name="pk_pf0b4tm1mxy5nvm35a14s0k3k" columns="id"/>
+</table>
+<table name="work_order_technics" comment="工单工艺@mes">
+<columns>
+<column name="id" type="bigint" nullable="false" comment="非业务主键:datetime"/>
+<column name="assessed_by_id" type="bigint" comment="用户信息ID"/>
+<column name="days" type="integer" comment="天数"/>
+<column name="description" type="varchar(255)" comment="描述"/>
+<column name="factory_id" type="integer" nullable="false" comment="厂区信息ID"/>
+<column name="indexno" type="varchar(255)" nullable="false" comment="顺序号"/>
+<column name="internal" type="boolean" nullable="false" comment="是否是厂内工艺"/>
+<column name="machine_id" type="integer" comment="加工中心ID"/>
+<column name="passed" type="boolean" comment="是否通过"/>
+<column name="supplier_id" type="integer" comment="供应商信息ID"/>
+<column name="technic_id" type="integer" nullable="false" comment="工艺ID"/>
+<column name="updated_at" type="timestamp" nullable="false" comment="更新时间"/>
+<column name="work_order_id" type="bigint" nullable="false" comment="生产工单ID"/>
+</columns>
+<primary-key name="pk_qthavm830ffy1jxtx8emfs8ic" columns="id"/>
+<foreign-keys>
+<foreign-key name="fk_806i7k57su8dpi38trhobp1y7" column="work_order_id" referenced-table="mes.work_orders" referenced-column="id"/>
+<foreign-key name="fk_qs4mg7ngrajuis11sjcmr6d7b" column="factory_id" referenced-table="base.factories" referenced-column="id"/>
+<foreign-key name="fk_y63etvpvf7ugjg4g09gb2wr4" column="technic_id" referenced-table="mes.technics" referenced-column="id"/>
+<foreign-key name="fk_2sof38iyat25bhi3u0d3huyxl" column="assessed_by_id" referenced-table="base.users" referenced-column="id"/>
+<foreign-key name="fk_qqpl5qgw2svvpaldn3qruk63i" column="machine_id" referenced-table="mes.machines" referenced-column="id"/>
+<foreign-key name="fk_p2h0ql355y216msdx0xh7j6ky" column="supplier_id" referenced-table="base.suppliers" referenced-column="id"/>
+</foreign-keys>
+<indexes>
+<index name="idx_hv2u30n2y2n05tnq0ykrri6k7" columns="work_order_id"/>
+</indexes>
+</table>
+<table name="work_order_types" comment="工单单别@mes">
+<columns>
+<column name="id" type="integer" nullable="false" comment="非业务主键:auto_increment"/>
+<column name="code" type="varchar(255)" nullable="false" comment="代码"/>
+<column name="name" type="varchar(255)" nullable="false" comment="名称"/>
+<column name="remark" type="varchar(255)" comment="备注"/>
+<column name="updated_at" type="timestamp" nullable="false" comment="更新时间"/>
+</columns>
+<primary-key name="pk_ftyx88mwiy3j7voy9elm4p4lm" columns="id"/>
+</table>
+<table name="work_orders" comment="生产工单@mes">
+<columns>
+<column name="id" type="bigint" nullable="false" comment="非业务主键:datetime"/>
+<column name="amount" type="integer" nullable="false" comment="数量"/>
+<column name="assess_begin_at" type="timestamp" comment="评审开始时间"/>
+<column name="assess_status" type="integer" nullable="false" comment="评审状态"/>
+<column name="batch_num" type="varchar(255)" nullable="false" comment="批号"/>
+<column name="created_at" type="timestamp" nullable="false" comment="创建日期"/>
+<column name="deadline" type="date" comment="客户交付日期"/>
+<column name="factory_id" type="integer" nullable="false" comment="厂区信息ID"/>
+<column name="material_assess_id" type="bigint" comment="到料评审ID"/>
+<column name="order_type_id" type="integer" nullable="false" comment="工单单别ID"/>
+<column name="planned_end_on" type="date" comment="计划完工日期"/>
+<column name="product_id" type="bigint" nullable="false" comment="产品信息ID"/>
+<column name="remark" type="varchar(255)" comment="备注"/>
+<column name="review_assess_begin_at" type="timestamp" comment="复审开始时间"/>
+<column name="saler_id" type="bigint" comment="用户信息ID"/>
+<column name="scheduled_on" type="date" comment="评审交付日期"/>
+<column name="status_id" type="integer" nullable="false" comment="生产工单状态ID"/>
+<column name="updated_at" type="timestamp" nullable="false" comment="更新时间"/>
+</columns>
+<primary-key name="pk_3msaev362ulekgsqy2uhln753" columns="id"/>
+<foreign-keys>
+<foreign-key name="fk_d8ro518qbt379y53cxieieq7n" column="factory_id" referenced-table="base.factories" referenced-column="id"/>
+<foreign-key name="fk_ds1efvpigdbfuuogc7clxbrvj" column="order_type_id" referenced-table="mes.work_order_types" referenced-column="id"/>
+<foreign-key name="fk_h22vgmknnm9fhmgix313qiimk" column="product_id" referenced-table="mes.products" referenced-column="id"/>
+<foreign-key name="fk_prssl8tmucwjnsqc8dxkysf19" column="saler_id" referenced-table="base.users" referenced-column="id"/>
+<foreign-key name="fk_jw9q3hepix0gtrwhq6j3dj5br" column="material_assess_id" referenced-table="mes.material_assesses" referenced-column="id"/>
+<foreign-key name="fk_pjfxcernruj8s7yx0sdpb0t2s" column="status_id" referenced-table="mes.work_order_statuses" referenced-column="id"/>
+</foreign-keys>
+</table>
+</tables>
+</schema>
+</schemas>
+</db>

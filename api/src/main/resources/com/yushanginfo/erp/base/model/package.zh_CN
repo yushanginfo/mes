@@ -1,0 +1,17 @@
+Customer=客户信息
+Customer.parent=上级单位
+Customer.quickCode=快捷码
+Customer.saler=对应业务员
+Customer.shortName=简称
+
+Department=部门信息
+Department.parent=上级部门
+
+Factory=厂区信息
+Factory.address=厂址
+
+Supplier=供应商信息
+
+User=用户信息
+User.mobile=移动电话
+User.email=电子邮件

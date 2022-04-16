@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<cdi>
+  <container>
+    <module class="org.beangle.serializer.text.DefaultModule"/>
+    <module class="org.beangle.serializer.json.DefaultModule"/>
+    <module class="org.beangle.serializer.xml.DefaultModule"/>
+    <module class="com.yushanginfo.erp.mes.boot.DaoModule"/>
+    <module class="org.beangle.ems.app.cas.DefaultModule" />
+  </container>
+
+  <container name="web">
+    <module class="com.yushanginfo.erp.mes.index.action.DefaultModule"/>
+  </container>
+</cdi>

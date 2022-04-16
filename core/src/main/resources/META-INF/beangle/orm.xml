@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<orm>
-  <mapping class="com.yushanginfo.erp.order.model.DefaultMapping" />
-  <mapping class="com.yushanginfo.erp.base.model.DefaultMapping" />
-  <naming>
-    <profile package = "com.yushanginfo.erp.order.model" pluralize="true" schema="erp_order"/>
-    <profile package = "com.yushanginfo.erp.base.model" pluralize="true" schema="erp_base"/>
-  </naming>
-</orm>

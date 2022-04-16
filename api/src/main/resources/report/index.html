@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>订单评审系统数据库表结构说明</title>
+    <meta name="description" content="订单评审系统数据库表结构说明">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+  <body>
+  <style>
+     .info_header{
+       color: #8a6d3b;
+       background-color: #fcf8e3;
+       border-color: #faebcc;
+     }
+  </style>
+
+<div class="container">
+ <div class="content">
+  <div class="page-header">
+   <h1>订单评审系统 0.0.1 数据库表结构说明 </h1>
+  </div>
+
+  <div class="row-fluid">
+   <div class="span12">
+
+    <h4>目 录</h4>
+
+    <h5>1. 数据库对象</h5>
+    <ul>
+      <li><a href="#table_list">1.1 表格一览</a></li>
+
+      <li><a href="#image_list">1.2  模块关系图</a></li>
+    </ul>
+
+    <h5>2. 模块列表</h5>
+    <ul>
+<li> <a href="#base.base">2.1 基础信息</a></li>
+<li> <a href="#mes.mes">2.2 订单评审</a></li>
+    </ul>
+
+    <h3>2. 数据库对象列表</h3>
+
+    <h4 id="table_list">2.1 表格列表</h4>
+
+base中基础信息下共计5个表，分别如下:
+
+<table class="table table-bordered table-striped table-condensed">
+  <tr>
+    <th class="info_header" width="7%">序号</th>
+    <th class="info_header" width="43%">表名/描述</th>
+    <th class="info_header" width="7%">序号</th>
+    <th class="info_header" width="43%">表名/描述</th>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td><a href="#table_base.customers">customers</a>&nbsp;客户信息</td>
+    <td>4</td>
+    <td><a href="#table_base.suppliers">suppliers</a>&nbsp;供应商信息</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td><a href="#table_base.departments">departments</a>&nbsp;部门信息</td>
+    <td>5</td>
+    <td><a href="#table_base.users">users</a>&nbsp;用户信息</td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td><a href="#table_base.factories">factories</a>&nbsp;厂区信息</td>
+    <td></td>
+    <td></td>
+  </tr>
+</table>
+
+mes中订单评审下共计28个表，分别如下:
+
+<table class="table table-bordered table-striped table-condensed">
+  <tr>
+    <th class="info_header" width="7%">序号</th>
+    <th class="info_header" width="43%">表名/描述</th>
+    <th class="info_header" width="7%">序号</th>
+    <th class="info_header" width="43%">表名/描述</th>
+  </tr>
+  <tr>
+    <td>1</td>
+    <td><a href="#table_mes.assess_groups">assess_groups</a>&nbsp;评审小组</td>
+    <td>15</td>
+    <td><a href="#table_mes.product_technics">product_technics</a>&nbsp;产品工艺</td>
+  </tr>
+  <tr>
+    <td>2</td>
+    <td><a href="#table_mes.assess_items">assess_items</a>&nbsp;评审项</td>
+    <td>16</td>
+    <td><a href="#table_mes.products">products</a>&nbsp;产品信息</td>
+  </tr>
+  <tr>
+    <td>3</td>
+    <td><a href="#table_mes.assess_logs">assess_logs</a>&nbsp;评审日志</td>
+    <td>17</td>
+    <td><a href="#table_mes.review_events">review_events</a>&nbsp;复审事件</td>
+  </tr>
+  <tr>
+    <td>4</td>
+    <td><a href="#table_mes.assess_members">assess_members</a>&nbsp;评审成员</td>
+    <td>18</td>
+    <td><a href="#table_mes.review_events_watchers">review_events_watchers</a>&nbsp;反馈人员列表</td>
+  </tr>
+  <tr>
+    <td>5</td>
+    <td><a href="#table_mes.assess_records">assess_records</a>&nbsp;评审记录</td>
+    <td>19</td>
+    <td><a href="#table_mes.reviewers">reviewers</a>&nbsp;复审员</td>
+  </tr>
+  <tr>
+    <td>6</td>
+    <td><a href="#table_mes.machines">machines</a>&nbsp;加工中心</td>
+    <td>20</td>
+    <td><a href="#table_mes.reviewers_factories">reviewers_factories</a>&nbsp;复审员对应的工厂</td>
+  </tr>
+  <tr>
+    <td>7</td>
+    <td><a href="#table_mes.material_assesses">material_assesses</a>&nbsp;到料评审</td>
+    <td>21</td>
+    <td><a href="#table_mes.reviewers_rounds">reviewers_rounds</a>&nbsp;复审员对应的复审轮次</td>
+  </tr>
+  <tr>
+    <td>8</td>
+    <td><a href="#table_mes.material_item_assesses">material_item_assesses</a>&nbsp;到料评审明细</td>
+    <td>22</td>
+    <td><a href="#table_mes.sales_order_types">sales_order_types</a>&nbsp;销售订单类型</td>
+  </tr>
+  <tr>
+    <td>9</td>
+    <td><a href="#table_mes.material_items">material_items</a>&nbsp;品号明细</td>
+    <td>23</td>
+    <td><a href="#table_mes.technic_schemes">technic_schemes</a>&nbsp;工艺路线</td>
+  </tr>
+  <tr>
+    <td>10</td>
+    <td><a href="#table_mes.material_types">material_types</a>&nbsp;品号类别</td>
+    <td>24</td>
+    <td><a href="#table_mes.technics">technics</a>&nbsp;工艺</td>
+  </tr>
+  <tr>
+    <td>11</td>
+    <td><a href="#table_mes.materials">materials</a>&nbsp;品号信息</td>
+    <td>25</td>
+    <td><a href="#table_mes.work_order_statuses">work_order_statuses</a>&nbsp;生产工单状态</td>
+  </tr>
+  <tr>
+    <td>12</td>
+    <td><a href="#table_mes.measurement_units">measurement_units</a>&nbsp;计量单位</td>
+    <td>26</td>
+    <td><a href="#table_mes.work_order_technics">work_order_technics</a>&nbsp;工单工艺</td>
+  </tr>
+  <tr>
+    <td>13</td>
+    <td><a href="#table_mes.order_settings">order_settings</a>&nbsp;工单评审时效设置</td>
+    <td>27</td>
+    <td><a href="#table_mes.work_order_types">work_order_types</a>&nbsp;工单单别</td>
+  </tr>
+  <tr>
+    <td>14</td>
+    <td><a href="#table_mes.product_material_items">product_material_items</a>&nbsp;产品材料明细(bom)</td>
+    <td>28</td>
+    <td><a href="#table_mes.work_orders">work_orders</a>&nbsp;生产工单</td>
+  </tr>
+</table>
+
+    <h4 id="image_list">2.2 模块关系图</h4>
+
+    <h4>1. 工单信息</h4>
+    <ul>
+      <li>关系图</li>
+    </ul>
+    <p><img src="images/order.png" alt="工单信息" /></p>
+
+    <h4>2. 评审信息</h4>
+    <ul>
+      <li>关系图</li>
+    </ul>
+    <p><img src="images/assess.png" alt="评审信息" /></p>
+
+    <h3>3. 具体模块明细</h3>
+
+<h4 id="base.base">3.1 基础信息</h4>
+<div class="panel panel-info">
+  <div class="panel-heading"><h5 id="table_base.customers">表格base.customers</h5></div>
+  <div class="panel-body">
+<ul>
+  <li>表格说明</li>
+</ul>
+
+<table class="table table-bordered table-striped table-condensed ">
+<tr><th class="info_header">表名</th><th class="info_header">主键</th><th class="info_header">注释</th>  </tr>
+<tr><td>base.customers</td><td>id</td><td>客户信息</td>  </tr>
+</table>
+<ul>
+  <li>表格中的列</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+<tr><th class="info_header">序号</th><th class="info_header">字段名</th><th class="info_header">字段类型</th><th class="info_header">是否可空</th><th class="info_header">描述</th><th class="info_header">引用表</th>  </tr>
+<tr><td>1</td><td>id</td><td>bigint</td><td>否</td><td>非业务主键:datetime</td><td></td>  </tr>
+<tr><td>2</td><td>code</td><td>varchar(255)</td><td>否</td><td>代码</td><td></td>  </tr>
+<tr><td>3</td><td>name</td><td>varchar(255)</td><td>否</td><td>名称</td><td></td>  </tr>
+<tr><td>4</td><td>parent_id</td><td>bigint</td><td>是</td><td>上级单位ID</td><td>          <a href="#table_base.customers">base.customers</a></td>  </tr>
+<tr><td>5</td><td>quick_code</td><td>varchar(255)</td><td>是</td><td>快捷码</td><td></td>  </tr>
+<tr><td>6</td><td>remark</td><td>varchar(255)</td><td>是</td><td>备注</td><td></td>  </tr>
+<tr><td>7</td><td>saler_id</td><td>bigint</td><td>是</td><td>对应业务员ID</td><td>          <a href="#table_base.users">base.users</a></td>  </tr>
+<tr><td>8</td><td>short_name</td><td>varchar(255)</td><td>否</td><td>简称</td><td></td>  </tr>
+<tr><td>9</td><td>updated_at</td><td>timestamp</td><td>否</td><td>更新时间</td><td></td>  </tr>
+</table>
+
+  </div>
+</div>
+<div class="panel panel-info">
+  <div class="panel-heading"><h5 id="table_base.departments">表格base.departments</h5></div>
+  <div class="panel-body">
+<ul>
+  <li>表格说明</li>
+</ul>
+
+<table class="table table-bordered table-striped table-condensed ">
+<tr><th class="info_header">表名</th><th class="info_header">主键</th><th class="info_header">注释</th>  </tr>
+<tr><td>base.departments</td><td>id</td><td>部门信息</td>  </tr>
+</table>
+<ul>
+  <li>表格中的列</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+<tr><th class="info_header">序号</th><th class="info_header">字段名</th><th class="info_header">字段类型</th><th class="info_header">是否可空</th><th class="info_header">描述</th><th class="info_header">引用表</th>  </tr>
+<tr><td>1</td><td>id</td><td>integer</td><td>否</td><td>非业务主键:auto_increment</td><td></td>  </tr>
+<tr><td>2</td><td>code</td><td>varchar(10)</td><td>否</td><td>代码</td><td></td>  </tr>
+<tr><td>3</td><td>indexno</td><td>varchar(20)</td><td>否</td><td>顺序号</td><td></td>  </tr>
+<tr><td>4</td><td>name</td><td>varchar(80)</td><td>否</td><td>名称</td><td></td>  </tr>
+<tr><td>5</td><td>parent_id</td><td>integer</td><td>是</td><td>上级部门ID</td><td>          <a href="#table_base.departments">base.departments</a></td>  </tr>
+<tr><td>6</td><td>updated_at</td><td>timestamp</td><td>否</td><td>更新时间</td><td></td>  </tr>
+</table>
+
+<ul>
+  <li>表格中唯一约束</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+  <tr>
+<th class="info_header">序号</th><th class="info_header">约束名</th><th class="info_header">约束字段</th>  </tr>
+<tr><td>1</td><td>uk_l7tivi5261wxdnvo6cct9gg6t</td><td>code</td>  </tr>
+</table>
+
+<ul>
+  <li>表格的索引</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+  <tr>
+<th class="info_header">索引名</th><th class="info_header">索引字段</th><th class="info_header">是否唯一</th>  </tr>
+<tr><td>idx_lloboi12ir2a1q541ntsr7kao</td><td>parent_id</td><td>否</td>  </tr>
+</table>
+  </div>
+</div>
+<div class="panel panel-info">
+  <div class="panel-heading"><h5 id="table_base.factories">表格base.factories</h5></div>
+  <div class="panel-body">
+<ul>
+  <li>表格说明</li>
+</ul>
+
+<table class="table table-bordered table-striped table-condensed ">
+<tr><th class="info_header">表名</th><th class="info_header">主键</th><th class="info_header">注释</th>  </tr>
+<tr><td>base.factories</td><td>id</td><td>厂区信息</td>  </tr>
+</table>
+<ul>
+  <li>表格中的列</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+<tr><th class="info_header">序号</th><th class="info_header">字段名</th><th class="info_header">字段类型</th><th class="info_header">是否可空</th><th class="info_header">描述</th><th class="info_header">引用表</th>  </tr>
+<tr><td>1</td><td>id</td><td>integer</td><td>否</td><td>非业务主键:auto_increment</td><td></td>  </tr>
+<tr><td>2</td><td>address</td><td>varchar(255)</td><td>否</td><td>厂址</td><td></td>  </tr>
+<tr><td>3</td><td>code</td><td>varchar(255)</td><td>否</td><td>代码</td><td></td>  </tr>
+<tr><td>4</td><td>name</td><td>varchar(255)</td><td>否</td><td>名称</td><td></td>  </tr>
+<tr><td>5</td><td>updated_at</td><td>timestamp</td><td>否</td><td>更新时间</td><td></td>  </tr>
+</table>
+
+  </div>
+</div>
+<div class="panel panel-info">
+  <div class="panel-heading"><h5 id="table_base.suppliers">表格base.suppliers</h5></div>
+  <div class="panel-body">
+<ul>
+  <li>表格说明</li>
+</ul>
+
+<table class="table table-bordered table-striped table-condensed ">
+<tr><th class="info_header">表名</th><th class="info_header">主键</th><th class="info_header">注释</th>  </tr>
+<tr><td>base.suppliers</td><td>id</td><td>供应商信息</td>  </tr>
+</table>
+<ul>
+  <li>表格中的列</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+<tr><th class="info_header">序号</th><th class="info_header">字段名</th><th class="info_header">字段类型</th><th class="info_header">是否可空</th><th class="info_header">描述</th><th class="info_header">引用表</th>  </tr>
+<tr><td>1</td><td>id</td><td>integer</td><td>否</td><td>非业务主键:auto_increment</td><td></td>  </tr>
+<tr><td>2</td><td>code</td><td>varchar(255)</td><td>否</td><td>代码</td><td></td>  </tr>
+<tr><td>3</td><td>name</td><td>varchar(255)</td><td>否</td><td>名称</td><td></td>  </tr>
+<tr><td>4</td><td>updated_at</td><td>timestamp</td><td>否</td><td>更新时间</td><td></td>  </tr>
+</table>
+
+  </div>
+</div>
+<div class="panel panel-info">
+  <div class="panel-heading"><h5 id="table_base.users">表格base.users</h5></div>
+  <div class="panel-body">
+<ul>
+  <li>表格说明</li>
+</ul>
+
+<table class="table table-bordered table-striped table-condensed ">
+<tr><th class="info_header">表名</th><th class="info_header">主键</th><th class="info_header">注释</th>  </tr>
+<tr><td>base.users</td><td>id</td><td>用户信息</td>  </tr>
+</table>
+<ul>
+  <li>表格中的列</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+<tr><th class="info_header">序号</th><th class="info_header">字段名</th><th class="info_header">字段类型</th><th class="info_header">是否可空</th><th class="info_header">描述</th><th class="info_header">引用表</th>  </tr>
+<tr><td>1</td><td>id</td><td>bigint</td><td>否</td><td>非业务主键:datetime</td><td></td>  </tr>
+<tr><td>2</td><td>begin_on</td><td>date</td><td>否</td><td>生效日期</td><td></td>  </tr>
+<tr><td>3</td><td>code</td><td>varchar(255)</td><td>否</td><td>代码</td><td></td>  </tr>
+<tr><td>4</td><td>department_id</td><td>integer</td><td>否</td><td>部门信息ID</td><td>          <a href="#table_base.departments">base.departments</a></td>  </tr>
+<tr><td>5</td><td>email</td><td>varchar(255)</td><td>是</td><td>电子邮件</td><td></td>  </tr>
+<tr><td>6</td><td>end_on</td><td>date</td><td>是</td><td>失效日期</td><td></td>  </tr>
+<tr><td>7</td><td>factory_id</td><td>integer</td><td>是</td><td>厂区信息ID</td><td>          <a href="#table_base.factories">base.factories</a></td>  </tr>
+<tr><td>8</td><td>mobile</td><td>varchar(255)</td><td>是</td><td>移动电话</td><td></td>  </tr>
+<tr><td>9</td><td>name</td><td>varchar(255)</td><td>否</td><td>名称</td><td></td>  </tr>
+<tr><td>10</td><td>remark</td><td>varchar(255)</td><td>是</td><td>备注</td><td></td>  </tr>
+<tr><td>11</td><td>updated_at</td><td>timestamp</td><td>否</td><td>更新时间</td><td></td>  </tr>
+</table>
+
+  </div>
+</div>
+
+<h4 id="mes.mes">3.2 订单评审</h4>
+<div class="panel panel-info">
+  <div class="panel-heading"><h5 id="table_mes.assess_groups">表格mes.assess_groups</h5></div>
+  <div class="panel-body">
+<ul>
+  <li>表格说明</li>
+</ul>
+
+<table class="table table-bordered table-striped table-condensed ">
+<tr><th class="info_header">表名</th><th class="info_header">主键</th><th class="info_header">注释</th>  </tr>
+<tr><td>mes.assess_groups</td><td>id</td><td>评审小组</td>  </tr>
+</table>
+<ul>
+  <li>表格中的列</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+<tr><th class="info_header">序号</th><th class="info_header">字段名</th><th class="info_header">字段类型</th><th class="info_header">是否可空</th><th class="info_header">描述</th><th class="info_header">引用表</th>  </tr>
+<tr><td>1</td><td>id</td><td>bigint</td><td>否</td><td>非业务主键:datetime</td><td></td>  </tr>
+<tr><td>2</td><td>code</td><td>varchar(255)</td><td>否</td><td>代码</td><td></td>  </tr>
+<tr><td>3</td><td>department_id</td><td>integer</td><td>否</td><td>部门信息ID</td><td>          <a href="#table_base.departments">base.departments</a></td>  </tr>
+<tr><td>4</td><td>director_id</td><td>bigint</td><td>是</td><td>用户信息ID</td><td>          <a href="#table_base.users">base.users</a></td>  </tr>
+<tr><td>5</td><td>name</td><td>varchar(255)</td><td>否</td><td>名称</td><td></td>  </tr>
+<tr><td>6</td><td>updated_at</td><td>timestamp</td><td>否</td><td>更新时间</td><td></td>  </tr>
+</table>
+
+  </div>
+</div>
+<div class="panel panel-info">
+  <div class="panel-heading"><h5 id="table_mes.assess_items">表格mes.assess_items</h5></div>
+  <div class="panel-body">
+<ul>
+  <li>表格说明</li>
+</ul>
+
+<table class="table table-bordered table-striped table-condensed ">
+<tr><th class="info_header">表名</th><th class="info_header">主键</th><th class="info_header">注释</th>  </tr>
+<tr><td>mes.assess_items</td><td>id</td><td>评审项</td>  </tr>
+</table>
+<ul>
+  <li>表格中的列</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+<tr><th class="info_header">序号</th><th class="info_header">字段名</th><th class="info_header">字段类型</th><th class="info_header">是否可空</th><th class="info_header">描述</th><th class="info_header">引用表</th>  </tr>
+<tr><td>1</td><td>id</td><td>bigint</td><td>否</td><td>非业务主键:datetime</td><td></td>  </tr>
+<tr><td>2</td><td>days</td><td>integer</td><td>否</td><td>天数</td><td></td>  </tr>
+<tr><td>3</td><td>indexno</td><td>varchar(255)</td><td>否</td><td>序号</td><td></td>  </tr>
+<tr><td>4</td><td>matchine</td><td>varchar(255)</td><td>否</td><td>加工中心或者供应商</td><td></td>  </tr>
+<tr><td>5</td><td>record_id</td><td>bigint</td><td>否</td><td>评审记录ID</td><td>          <a href="#table_mes.assess_records">mes.assess_records</a></td>  </tr>
+<tr><td>6</td><td>technic_id</td><td>integer</td><td>否</td><td>工艺ID</td><td>          <a href="#table_mes.technics">mes.technics</a></td>  </tr>
+</table>
+
+<ul>
+  <li>表格的索引</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+  <tr>
+<th class="info_header">索引名</th><th class="info_header">索引字段</th><th class="info_header">是否唯一</th>  </tr>
+<tr><td>idx_supioe5aa6tgiu208r5m0vvij</td><td>record_id</td><td>否</td>  </tr>
+</table>
+  </div>
+</div>
+<div class="panel panel-info">
+  <div class="panel-heading"><h5 id="table_mes.assess_logs">表格mes.assess_logs</h5></div>
+  <div class="panel-body">
+<ul>
+  <li>表格说明</li>
+</ul>
+
+<table class="table table-bordered table-striped table-condensed ">
+<tr><th class="info_header">表名</th><th class="info_header">主键</th><th class="info_header">注释</th>  </tr>
+<tr><td>mes.assess_logs</td><td>id</td><td>评审日志</td>  </tr>
+</table>
+<ul>
+  <li>表格中的列</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+<tr><th class="info_header">序号</th><th class="info_header">字段名</th><th class="info_header">字段类型</th><th class="info_header">是否可空</th><th class="info_header">描述</th><th class="info_header">引用表</th>  </tr>
+<tr><td>1</td><td>id</td><td>bigint</td><td>否</td><td>非业务主键:datetime</td><td></td>  </tr>
+<tr><td>2</td><td>from_status</td><td>integer</td><td>否</td><td>起始状态</td><td></td>  </tr>
+<tr><td>3</td><td>ip</td><td>varchar(255)</td><td>否</td><td>IP</td><td></td>  </tr>
+<tr><td>4</td><td>order_id</td><td>bigint</td><td>否</td><td>工单ID</td><td></td>  </tr>
+<tr><td>5</td><td>remark</td><td>varchar(255)</td><td>是</td><td>备注</td><td></td>  </tr>
+<tr><td>6</td><td>to_status</td><td>integer</td><td>否</td><td>结果状态</td><td></td>  </tr>
+<tr><td>7</td><td>updated_at</td><td>timestamp</td><td>否</td><td>更新时间</td><td></td>  </tr>
+<tr><td>8</td><td>user_id</td><td>bigint</td><td>否</td><td>用户信息ID</td><td>          <a href="#table_base.users">base.users</a></td>  </tr>
+</table>
+
+  </div>
+</div>
+<div class="panel panel-info">
+  <div class="panel-heading"><h5 id="table_mes.assess_members">表格mes.assess_members</h5></div>
+  <div class="panel-body">
+<ul>
+  <li>表格说明</li>
+</ul>
+
+<table class="table table-bordered table-striped table-condensed ">
+<tr><th class="info_header">表名</th><th class="info_header">主键</th><th class="info_header">注释</th>  </tr>
+<tr><td>mes.assess_members</td><td>id</td><td>评审成员</td>  </tr>
+</table>
+<ul>
+  <li>表格中的列</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+<tr><th class="info_header">序号</th><th class="info_header">字段名</th><th class="info_header">字段类型</th><th class="info_header">是否可空</th><th class="info_header">描述</th><th class="info_header">引用表</th>  </tr>
+<tr><td>1</td><td>id</td><td>bigint</td><td>否</td><td>非业务主键:datetime</td><td></td>  </tr>
+<tr><td>2</td><td>factory_id</td><td>integer</td><td>否</td><td>厂区信息ID</td><td>          <a href="#table_base.factories">base.factories</a></td>  </tr>
+<tr><td>3</td><td>group_id</td><td>bigint</td><td>否</td><td>评审小组ID</td><td>          <a href="#table_mes.assess_groups">mes.assess_groups</a></td>  </tr>
+<tr><td>4</td><td>updated_at</td><td>timestamp</td><td>否</td><td>更新时间</td><td></td>  </tr>
+<tr><td>5</td><td>user_id</td><td>bigint</td><td>否</td><td>用户信息ID</td><td>          <a href="#table_base.users">base.users</a></td>  </tr>
+</table>
+
+<ul>
+  <li>表格中唯一约束</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+  <tr>
+<th class="info_header">序号</th><th class="info_header">约束名</th><th class="info_header">约束字段</th>  </tr>
+<tr><td>1</td><td>uk_d9084em65k4s1ie7i8fnfp125</td><td>group_id,user_id,factory_id</td>  </tr>
+</table>
+
+<ul>
+  <li>表格的索引</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+  <tr>
+<th class="info_header">索引名</th><th class="info_header">索引字段</th><th class="info_header">是否唯一</th>  </tr>
+<tr><td>idx_cw89ot1gfstybe4rf9sg83vl8</td><td>group_id</td><td>否</td>  </tr>
+</table>
+  </div>
+</div>
+<div class="panel panel-info">
+  <div class="panel-heading"><h5 id="table_mes.assess_records">表格mes.assess_records</h5></div>
+  <div class="panel-body">
+<ul>
+  <li>表格说明</li>
+</ul>
+
+<table class="table table-bordered table-striped table-condensed ">
+<tr><th class="info_header">表名</th><th class="info_header">主键</th><th class="info_header">注释</th>  </tr>
+<tr><td>mes.assess_records</td><td>id</td><td>评审记录</td>  </tr>
+</table>
+<ul>
+  <li>表格中的列</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+<tr><th class="info_header">序号</th><th class="info_header">字段名</th><th class="info_header">字段类型</th><th class="info_header">是否可空</th><th class="info_header">描述</th><th class="info_header">引用表</th>  </tr>
+<tr><td>1</td><td>id</td><td>bigint</td><td>否</td><td>非业务主键:datetime</td><td></td>  </tr>
+<tr><td>2</td><td>assess_status</td><td>integer</td><td>否</td><td>评审状态</td><td></td>  </tr>
+<tr><td>3</td><td>material_ready</td><td>boolean</td><td>否</td><td>是否有料</td><td></td>  </tr>
+<tr><td>4</td><td>material_ready_on</td><td>date</td><td>是</td><td>到料日期</td><td></td>  </tr>
+<tr><td>5</td><td>order_id</td><td>bigint</td><td>否</td><td>生产工单ID</td><td>          <a href="#table_mes.work_orders">mes.work_orders</a></td>  </tr>
+<tr><td>6</td><td>scheduled_on</td><td>date</td><td>否</td><td>评审交付日期</td><td></td>  </tr>
+<tr><td>7</td><td>updated_at</td><td>timestamp</td><td>否</td><td>更新时间</td><td></td>  </tr>
+</table>
+
+<ul>
+  <li>表格的索引</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+  <tr>
+<th class="info_header">索引名</th><th class="info_header">索引字段</th><th class="info_header">是否唯一</th>  </tr>
+<tr><td>idx_9ibkmohvwmt2hvbabc79y79pf</td><td>order_id</td><td>否</td>  </tr>
+</table>
+  </div>
+</div>
+<div class="panel panel-info">
+  <div class="panel-heading"><h5 id="table_mes.machines">表格mes.machines</h5></div>
+  <div class="panel-body">
+<ul>
+  <li>表格说明</li>
+</ul>
+
+<table class="table table-bordered table-striped table-condensed ">
+<tr><th class="info_header">表名</th><th class="info_header">主键</th><th class="info_header">注释</th>  </tr>
+<tr><td>mes.machines</td><td>id</td><td>加工中心</td>  </tr>
+</table>
+<ul>
+  <li>表格中的列</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+<tr><th class="info_header">序号</th><th class="info_header">字段名</th><th class="info_header">字段类型</th><th class="info_header">是否可空</th><th class="info_header">描述</th><th class="info_header">引用表</th>  </tr>
+<tr><td>1</td><td>id</td><td>integer</td><td>否</td><td>非业务主键:auto_increment</td><td></td>  </tr>
+<tr><td>2</td><td>code</td><td>varchar(255)</td><td>否</td><td>代码</td><td></td>  </tr>
+<tr><td>3</td><td>name</td><td>varchar(255)</td><td>否</td><td>名称</td><td></td>  </tr>
+<tr><td>4</td><td>updated_at</td><td>timestamp</td><td>否</td><td>更新时间</td><td></td>  </tr>
+</table>
+
+  </div>
+</div>
+<div class="panel panel-info">
+  <div class="panel-heading"><h5 id="table_mes.material_assesses">表格mes.material_assesses</h5></div>
+  <div class="panel-body">
+<ul>
+  <li>表格说明</li>
+</ul>
+
+<table class="table table-bordered table-striped table-condensed ">
+<tr><th class="info_header">表名</th><th class="info_header">主键</th><th class="info_header">注释</th>  </tr>
+<tr><td>mes.material_assesses</td><td>id</td><td>到料评审</td>  </tr>
+</table>
+<ul>
+  <li>表格中的列</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+<tr><th class="info_header">序号</th><th class="info_header">字段名</th><th class="info_header">字段类型</th><th class="info_header">是否可空</th><th class="info_header">描述</th><th class="info_header">引用表</th>  </tr>
+<tr><td>1</td><td>id</td><td>bigint</td><td>否</td><td>非业务主键:datetime</td><td></td>  </tr>
+<tr><td>2</td><td>assessed_by_id</td><td>bigint</td><td>是</td><td>用户信息ID</td><td>          <a href="#table_base.users">base.users</a></td>  </tr>
+<tr><td>3</td><td>created_at</td><td>timestamp</td><td>否</td><td>创建时间</td><td></td>  </tr>
+<tr><td>4</td><td>order_id</td><td>bigint</td><td>否</td><td>生产工单ID</td><td>          <a href="#table_mes.work_orders">mes.work_orders</a></td>  </tr>
+<tr><td>5</td><td>ready</td><td>boolean</td><td>否</td><td>是否有料</td><td></td>  </tr>
+<tr><td>6</td><td>ready_on</td><td>date</td><td>是</td><td>到料日期</td><td></td>  </tr>
+<tr><td>7</td><td>updated_at</td><td>timestamp</td><td>否</td><td>更新时间</td><td></td>  </tr>
+</table>
+
+<ul>
+  <li>表格中唯一约束</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+  <tr>
+<th class="info_header">序号</th><th class="info_header">约束名</th><th class="info_header">约束字段</th>  </tr>
+<tr><td>1</td><td>uk_dlh25ihrfsda56lme5qhifkhi</td><td>order_id</td>  </tr>
+</table>
+
+  </div>
+</div>
+<div class="panel panel-info">
+  <div class="panel-heading"><h5 id="table_mes.material_item_assesses">表格mes.material_item_assesses</h5></div>
+  <div class="panel-body">
+<ul>
+  <li>表格说明</li>
+</ul>
+
+<table class="table table-bordered table-striped table-condensed ">
+<tr><th class="info_header">表名</th><th class="info_header">主键</th><th class="info_header">注释</th>  </tr>
+<tr><td>mes.material_item_assesses</td><td>id</td><td>到料评审明细</td>  </tr>
+</table>
+<ul>
+  <li>表格中的列</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+<tr><th class="info_header">序号</th><th class="info_header">字段名</th><th class="info_header">字段类型</th><th class="info_header">是否可空</th><th class="info_header">描述</th><th class="info_header">引用表</th>  </tr>
+<tr><td>1</td><td>id</td><td>bigint</td><td>否</td><td>非业务主键:datetime</td><td></td>  </tr>
+<tr><td>2</td><td>item_id</td><td>bigint</td><td>否</td><td>产品材料明细(bom)ID</td><td>          <a href="#table_mes.product_material_items">mes.product_material_items</a></td>  </tr>
+<tr><td>3</td><td>material_assess_id</td><td>bigint</td><td>否</td><td>到料评审ID</td><td>          <a href="#table_mes.material_assesses">mes.material_assesses</a></td>  </tr>
+<tr><td>4</td><td>ready</td><td>boolean</td><td>否</td><td>是否有料</td><td></td>  </tr>
+<tr><td>5</td><td>ready_on</td><td>date</td><td>是</td><td>到料日期</td><td></td>  </tr>
+</table>
+
+<ul>
+  <li>表格的索引</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+  <tr>
+<th class="info_header">索引名</th><th class="info_header">索引字段</th><th class="info_header">是否唯一</th>  </tr>
+<tr><td>idx_gb6gcy4pbcgivs6csbrigrbmw</td><td>material_assess_id</td><td>否</td>  </tr>
+</table>
+  </div>
+</div>
+<div class="panel panel-info">
+  <div class="panel-heading"><h5 id="table_mes.material_items">表格mes.material_items</h5></div>
+  <div class="panel-body">
+<ul>
+  <li>表格说明</li>
+</ul>
+
+<table class="table table-bordered table-striped table-condensed ">
+<tr><th class="info_header">表名</th><th class="info_header">主键</th><th class="info_header">注释</th>  </tr>
+<tr><td>mes.material_items</td><td>id</td><td>品号明细</td>  </tr>
+</table>
+<ul>
+  <li>表格中的列</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+<tr><th class="info_header">序号</th><th class="info_header">字段名</th><th class="info_header">字段类型</th><th class="info_header">是否可空</th><th class="info_header">描述</th><th class="info_header">引用表</th>  </tr>
+<tr><td>1</td><td>id</td><td>bigint</td><td>否</td><td>非业务主键:datetime</td><td></td>  </tr>
+<tr><td>2</td><td>amount</td><td>integer</td><td>否</td><td>数量</td><td></td>  </tr>
+<tr><td>3</td><td>indexno</td><td>varchar(255)</td><td>否</td><td>顺序号</td><td></td>  </tr>
+<tr><td>4</td><td>material_id</td><td>bigint</td><td>否</td><td>品号信息ID</td><td>          <a href="#table_mes.materials">mes.materials</a></td>  </tr>
+<tr><td>5</td><td>product_id</td><td>bigint</td><td>否</td><td>产品信息ID</td><td>          <a href="#table_mes.products">mes.products</a></td>  </tr>
+</table>
+
+<ul>
+  <li>表格的索引</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+  <tr>
+<th class="info_header">索引名</th><th class="info_header">索引字段</th><th class="info_header">是否唯一</th>  </tr>
+<tr><td>idx_pwsw1fkrx2pan1b703ebmnyv</td><td>material_id</td><td>否</td>  </tr>
+</table>
+  </div>
+</div>
+<div class="panel panel-info">
+  <div class="panel-heading"><h5 id="table_mes.material_types">表格mes.material_types</h5></div>
+  <div class="panel-body">
+<ul>
+  <li>表格说明</li>
+</ul>
+
+<table class="table table-bordered table-striped table-condensed ">
+<tr><th class="info_header">表名</th><th class="info_header">主键</th><th class="info_header">注释</th>  </tr>
+<tr><td>mes.material_types</td><td>id</td><td>品号类别</td>  </tr>
+</table>
+<ul>
+  <li>表格中的列</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+<tr><th class="info_header">序号</th><th class="info_header">字段名</th><th class="info_header">字段类型</th><th class="info_header">是否可空</th><th class="info_header">描述</th><th class="info_header">引用表</th>  </tr>
+<tr><td>1</td><td>id</td><td>integer</td><td>否</td><td>非业务主键:auto_increment</td><td></td>  </tr>
+<tr><td>2</td><td>code</td><td>varchar(255)</td><td>否</td><td>代码</td><td></td>  </tr>
+<tr><td>3</td><td>name</td><td>varchar(255)</td><td>否</td><td>名称</td><td></td>  </tr>
+</table>
+
+  </div>
+</div>
+<div class="panel panel-info">
+  <div class="panel-heading"><h5 id="table_mes.materials">表格mes.materials</h5></div>
+  <div class="panel-body">
+<ul>
+  <li>表格说明</li>
+</ul>
+
+<table class="table table-bordered table-striped table-condensed ">
+<tr><th class="info_header">表名</th><th class="info_header">主键</th><th class="info_header">注释</th>  </tr>
+<tr><td>mes.materials</td><td>id</td><td>品号信息</td>  </tr>
+</table>
+<ul>
+  <li>表格中的列</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+<tr><th class="info_header">序号</th><th class="info_header">字段名</th><th class="info_header">字段类型</th><th class="info_header">是否可空</th><th class="info_header">描述</th><th class="info_header">引用表</th>  </tr>
+<tr><td>1</td><td>id</td><td>bigint</td><td>否</td><td>非业务主键:datetime</td><td></td>  </tr>
+<tr><td>2</td><td>code</td><td>varchar(255)</td><td>否</td><td>代码</td><td></td>  </tr>
+<tr><td>3</td><td>material_type_id</td><td>integer</td><td>否</td><td>品号类别ID</td><td>          <a href="#table_mes.material_types">mes.material_types</a></td>  </tr>
+<tr><td>4</td><td>name</td><td>varchar(255)</td><td>否</td><td>名称</td><td></td>  </tr>
+<tr><td>5</td><td>remark</td><td>varchar(255)</td><td>是</td><td>备注</td><td></td>  </tr>
+<tr><td>6</td><td>specification</td><td>varchar(255)</td><td>是</td><td>规格</td><td></td>  </tr>
+<tr><td>7</td><td>unit_id</td><td>integer</td><td>否</td><td>计量单位ID</td><td>          <a href="#table_mes.measurement_units">mes.measurement_units</a></td>  </tr>
+<tr><td>8</td><td>updated_at</td><td>timestamp</td><td>否</td><td>更新时间</td><td></td>  </tr>
+</table>
+
+  </div>
+</div>
+<div class="panel panel-info">
+  <div class="panel-heading"><h5 id="table_mes.measurement_units">表格mes.measurement_units</h5></div>
+  <div class="panel-body">
+<ul>
+  <li>表格说明</li>
+</ul>
+
+<table class="table table-bordered table-striped table-condensed ">
+<tr><th class="info_header">表名</th><th class="info_header">主键</th><th class="info_header">注释</th>  </tr>
+<tr><td>mes.measurement_units</td><td>id</td><td>计量单位</td>  </tr>
+</table>
+<ul>
+  <li>表格中的列</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+<tr><th class="info_header">序号</th><th class="info_header">字段名</th><th class="info_header">字段类型</th><th class="info_header">是否可空</th><th class="info_header">描述</th><th class="info_header">引用表</th>  </tr>
+<tr><td>1</td><td>id</td><td>integer</td><td>否</td><td>非业务主键:auto_increment</td><td></td>  </tr>
+<tr><td>2</td><td>code</td><td>varchar(255)</td><td>否</td><td>代码</td><td></td>  </tr>
+<tr><td>3</td><td>name</td><td>varchar(255)</td><td>否</td><td>名称</td><td></td>  </tr>
+</table>
+
+  </div>
+</div>
+<div class="panel panel-info">
+  <div class="panel-heading"><h5 id="table_mes.order_settings">表格mes.order_settings</h5></div>
+  <div class="panel-body">
+<ul>
+  <li>表格说明</li>
+</ul>
+
+<table class="table table-bordered table-striped table-condensed ">
+<tr><th class="info_header">表名</th><th class="info_header">主键</th><th class="info_header">注释</th>  </tr>
+<tr><td>mes.order_settings</td><td>id</td><td>工单评审时效设置</td>  </tr>
+</table>
+<ul>
+  <li>表格中的列</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+<tr><th class="info_header">序号</th><th class="info_header">字段名</th><th class="info_header">字段类型</th><th class="info_header">是否可空</th><th class="info_header">描述</th><th class="info_header">引用表</th>  </tr>
+<tr><td>1</td><td>id</td><td>integer</td><td>否</td><td>非业务主键:auto_increment</td><td></td>  </tr>
+<tr><td>2</td><td>begin_at</td><td>timestamp</td><td>否</td><td>生效时间</td><td></td>  </tr>
+<tr><td>3</td><td>end_at</td><td>timestamp</td><td>是</td><td>失效时间</td><td></td>  </tr>
+<tr><td>4</td><td>work_order_id</td><td>bigint</td><td>否</td><td>生产工单ID</td><td>          <a href="#table_mes.work_orders">mes.work_orders</a></td>  </tr>
+</table>
+
+  </div>
+</div>
+<div class="panel panel-info">
+  <div class="panel-heading"><h5 id="table_mes.product_material_items">表格mes.product_material_items</h5></div>
+  <div class="panel-body">
+<ul>
+  <li>表格说明</li>
+</ul>
+
+<table class="table table-bordered table-striped table-condensed ">
+<tr><th class="info_header">表名</th><th class="info_header">主键</th><th class="info_header">注释</th>  </tr>
+<tr><td>mes.product_material_items</td><td>id</td><td>产品材料明细(bom)</td>  </tr>
+</table>
+<ul>
+  <li>表格中的列</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+<tr><th class="info_header">序号</th><th class="info_header">字段名</th><th class="info_header">字段类型</th><th class="info_header">是否可空</th><th class="info_header">描述</th><th class="info_header">引用表</th>  </tr>
+<tr><td>1</td><td>id</td><td>bigint</td><td>否</td><td>非业务主键:datetime</td><td></td>  </tr>
+<tr><td>2</td><td>amount</td><td>float4</td><td>否</td><td>数量</td><td></td>  </tr>
+<tr><td>3</td><td>cb002</td><td>varchar(255)</td><td>否</td><td>原表cb002</td><td></td>  </tr>
+<tr><td>4</td><td>cb003</td><td>varchar(255)</td><td>否</td><td>原表cb003</td><td></td>  </tr>
+<tr><td>5</td><td>indexno</td><td>varchar(255)</td><td>否</td><td>顺序号</td><td></td>  </tr>
+<tr><td>6</td><td>material_id</td><td>bigint</td><td>否</td><td>品号信息ID</td><td>          <a href="#table_mes.materials">mes.materials</a></td>  </tr>
+<tr><td>7</td><td>product_id</td><td>bigint</td><td>否</td><td>产品信息ID</td><td>          <a href="#table_mes.products">mes.products</a></td>  </tr>
+<tr><td>8</td><td>updated_at</td><td>timestamp</td><td>否</td><td>更新时间</td><td></td>  </tr>
+</table>
+
+<ul>
+  <li>表格的索引</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+  <tr>
+<th class="info_header">索引名</th><th class="info_header">索引字段</th><th class="info_header">是否唯一</th>  </tr>
+<tr><td>idx_kyl7aqbs2wq9ube5rqttxpswb</td><td>product_id</td><td>否</td>  </tr>
+</table>
+  </div>
+</div>
+<div class="panel panel-info">
+  <div class="panel-heading"><h5 id="table_mes.product_technics">表格mes.product_technics</h5></div>
+  <div class="panel-body">
+<ul>
+  <li>表格说明</li>
+</ul>
+
+<table class="table table-bordered table-striped table-condensed ">
+<tr><th class="info_header">表名</th><th class="info_header">主键</th><th class="info_header">注释</th>  </tr>
+<tr><td>mes.product_technics</td><td>id</td><td>产品工艺</td>  </tr>
+</table>
+<ul>
+  <li>表格中的列</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+<tr><th class="info_header">序号</th><th class="info_header">字段名</th><th class="info_header">字段类型</th><th class="info_header">是否可空</th><th class="info_header">描述</th><th class="info_header">引用表</th>  </tr>
+<tr><td>1</td><td>id</td><td>bigint</td><td>否</td><td>非业务主键:datetime</td><td></td>  </tr>
+<tr><td>2</td><td>description</td><td>varchar(500)</td><td>是</td><td>描述</td><td></td>  </tr>
+<tr><td>3</td><td>indexno</td><td>varchar(255)</td><td>否</td><td>顺序号</td><td></td>  </tr>
+<tr><td>4</td><td>internal</td><td>boolean</td><td>否</td><td>是否是厂内工艺</td><td></td>  </tr>
+<tr><td>5</td><td>machine_id</td><td>integer</td><td>是</td><td>加工中心ID</td><td>          <a href="#table_mes.machines">mes.machines</a></td>  </tr>
+<tr><td>6</td><td>scheme_id</td><td>bigint</td><td>否</td><td>工艺路线ID</td><td>          <a href="#table_mes.technic_schemes">mes.technic_schemes</a></td>  </tr>
+<tr><td>7</td><td>supplier_id</td><td>integer</td><td>是</td><td>供应商信息ID</td><td>          <a href="#table_base.suppliers">base.suppliers</a></td>  </tr>
+<tr><td>8</td><td>technic_id</td><td>integer</td><td>否</td><td>工艺ID</td><td>          <a href="#table_mes.technics">mes.technics</a></td>  </tr>
+</table>
+
+<ul>
+  <li>表格的索引</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+  <tr>
+<th class="info_header">索引名</th><th class="info_header">索引字段</th><th class="info_header">是否唯一</th>  </tr>
+<tr><td>idx_gdqqm944bbkos66qkn6rv7x2n</td><td>scheme_id</td><td>否</td>  </tr>
+</table>
+  </div>
+</div>
+<div class="panel panel-info">
+  <div class="panel-heading"><h5 id="table_mes.products">表格mes.products</h5></div>
+  <div class="panel-body">
+<ul>
+  <li>表格说明</li>
+</ul>
+
+<table class="table table-bordered table-striped table-condensed ">
+<tr><th class="info_header">表名</th><th class="info_header">主键</th><th class="info_header">注释</th>  </tr>
+<tr><td>mes.products</td><td>id</td><td>产品信息</td>  </tr>
+</table>
+<ul>
+  <li>表格中的列</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+<tr><th class="info_header">序号</th><th class="info_header">字段名</th><th class="info_header">字段类型</th><th class="info_header">是否可空</th><th class="info_header">描述</th><th class="info_header">引用表</th>  </tr>
+<tr><td>1</td><td>id</td><td>bigint</td><td>否</td><td>非业务主键:datetime</td><td></td>  </tr>
+<tr><td>2</td><td>code</td><td>varchar(255)</td><td>否</td><td>代码</td><td></td>  </tr>
+<tr><td>3</td><td>material_type_id</td><td>integer</td><td>否</td><td>品号类别ID</td><td>          <a href="#table_mes.material_types">mes.material_types</a></td>  </tr>
+<tr><td>4</td><td>name</td><td>varchar(255)</td><td>否</td><td>名称</td><td></td>  </tr>
+<tr><td>5</td><td>remark</td><td>varchar(255)</td><td>是</td><td>备注</td><td></td>  </tr>
+<tr><td>6</td><td>specification</td><td>varchar(255)</td><td>是</td><td>规格</td><td></td>  </tr>
+<tr><td>7</td><td>unit_id</td><td>integer</td><td>否</td><td>计量单位ID</td><td>          <a href="#table_mes.measurement_units">mes.measurement_units</a></td>  </tr>
+<tr><td>8</td><td>updated_at</td><td>timestamp</td><td>否</td><td>更新时间</td><td></td>  </tr>
+</table>
+
+  </div>
+</div>
+<div class="panel panel-info">
+  <div class="panel-heading"><h5 id="table_mes.review_events">表格mes.review_events</h5></div>
+  <div class="panel-body">
+<ul>
+  <li>表格说明</li>
+</ul>
+
+<table class="table table-bordered table-striped table-condensed ">
+<tr><th class="info_header">表名</th><th class="info_header">主键</th><th class="info_header">注释</th>  </tr>
+<tr><td>mes.review_events</td><td>id</td><td>复审事件</td>  </tr>
+</table>
+<ul>
+  <li>表格中的列</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+<tr><th class="info_header">序号</th><th class="info_header">字段名</th><th class="info_header">字段类型</th><th class="info_header">是否可空</th><th class="info_header">描述</th><th class="info_header">引用表</th>  </tr>
+<tr><td>1</td><td>id</td><td>bigint</td><td>否</td><td>非业务主键:datetime</td><td></td>  </tr>
+<tr><td>2</td><td>comments</td><td>varchar(300)</td><td>否</td><td>反馈回复内容</td><td></td>  </tr>
+<tr><td>3</td><td>issue_by_id</td><td>bigint</td><td>否</td><td>用户信息ID</td><td>          <a href="#table_base.users">base.users</a></td>  </tr>
+<tr><td>4</td><td>remark</td><td>varchar(500)</td><td>是</td><td>备注</td><td></td>  </tr>
+<tr><td>5</td><td>updated_at</td><td>timestamp</td><td>否</td><td>更新时间</td><td></td>  </tr>
+<tr><td>6</td><td>work_order_id</td><td>bigint</td><td>否</td><td>生产工单ID</td><td>          <a href="#table_mes.work_orders">mes.work_orders</a></td>  </tr>
+</table>
+
+<ul>
+  <li>表格的索引</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+  <tr>
+<th class="info_header">索引名</th><th class="info_header">索引字段</th><th class="info_header">是否唯一</th>  </tr>
+<tr><td>idx_7gshhmknv5ae5mrxgkbeslybi</td><td>work_order_id</td><td>否</td>  </tr>
+</table>
+  </div>
+</div>
+<div class="panel panel-info">
+  <div class="panel-heading"><h5 id="table_mes.review_events_watchers">表格mes.review_events_watchers</h5></div>
+  <div class="panel-body">
+<ul>
+  <li>表格说明</li>
+</ul>
+
+<table class="table table-bordered table-striped table-condensed ">
+<tr><th class="info_header">表名</th><th class="info_header">主键</th><th class="info_header">注释</th>  </tr>
+<tr><td>mes.review_events_watchers</td><td>review_event_id,user_id</td><td>反馈人员列表</td>  </tr>
+</table>
+<ul>
+  <li>表格中的列</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+<tr><th class="info_header">序号</th><th class="info_header">字段名</th><th class="info_header">字段类型</th><th class="info_header">是否可空</th><th class="info_header">描述</th><th class="info_header">引用表</th>  </tr>
+<tr><td>1</td><td>review_event_id</td><td>bigint</td><td>否</td><td>复审事件ID</td><td>          <a href="#table_mes.review_events">mes.review_events</a></td>  </tr>
+<tr><td>2</td><td>user_id</td><td>bigint</td><td>否</td><td>用户信息ID</td><td>          <a href="#table_base.users">base.users</a></td>  </tr>
+</table>
+
+<ul>
+  <li>表格的索引</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+  <tr>
+<th class="info_header">索引名</th><th class="info_header">索引字段</th><th class="info_header">是否唯一</th>  </tr>
+<tr><td>idx_swsfhhcir1ww43igu61bgi8r8</td><td>review_event_id</td><td>否</td>  </tr>
+</table>
+  </div>
+</div>
+<div class="panel panel-info">
+  <div class="panel-heading"><h5 id="table_mes.reviewers">表格mes.reviewers</h5></div>
+  <div class="panel-body">
+<ul>
+  <li>表格说明</li>
+</ul>
+
+<table class="table table-bordered table-striped table-condensed ">
+<tr><th class="info_header">表名</th><th class="info_header">主键</th><th class="info_header">注释</th>  </tr>
+<tr><td>mes.reviewers</td><td>id</td><td>复审员</td>  </tr>
+</table>
+<ul>
+  <li>表格中的列</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+<tr><th class="info_header">序号</th><th class="info_header">字段名</th><th class="info_header">字段类型</th><th class="info_header">是否可空</th><th class="info_header">描述</th><th class="info_header">引用表</th>  </tr>
+<tr><td>1</td><td>id</td><td>bigint</td><td>否</td><td>非业务主键:datetime</td><td></td>  </tr>
+<tr><td>2</td><td>begin_on</td><td>date</td><td>否</td><td>生效日期</td><td></td>  </tr>
+<tr><td>3</td><td>end_on</td><td>date</td><td>是</td><td>失效日期</td><td></td>  </tr>
+<tr><td>4</td><td>user_id</td><td>bigint</td><td>否</td><td>用户信息ID</td><td>          <a href="#table_base.users">base.users</a></td>  </tr>
+</table>
+
+  </div>
+</div>
+<div class="panel panel-info">
+  <div class="panel-heading"><h5 id="table_mes.reviewers_factories">表格mes.reviewers_factories</h5></div>
+  <div class="panel-body">
+<ul>
+  <li>表格说明</li>
+</ul>
+
+<table class="table table-bordered table-striped table-condensed ">
+<tr><th class="info_header">表名</th><th class="info_header">主键</th><th class="info_header">注释</th>  </tr>
+<tr><td>mes.reviewers_factories</td><td>reviewer_id,factory_id</td><td>复审员对应的工厂</td>  </tr>
+</table>
+<ul>
+  <li>表格中的列</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+<tr><th class="info_header">序号</th><th class="info_header">字段名</th><th class="info_header">字段类型</th><th class="info_header">是否可空</th><th class="info_header">描述</th><th class="info_header">引用表</th>  </tr>
+<tr><td>1</td><td>factory_id</td><td>integer</td><td>否</td><td>厂区信息ID</td><td>          <a href="#table_base.factories">base.factories</a></td>  </tr>
+<tr><td>2</td><td>reviewer_id</td><td>bigint</td><td>否</td><td>复审员ID</td><td>          <a href="#table_mes.reviewers">mes.reviewers</a></td>  </tr>
+</table>
+
+<ul>
+  <li>表格的索引</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+  <tr>
+<th class="info_header">索引名</th><th class="info_header">索引字段</th><th class="info_header">是否唯一</th>  </tr>
+<tr><td>idx_o019dq0nctfoh1p94cul1ax4u</td><td>reviewer_id</td><td>否</td>  </tr>
+</table>
+  </div>
+</div>
+<div class="panel panel-info">
+  <div class="panel-heading"><h5 id="table_mes.reviewers_rounds">表格mes.reviewers_rounds</h5></div>
+  <div class="panel-body">
+<ul>
+  <li>表格说明</li>
+</ul>
+
+<table class="table table-bordered table-striped table-condensed ">
+<tr><th class="info_header">表名</th><th class="info_header">主键</th><th class="info_header">注释</th>  </tr>
+<tr><td>mes.reviewers_rounds</td><td>reviewer_id,value_</td><td>复审员对应的复审轮次</td>  </tr>
+</table>
+<ul>
+  <li>表格中的列</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+<tr><th class="info_header">序号</th><th class="info_header">字段名</th><th class="info_header">字段类型</th><th class="info_header">是否可空</th><th class="info_header">描述</th><th class="info_header">引用表</th>  </tr>
+<tr><td>1</td><td>reviewer_id</td><td>bigint</td><td>否</td><td>复审员ID</td><td>          <a href="#table_mes.reviewers">mes.reviewers</a></td>  </tr>
+<tr><td>2</td><td>value_</td><td>integer</td><td>否</td><td>复审员对应的复审轮次</td><td></td>  </tr>
+</table>
+
+<ul>
+  <li>表格的索引</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+  <tr>
+<th class="info_header">索引名</th><th class="info_header">索引字段</th><th class="info_header">是否唯一</th>  </tr>
+<tr><td>idx_jav04leq2d7o94m9wdtfa0uk9</td><td>reviewer_id</td><td>否</td>  </tr>
+</table>
+  </div>
+</div>
+<div class="panel panel-info">
+  <div class="panel-heading"><h5 id="table_mes.sales_order_types">表格mes.sales_order_types</h5></div>
+  <div class="panel-body">
+<ul>
+  <li>表格说明</li>
+</ul>
+
+<table class="table table-bordered table-striped table-condensed ">
+<tr><th class="info_header">表名</th><th class="info_header">主键</th><th class="info_header">注释</th>  </tr>
+<tr><td>mes.sales_order_types</td><td>id</td><td>销售订单类型</td>  </tr>
+</table>
+<ul>
+  <li>表格中的列</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+<tr><th class="info_header">序号</th><th class="info_header">字段名</th><th class="info_header">字段类型</th><th class="info_header">是否可空</th><th class="info_header">描述</th><th class="info_header">引用表</th>  </tr>
+<tr><td>1</td><td>id</td><td>integer</td><td>否</td><td>非业务主键:auto_increment</td><td></td>  </tr>
+<tr><td>2</td><td>code</td><td>varchar(255)</td><td>否</td><td>代码</td><td></td>  </tr>
+<tr><td>3</td><td>name</td><td>varchar(255)</td><td>否</td><td>名称</td><td></td>  </tr>
+<tr><td>4</td><td>remark</td><td>varchar(255)</td><td>是</td><td>备注</td><td></td>  </tr>
+<tr><td>5</td><td>updated_at</td><td>timestamp</td><td>否</td><td>更新时间</td><td></td>  </tr>
+</table>
+
+  </div>
+</div>
+<div class="panel panel-info">
+  <div class="panel-heading"><h5 id="table_mes.technic_schemes">表格mes.technic_schemes</h5></div>
+  <div class="panel-body">
+<ul>
+  <li>表格说明</li>
+</ul>
+
+<table class="table table-bordered table-striped table-condensed ">
+<tr><th class="info_header">表名</th><th class="info_header">主键</th><th class="info_header">注释</th>  </tr>
+<tr><td>mes.technic_schemes</td><td>id</td><td>工艺路线</td>  </tr>
+</table>
+<ul>
+  <li>表格中的列</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+<tr><th class="info_header">序号</th><th class="info_header">字段名</th><th class="info_header">字段类型</th><th class="info_header">是否可空</th><th class="info_header">描述</th><th class="info_header">引用表</th>  </tr>
+<tr><td>1</td><td>id</td><td>bigint</td><td>否</td><td>非业务主键:datetime</td><td></td>  </tr>
+<tr><td>2</td><td>indexno</td><td>varchar(255)</td><td>否</td><td>顺序号</td><td></td>  </tr>
+<tr><td>3</td><td>name</td><td>varchar(255)</td><td>否</td><td>名称</td><td></td>  </tr>
+<tr><td>4</td><td>product_id</td><td>bigint</td><td>否</td><td>产品信息ID</td><td>          <a href="#table_mes.products">mes.products</a></td>  </tr>
+<tr><td>5</td><td>updated_at</td><td>timestamp</td><td>否</td><td>更新时间</td><td></td>  </tr>
+</table>
+
+<ul>
+  <li>表格的索引</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+  <tr>
+<th class="info_header">索引名</th><th class="info_header">索引字段</th><th class="info_header">是否唯一</th>  </tr>
+<tr><td>idx_40wi71ckbvuwewj5gsg07i0jt</td><td>product_id</td><td>否</td>  </tr>
+</table>
+  </div>
+</div>
+<div class="panel panel-info">
+  <div class="panel-heading"><h5 id="table_mes.technics">表格mes.technics</h5></div>
+  <div class="panel-body">
+<ul>
+  <li>表格说明</li>
+</ul>
+
+<table class="table table-bordered table-striped table-condensed ">
+<tr><th class="info_header">表名</th><th class="info_header">主键</th><th class="info_header">注释</th>  </tr>
+<tr><td>mes.technics</td><td>id</td><td>工艺</td>  </tr>
+</table>
+<ul>
+  <li>表格中的列</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+<tr><th class="info_header">序号</th><th class="info_header">字段名</th><th class="info_header">字段类型</th><th class="info_header">是否可空</th><th class="info_header">描述</th><th class="info_header">引用表</th>  </tr>
+<tr><td>1</td><td>id</td><td>integer</td><td>否</td><td>非业务主键:auto_increment</td><td></td>  </tr>
+<tr><td>2</td><td>assess_group_id</td><td>bigint</td><td>是</td><td>评审小组ID</td><td>          <a href="#table_mes.assess_groups">mes.assess_groups</a></td>  </tr>
+<tr><td>3</td><td>code</td><td>varchar(255)</td><td>否</td><td>代码</td><td></td>  </tr>
+<tr><td>4</td><td>description</td><td>varchar(255)</td><td>是</td><td>描述</td><td></td>  </tr>
+<tr><td>5</td><td>duration</td><td>integer</td><td>否</td><td>评审预计需要的天数，默认为0</td><td></td>  </tr>
+<tr><td>6</td><td>internal</td><td>boolean</td><td>否</td><td>是否是厂内工艺</td><td></td>  </tr>
+<tr><td>7</td><td>machine_id</td><td>integer</td><td>是</td><td>加工中心ID</td><td>          <a href="#table_mes.machines">mes.machines</a></td>  </tr>
+<tr><td>8</td><td>name</td><td>varchar(255)</td><td>否</td><td>名称</td><td></td>  </tr>
+<tr><td>9</td><td>remark</td><td>varchar(255)</td><td>是</td><td>备注</td><td></td>  </tr>
+<tr><td>10</td><td>supplier_id</td><td>integer</td><td>是</td><td>供应商信息ID</td><td>          <a href="#table_base.suppliers">base.suppliers</a></td>  </tr>
+<tr><td>11</td><td>updated_at</td><td>timestamp</td><td>否</td><td>更新时间</td><td></td>  </tr>
+</table>
+
+  </div>
+</div>
+<div class="panel panel-info">
+  <div class="panel-heading"><h5 id="table_mes.work_order_statuses">表格mes.work_order_statuses</h5></div>
+  <div class="panel-body">
+<ul>
+  <li>表格说明</li>
+</ul>
+
+<table class="table table-bordered table-striped table-condensed ">
+<tr><th class="info_header">表名</th><th class="info_header">主键</th><th class="info_header">注释</th>  </tr>
+<tr><td>mes.work_order_statuses</td><td>id</td><td>生产工单状态</td>  </tr>
+</table>
+<ul>
+  <li>表格中的列</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+<tr><th class="info_header">序号</th><th class="info_header">字段名</th><th class="info_header">字段类型</th><th class="info_header">是否可空</th><th class="info_header">描述</th><th class="info_header">引用表</th>  </tr>
+<tr><td>1</td><td>id</td><td>integer</td><td>否</td><td>非业务主键:auto_increment</td><td></td>  </tr>
+<tr><td>2</td><td>code</td><td>varchar(10)</td><td>否</td><td>代码</td><td></td>  </tr>
+<tr><td>3</td><td>name</td><td>varchar(255)</td><td>否</td><td>名称</td><td></td>  </tr>
+</table>
+
+  </div>
+</div>
+<div class="panel panel-info">
+  <div class="panel-heading"><h5 id="table_mes.work_order_technics">表格mes.work_order_technics</h5></div>
+  <div class="panel-body">
+<ul>
+  <li>表格说明</li>
+</ul>
+
+<table class="table table-bordered table-striped table-condensed ">
+<tr><th class="info_header">表名</th><th class="info_header">主键</th><th class="info_header">注释</th>  </tr>
+<tr><td>mes.work_order_technics</td><td>id</td><td>工单工艺</td>  </tr>
+</table>
+<ul>
+  <li>表格中的列</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+<tr><th class="info_header">序号</th><th class="info_header">字段名</th><th class="info_header">字段类型</th><th class="info_header">是否可空</th><th class="info_header">描述</th><th class="info_header">引用表</th>  </tr>
+<tr><td>1</td><td>id</td><td>bigint</td><td>否</td><td>非业务主键:datetime</td><td></td>  </tr>
+<tr><td>2</td><td>assessed_by_id</td><td>bigint</td><td>是</td><td>用户信息ID</td><td>          <a href="#table_base.users">base.users</a></td>  </tr>
+<tr><td>3</td><td>days</td><td>integer</td><td>是</td><td>天数</td><td></td>  </tr>
+<tr><td>4</td><td>description</td><td>varchar(255)</td><td>是</td><td>描述</td><td></td>  </tr>
+<tr><td>5</td><td>factory_id</td><td>integer</td><td>否</td><td>厂区信息ID</td><td>          <a href="#table_base.factories">base.factories</a></td>  </tr>
+<tr><td>6</td><td>indexno</td><td>varchar(255)</td><td>否</td><td>顺序号</td><td></td>  </tr>
+<tr><td>7</td><td>internal</td><td>boolean</td><td>否</td><td>是否是厂内工艺</td><td></td>  </tr>
+<tr><td>8</td><td>machine_id</td><td>integer</td><td>是</td><td>加工中心ID</td><td>          <a href="#table_mes.machines">mes.machines</a></td>  </tr>
+<tr><td>9</td><td>passed</td><td>boolean</td><td>是</td><td>是否通过</td><td></td>  </tr>
+<tr><td>10</td><td>supplier_id</td><td>integer</td><td>是</td><td>供应商信息ID</td><td>          <a href="#table_base.suppliers">base.suppliers</a></td>  </tr>
+<tr><td>11</td><td>technic_id</td><td>integer</td><td>否</td><td>工艺ID</td><td>          <a href="#table_mes.technics">mes.technics</a></td>  </tr>
+<tr><td>12</td><td>updated_at</td><td>timestamp</td><td>否</td><td>更新时间</td><td></td>  </tr>
+<tr><td>13</td><td>work_order_id</td><td>bigint</td><td>否</td><td>生产工单ID</td><td>          <a href="#table_mes.work_orders">mes.work_orders</a></td>  </tr>
+</table>
+
+<ul>
+  <li>表格的索引</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+  <tr>
+<th class="info_header">索引名</th><th class="info_header">索引字段</th><th class="info_header">是否唯一</th>  </tr>
+<tr><td>idx_hv2u30n2y2n05tnq0ykrri6k7</td><td>work_order_id</td><td>否</td>  </tr>
+</table>
+  </div>
+</div>
+<div class="panel panel-info">
+  <div class="panel-heading"><h5 id="table_mes.work_order_types">表格mes.work_order_types</h5></div>
+  <div class="panel-body">
+<ul>
+  <li>表格说明</li>
+</ul>
+
+<table class="table table-bordered table-striped table-condensed ">
+<tr><th class="info_header">表名</th><th class="info_header">主键</th><th class="info_header">注释</th>  </tr>
+<tr><td>mes.work_order_types</td><td>id</td><td>工单单别</td>  </tr>
+</table>
+<ul>
+  <li>表格中的列</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+<tr><th class="info_header">序号</th><th class="info_header">字段名</th><th class="info_header">字段类型</th><th class="info_header">是否可空</th><th class="info_header">描述</th><th class="info_header">引用表</th>  </tr>
+<tr><td>1</td><td>id</td><td>integer</td><td>否</td><td>非业务主键:auto_increment</td><td></td>  </tr>
+<tr><td>2</td><td>code</td><td>varchar(255)</td><td>否</td><td>代码</td><td></td>  </tr>
+<tr><td>3</td><td>name</td><td>varchar(255)</td><td>否</td><td>名称</td><td></td>  </tr>
+<tr><td>4</td><td>remark</td><td>varchar(255)</td><td>是</td><td>备注</td><td></td>  </tr>
+<tr><td>5</td><td>updated_at</td><td>timestamp</td><td>否</td><td>更新时间</td><td></td>  </tr>
+</table>
+
+  </div>
+</div>
+<div class="panel panel-info">
+  <div class="panel-heading"><h5 id="table_mes.work_orders">表格mes.work_orders</h5></div>
+  <div class="panel-body">
+<ul>
+  <li>表格说明</li>
+</ul>
+
+<table class="table table-bordered table-striped table-condensed ">
+<tr><th class="info_header">表名</th><th class="info_header">主键</th><th class="info_header">注释</th>  </tr>
+<tr><td>mes.work_orders</td><td>id</td><td>生产工单</td>  </tr>
+</table>
+<ul>
+  <li>表格中的列</li>
+</ul>
+<table class="table table-bordered table-striped table-condensed">
+<tr><th class="info_header">序号</th><th class="info_header">字段名</th><th class="info_header">字段类型</th><th class="info_header">是否可空</th><th class="info_header">描述</th><th class="info_header">引用表</th>  </tr>
+<tr><td>1</td><td>id</td><td>bigint</td><td>否</td><td>非业务主键:datetime</td><td></td>  </tr>
+<tr><td>2</td><td>amount</td><td>integer</td><td>否</td><td>数量</td><td></td>  </tr>
+<tr><td>3</td><td>assess_begin_at</td><td>timestamp</td><td>是</td><td>评审开始时间</td><td></td>  </tr>
+<tr><td>4</td><td>assess_status</td><td>integer</td><td>否</td><td>评审状态</td><td></td>  </tr>
+<tr><td>5</td><td>batch_num</td><td>varchar(255)</td><td>否</td><td>批号</td><td></td>  </tr>
+<tr><td>6</td><td>created_at</td><td>timestamp</td><td>否</td><td>创建日期</td><td></td>  </tr>
+<tr><td>7</td><td>deadline</td><td>date</td><td>是</td><td>客户交付日期</td><td></td>  </tr>
+<tr><td>8</td><td>factory_id</td><td>integer</td><td>否</td><td>厂区信息ID</td><td>          <a href="#table_base.factories">base.factories</a></td>  </tr>
+<tr><td>9</td><td>material_assess_id</td><td>bigint</td><td>是</td><td>到料评审ID</td><td>          <a href="#table_mes.material_assesses">mes.material_assesses</a></td>  </tr>
+<tr><td>10</td><td>order_type_id</td><td>integer</td><td>否</td><td>工单单别ID</td><td>          <a href="#table_mes.work_order_types">mes.work_order_types</a></td>  </tr>
+<tr><td>11</td><td>planned_end_on</td><td>date</td><td>是</td><td>计划完工日期</td><td></td>  </tr>
+<tr><td>12</td><td>product_id</td><td>bigint</td><td>否</td><td>产品信息ID</td><td>          <a href="#table_mes.products">mes.products</a></td>  </tr>
+<tr><td>13</td><td>remark</td><td>varchar(255)</td><td>是</td><td>备注</td><td></td>  </tr>
+<tr><td>14</td><td>review_assess_begin_at</td><td>timestamp</td><td>是</td><td>复审开始时间</td><td></td>  </tr>
+<tr><td>15</td><td>saler_id</td><td>bigint</td><td>是</td><td>用户信息ID</td><td>          <a href="#table_base.users">base.users</a></td>  </tr>
+<tr><td>16</td><td>scheduled_on</td><td>date</td><td>是</td><td>评审交付日期</td><td></td>  </tr>
+<tr><td>17</td><td>status_id</td><td>integer</td><td>否</td><td>生产工单状态ID</td><td>          <a href="#table_mes.work_order_statuses">mes.work_order_statuses</a></td>  </tr>
+<tr><td>18</td><td>updated_at</td><td>timestamp</td><td>否</td><td>更新时间</td><td></td>  </tr>
+</table>
+
+  </div>
+</div>
+
+   </div>
+  </div>
+ </div>
+</div>
+</body>
+</html>
