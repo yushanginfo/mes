@@ -1,7 +1,5 @@
 /*
- * Agile Enterprice Resource Planning Solution.
- *
- * Copyright © 2020, The YushangInfo Software.
+ * Copyright (C) 2020, The YushangInfo Software.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,20 +14,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package com.yushanginfo.erp.mes.wo.action
 
 import com.yushanginfo.erp.base.model.{Factory, User}
-import com.yushanginfo.erp.mes.model._
+import com.yushanginfo.erp.mes.model.*
 import com.yushanginfo.erp.mes.service.OrderService
 import org.beangle.commons.collection.Order
-import org.beangle.commons.web.util.RequestUtils
 import org.beangle.data.dao.OqlBuilder
 import org.beangle.security.Securities
-import org.beangle.webmvc.api.annotation.{mapping, param}
-import org.beangle.webmvc.api.context.ActionContext
-import org.beangle.webmvc.api.view.View
-import org.beangle.webmvc.entity.action.RestfulAction
-import org.beangle.webmvc.entity.helper.QueryHelper
+import org.beangle.web.action.annotation.{mapping, param}
+import org.beangle.web.action.context.ActionContext
+import org.beangle.web.action.view.View
+import org.beangle.web.servlet.util.RequestUtils
+import org.beangle.webmvc.support.helper.QueryHelper
+import org.beangle.webmvc.support.action.RestfulAction
 
 import java.time.{Instant, ZoneId}
 
@@ -104,12 +103,12 @@ class DepartAssessAction extends RestfulAction[WorkOrder] {
     val users = entityDao.findBy(classOf[User], "code", List(Securities.user))
     order.technics foreach { wt =>
       if (wt.technic.assessGroup.contains(group)) {
-        val days = getInt(wt.id + ".days")
+        val days = getInt(s"${wt.id}.days")
         if (days.isDefined) {
           wt.updatedAt = Instant.now
           wt.passed = Some(true)
           wt.days = days
-          wt.factory = entityDao.get(classOf[Factory], getInt(wt.id + ".factory.id", 0))
+          wt.factory = entityDao.get(classOf[Factory], getInt(s"${wt.id}.factory.id", 0))
           wt.assessedBy = users.headOption
           entityDao.saveOrUpdate(wt)
         }
@@ -125,7 +124,7 @@ class DepartAssessAction extends RestfulAction[WorkOrder] {
     }
     order.updateAssessBeginAt(Instant.now())
     entityDao.saveOrUpdate(order)
-    orderService.recalcState(order,users.head, RequestUtils.getIpAddr(ActionContext.current.request))
+    orderService.recalcState(order, users.head, RequestUtils.getIpAddr(ActionContext.current.request))
     redirect("search", "info.save.success")
   }
 
@@ -137,10 +136,10 @@ class DepartAssessAction extends RestfulAction[WorkOrder] {
     val logs = entityDao.search(logQuery)
     put("logs", logs)
     put("workOrder", order)
-    val recQuery= OqlBuilder.from(classOf[AssessRecord],"r")
-    recQuery.where("r.order=:order",order)
+    val recQuery = OqlBuilder.from(classOf[AssessRecord], "r")
+    recQuery.where("r.order=:order", order)
     recQuery.orderBy("r.updatedAt")
-    put("assessRecords",entityDao.search(recQuery))
+    put("assessRecords", entityDao.search(recQuery))
     forward()
   }
 }

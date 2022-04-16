@@ -1,7 +1,5 @@
 /*
- * Agile Enterprice Resource Planning Solution.
- *
- * Copyright © 2020, The YushangInfo Software.
+ * Copyright (C) 2020, The YushangInfo Software.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,11 +14,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package com.yushanginfo.erp.mes.wo.action
 
 import com.yushanginfo.erp.mes.model.AssessLog
-import org.beangle.webmvc.entity.action.EntityAction
-
+import org.beangle.webmvc.support.action.EntityAction
 class AssessLogAction extends EntityAction[AssessLog] {
 
 }

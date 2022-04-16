@@ -1,7 +1,5 @@
 /*
- * Agile Enterprice Resource Planning Solution.
- *
- * Copyright © 2020, The YushangInfo Software.
+ * Copyright (C) 2020, The YushangInfo Software.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,6 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package com.yushanginfo.erp.mes.base.action
 
 import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
@@ -24,12 +23,12 @@ import com.yushanginfo.erp.base.model.Supplier
 import com.yushanginfo.erp.mes.model.{Machine, ProductTechnic}
 import com.yushanginfo.erp.mes.base.helper.ProductTechnicImportHelper
 import org.beangle.data.dao.OqlBuilder
-import org.beangle.data.transfer.excel.ExcelSchema
+import org.beangle.data.excel.schema.ExcelSchema
 import org.beangle.data.transfer.importer.ImportSetting
 import org.beangle.data.transfer.importer.listener.ForeignerListener
-import org.beangle.webmvc.api.annotation.response
-import org.beangle.webmvc.api.view.Stream
-import org.beangle.webmvc.entity.action.RestfulAction
+import org.beangle.web.action.annotation.response
+import org.beangle.web.action.view.Stream
+import org.beangle.webmvc.support.action.RestfulAction
 
 class ProductTechnicAction extends RestfulAction[ProductTechnic] {
 

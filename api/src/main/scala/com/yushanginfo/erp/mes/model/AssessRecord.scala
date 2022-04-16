@@ -1,7 +1,5 @@
 /*
- * Agile Enterprice Resource Planning Solution.
- *
- * Copyright © 2020, The YushangInfo Software.
+ * Copyright (C) 2020, The YushangInfo Software.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,6 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package com.yushanginfo.erp.mes.model
 
 import org.beangle.commons.collection.Collections
@@ -44,7 +43,7 @@ class AssessRecord extends LongId with Updated {
   var scheduledOn: LocalDate = _
 
   /** 状态 */
-  var assessStatus: AssessStatus.Status = _
+  var assessStatus: AssessStatus = _
 
   def getItem(technic: WorkOrderTechnic): Option[AssessItem] = {
     items.find { x =>

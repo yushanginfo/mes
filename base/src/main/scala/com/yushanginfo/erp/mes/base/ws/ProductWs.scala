@@ -1,7 +1,5 @@
 /*
- * Agile Enterprice Resource Planning Solution.
- *
- * Copyright © 2020, The YushangInfo Software.
+ * Copyright (C) 2020, The YushangInfo Software.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,14 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package com.yushanginfo.erp.mes.base.ws
 
 import com.yushanginfo.erp.mes.model.Product
 import org.beangle.commons.collection.Properties
 import org.beangle.commons.lang.Strings
 import org.beangle.data.dao.{EntityDao, OqlBuilder}
-import org.beangle.webmvc.api.action.ActionSupport
-import org.beangle.webmvc.api.annotation.{mapping, response}
+import org.beangle.web.action.support.ActionSupport
+import org.beangle.web.action.annotation.{mapping, response}
 
 class ProductWs extends ActionSupport {
   var entityDao: EntityDao = _

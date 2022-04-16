@@ -1,7 +1,5 @@
 /*
- * Agile Enterprice Resource Planning Solution.
- *
- * Copyright © 2020, The YushangInfo Software.
+ * Copyright (C) 2020, The YushangInfo Software.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,18 +14,22 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package com.yushanginfo.erp.mes.wo.action
 
-import com.yushanginfo.erp.mes.model.{AssessLog, AssessRecord, AssessStatus, WorkOrder, WorkOrderType}
+import com.yushanginfo.erp.mes.model.*
 import org.beangle.data.dao.OqlBuilder
-import org.beangle.webmvc.api.annotation.{mapping, param}
-import org.beangle.webmvc.api.view.View
-import org.beangle.webmvc.entity.action.EntityAction
+import org.beangle.web.action.annotation.{mapping, param}
+import org.beangle.web.action.view.View
+import org.beangle.webmvc.support.action.EntityAction
 
 class OrderSearchAction extends EntityAction[WorkOrder] {
 
   def index(): View = {
+    val factories = entityDao.getAll(classOf[com.yushanginfo.erp.base.model.Factory]).sortBy(_.code)
+    val factory = getLong("factory.id").map(fid => factories.find(_.id == fid)).flatten
     val dQuery = OqlBuilder.from(classOf[WorkOrder].getName, "o")
+    factory.foreach(f => dQuery.where("o.factory=:factory", f))
     dQuery.groupBy("o.status.id,o.status.name").select("o.status.id,o.status.name,count(*)")
     dQuery.orderBy("o.status.id")
     put("statusStat", entityDao.search(dQuery))
@@ -35,16 +37,20 @@ class OrderSearchAction extends EntityAction[WorkOrder] {
     val sQuery = OqlBuilder.from(classOf[WorkOrder].getName, "o")
     sQuery.groupBy("o.assessStatus").select("o.assessStatus,count(*)")
     sQuery.orderBy("o.assessStatus")
+    factory.foreach(f => sQuery.where("o.factory=:factory", f))
     put("assessStatusStat", entityDao.search(sQuery))
 
     val mQuery = OqlBuilder.from(classOf[WorkOrder].getName, "o")
     mQuery.groupBy("o.product.materialType.id,o.product.materialType.name")
     mQuery.select("o.product.materialType.id,o.product.materialType.name,count(*)")
     mQuery.orderBy("o.product.materialType.id")
+    factory.foreach(f => mQuery.where("o.factory=:factory", f))
     put("materialTypeStat", entityDao.search(mQuery))
 
     put("assessStatuses", AssessStatus.values)
     put("statuses", entityDao.getAll(classOf[WorkOrderType]))
+    put("factory", factory)
+    put("factories",factories)
     forward()
   }
 
@@ -70,10 +76,10 @@ class OrderSearchAction extends EntityAction[WorkOrder] {
     put("logs", logs)
     put("workOrder", order)
 
-    val recQuery= OqlBuilder.from(classOf[AssessRecord],"r")
-    recQuery.where("r.order=:order",order)
+    val recQuery = OqlBuilder.from(classOf[AssessRecord], "r")
+    recQuery.where("r.order=:order", order)
     recQuery.orderBy("r.updatedAt")
-    put("assessRecords",entityDao.search(recQuery))
+    put("assessRecords", entityDao.search(recQuery))
     forward()
   }
 }

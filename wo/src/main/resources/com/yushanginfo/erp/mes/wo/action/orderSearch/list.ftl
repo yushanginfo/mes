@@ -1,13 +1,12 @@
 [#ftl]
-
   <div class="card card-info card-primary card-outline">
-    <div class="card-header">
+    <div class="card-header" style="padding-bottom: 0px;">
       <h3 class="card-title">工单信息
         <span class="badge badge-primary">${workOrders.totalItems}</span>
       </h3>
       [@b.form name="orderSearchForm" action="!search" class="form-inline ml-3 float-right" ]
         <div class="input-group input-group-sm ">
-          <input class="form-control form-control-navbar" type="search" name="q" value="${Parameters['q']!}" aria-label="Search" placeholder="工单单号、图号、品号" autofocus="autofocus">
+          <input class="form-control form-control-navbar" style="width:300px" type="search" name="q" value="${Parameters['q']!}" aria-label="Search" placeholder="工单单号、图号、品号" autofocus="autofocus">
           [#list Parameters as k,v]
              [#if k != "q"]
              <input name="${k}" value="${v}" type="hidden">
@@ -21,8 +20,7 @@
         </div>
       [/@]
     </div>
-    <div class="card-body">
-
+    <div class="card-body" style="padding-top: 0px;">
         <table class="table table-hover table-sm">
           <thead>
              <th>工单单号</th>
@@ -33,17 +31,19 @@
              <th>计划完工</th>
              <th>评审交期</th>
              <th>状态</th>
+             <th>评审状态</th>
           </thead>
           <tbody>
           [#list workOrders as order]
            <tr>
             <td>[@b.a href="!info?id=${order.id}" title="${order.orderType.code} ${order.orderType.name}"]${order.batchNum}[/@]</td>
-            <td>${order.product.specification!}</td>
+            <td><span>${order.product.specification!}</span></td>
             <td>${order.product.name}</td>
             <td>${order.amount}</td>
             <td>${(order.deadline?string("yyyy-MM-dd"))!}</td>
             <td>${(order.plannedEndOn?string("yyyy-MM-dd"))!}</td>
             <td>${(order.scheduledOn?string("yyyy-MM-dd"))!}</td>
+            <td>${order.status.name}</td>
             <td>${order.assessStatus.name}</td>
            </tr>
            [/#list]

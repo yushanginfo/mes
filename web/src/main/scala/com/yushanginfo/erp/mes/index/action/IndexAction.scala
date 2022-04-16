@@ -1,7 +1,5 @@
 /*
- * Agile Enterprice Resource Planning Solution.
- *
- * Copyright © 2020, The YushangInfo Software.
+ * Copyright (C) 2020, The YushangInfo Software.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,14 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package com.yushanginfo.erp.mes.index.action
 
 import org.beangle.ems.app.web.NavContext
 import org.beangle.security.realm.cas.{Cas, CasConfig}
-import org.beangle.webmvc.api.action.{ActionSupport, ServletSupport}
-import org.beangle.webmvc.api.annotation.action
-import org.beangle.webmvc.api.context.ActionContext
-import org.beangle.webmvc.api.view.View
+import org.beangle.web.action.support.{ActionSupport, ServletSupport}
+import org.beangle.web.action.annotation.action
+import org.beangle.web.action.context.ActionContext
+import org.beangle.web.action.view.View
 
 /**
  * @author duantihua

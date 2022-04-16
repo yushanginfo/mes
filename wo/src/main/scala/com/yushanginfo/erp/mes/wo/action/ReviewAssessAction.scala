@@ -1,7 +1,5 @@
 /*
- * Agile Enterprice Resource Planning Solution.
- *
- * Copyright © 2020, The YushangInfo Software.
+ * Copyright (C) 2020, The YushangInfo Software.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,20 +14,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package com.yushanginfo.erp.mes.wo.action
 
 import com.yushanginfo.erp.base.model.{Factory, User}
 import com.yushanginfo.erp.mes.model._
 import com.yushanginfo.erp.mes.service.OrderService
 import org.beangle.commons.lang.Strings
-import org.beangle.commons.web.util.RequestUtils
+import org.beangle.web.servlet.util.RequestUtils
 import org.beangle.data.dao.OqlBuilder
 import org.beangle.ems.app.Ems
 import org.beangle.security.Securities
-import org.beangle.webmvc.api.annotation.{mapping, param}
-import org.beangle.webmvc.api.context.ActionContext
-import org.beangle.webmvc.api.view.View
-import org.beangle.webmvc.entity.action.RestfulAction
+import org.beangle.web.action.annotation.{mapping, param}
+import org.beangle.web.action.context.ActionContext
+import org.beangle.web.action.view.View
+import org.beangle.webmvc.support.action.RestfulAction
 
 import java.time.{Instant, LocalDate}
 
@@ -102,10 +101,10 @@ class ReviewAssessAction extends RestfulAction[WorkOrder] {
     }
 
     order.technics foreach { wt =>
-      val days = getInt(wt.id + ".days")
+      val days = getInt(s"${wt.id}.days")
       if (days.isDefined) {
         wt.passed = Some(true)
-        val nf = entityDao.get(classOf[Factory], getInt(wt.id + ".factory.id", 0))
+        val nf = entityDao.get(classOf[Factory], getInt(s"${wt.id}.factory.id", 0))
         if (wt.days.getOrElse(0) != days.get || nf != wt.factory) {
           wt.updatedAt = Instant.now
           wt.days = days

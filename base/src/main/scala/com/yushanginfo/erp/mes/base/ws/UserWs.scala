@@ -1,7 +1,5 @@
 /*
- * Agile Enterprice Resource Planning Solution.
- *
- * Copyright © 2020, The YushangInfo Software.
+ * Copyright (C) 2020, The YushangInfo Software.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,16 +14,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package com.yushanginfo.erp.mes.base.ws
 
 import com.yushanginfo.erp.base.model.User
 import org.beangle.commons.collection.page.PageLimit
 import org.beangle.commons.collection.{Order, Properties}
 import org.beangle.data.dao.OqlBuilder
-import org.beangle.webmvc.api.action.ActionSupport
-import org.beangle.webmvc.api.annotation.response
-import org.beangle.webmvc.entity.action.EntityAction
-import org.beangle.webmvc.entity.helper.QueryHelper.{PageParam, PageSizeParam}
+import org.beangle.web.action.support.ActionSupport
+import org.beangle.web.action.annotation.response
+import org.beangle.webmvc.support.action.EntityAction
+import org.beangle.webmvc.support.helper.QueryHelper.{PageParam, PageSizeParam}
 
 class UserWs extends ActionSupport with EntityAction[User] {
   @response

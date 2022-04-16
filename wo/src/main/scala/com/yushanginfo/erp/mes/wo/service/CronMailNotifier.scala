@@ -1,7 +1,5 @@
 /*
- * Agile Enterprice Resource Planning Solution.
- *
- * Copyright © 2020, The YushangInfo Software.
+ * Copyright (C) 2020, The YushangInfo Software.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,6 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package com.yushanginfo.erp.mes.wo.service
 
 import com.yushanginfo.erp.mes.model.{AssessMember, AssessStatus, WorkOrder}
@@ -24,7 +23,7 @@ import org.beangle.commons.bean.Initializing
 import org.beangle.commons.collection.Collections
 import org.beangle.commons.logging.Logging
 import org.beangle.data.dao.{EntityDao, OqlBuilder}
-import org.beangle.data.hibernate.spring.SessionUtils
+import org.beangle.data.orm.hibernate.spring.SessionUtils
 import org.beangle.ems.app.Ems
 import org.beangle.notify.SendingObserver
 import org.beangle.notify.mail.{DefaultMailNotifier, MailMessage}

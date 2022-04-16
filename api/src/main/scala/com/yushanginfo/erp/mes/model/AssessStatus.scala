@@ -1,7 +1,5 @@
 /*
- * Agile Enterprice Resource Planning Solution.
- *
- * Copyright © 2020, The YushangInfo Software.
+ * Copyright (C) 2020, The YushangInfo Software.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,18 +14,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package com.yushanginfo.erp.mes.model
 
-object AssessStatus extends Enumeration(0) {
-
-  class Status(val name: String) extends super.Val {
-  }
-
-  val Original = new Status("初始")
-  val Submited = new Status("评审中")
-  val Unpassed = new Status("待复审")
-  val Review = new Status("复审中")
-  val Passed = new Status("通过")
-  val Cancel = new Status("取消")
-
+enum AssessStatus(val name: String) {
+  case Original extends AssessStatus("初始")
+  case Submited extends AssessStatus("评审中")
+  case Unpassed extends AssessStatus("待复审")
+  case Review extends AssessStatus("复审中")
+  case Passed extends AssessStatus("通过")
+  case Cancel extends AssessStatus("取消")
 }

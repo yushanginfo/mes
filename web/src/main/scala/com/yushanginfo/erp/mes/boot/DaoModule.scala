@@ -1,7 +1,5 @@
 /*
- * Agile Enterprice Resource Planning Solution.
- *
- * Copyright © 2020, The YushangInfo Software.
+ * Copyright (C) 2020, The YushangInfo Software.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,14 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package com.yushanginfo.erp.mes.boot
 
 import org.beangle.cache.concurrent.ConcurrentMapCacheManager
 import org.beangle.cdi.bind.BindModule
 import org.beangle.commons.lang.ClassLoaders
-import org.beangle.data.hibernate.spring.web.OpenSessionInViewInterceptor
-import org.beangle.data.hibernate.spring.{HibernateTransactionManager, LocalSessionFactoryBean}
-import org.beangle.data.hibernate.{DomainFactory, HibernateEntityDao}
+import org.beangle.webmvc.support.hibernate.OpenSessionInViewInterceptor
+import org.beangle.data.orm.hibernate.spring.{HibernateTransactionManager, LocalSessionFactoryBean}
+import org.beangle.data.orm.hibernate.{DomainFactory, HibernateEntityDao}
 import org.beangle.ems.app.datasource.AppDataSourceFactory
 import org.springframework.beans.factory.config.PropertiesFactoryBean
 import org.springframework.transaction.interceptor.TransactionProxyFactoryBean
@@ -45,7 +44,7 @@ object DaoModule extends BindModule {
         "hibernate.jdbc.use_get_generated_keys=true",
         "hibernate.javax.cache.missing_cache_strategy=create",
         "hibernate.javax.cache.provider=org.ehcache.jsr107.EhcacheCachingProvider",
-        "hibernate.javax.cache.uri=classpath:" + ehcacheFileName,
+        "hibernate.javax.cache.uri=" + ehcacheFileName,
         "hibernate.cache.use_second_level_cache=true", "hibernate.cache.use_query_cache=true",
         "hibernate.query.substitutions=true 1, false 0, yes 'Y', no 'N'", "hibernate.show_sql=" + devEnabled))
       .description("Hibernate配置信息").nowire("propertiesArray")

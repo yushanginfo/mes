@@ -1,7 +1,5 @@
 /*
- * Agile Enterprice Resource Planning Solution.
- *
- * Copyright © 2020, The YushangInfo Software.
+ * Copyright (C) 2020, The YushangInfo Software.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,6 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package com.yushanginfo.erp.mes.model
 
 import com.yushanginfo.erp.base.model.{Factory, User}
@@ -55,7 +54,7 @@ class WorkOrder extends LongId with Updated with Remark {
   var status: WorkOrderStatus = _
 
   /** 工单评审状态 */
-  var assessStatus: AssessStatus.Status = AssessStatus.Original
+  var assessStatus: AssessStatus = AssessStatus.Original
 
   /** 到料日期 */
   var materialAssess: Option[MaterialAssess] = None

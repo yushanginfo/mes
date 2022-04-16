@@ -1,7 +1,5 @@
 /*
- * Agile Enterprice Resource Planning Solution.
- *
- * Copyright © 2020, The YushangInfo Software.
+ * Copyright (C) 2020, The YushangInfo Software.
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,6 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package com.yushanginfo.erp.mes.base.helper
 
 import com.yushanginfo.erp.mes.model.{ProductTechnic, TechnicScheme}
@@ -26,7 +25,7 @@ class ProductTechnicImportHelper(entityDao: EntityDao) extends ImportListener {
 
   override def onItemFinish(tr: ImportResult): Unit = {
     val p = transfer.current.asInstanceOf[ProductTechnic]
-    if ("2" == transfer.curData.get("productTechnic.internal")) {
+    if ("2" == transfer.curData.getOrElse("productTechnic.internal","")) {
       p.internal = false
     }
     entityDao.saveOrUpdate(p)
@@ -39,7 +38,7 @@ class ProductTechnicImportHelper(entityDao: EntityDao) extends ImportListener {
   }
 
   override def onItemStart(tr: ImportResult): Unit = {
-    if ("1" == transfer.curData.get("productTechnic.internal")) {
+    if ("1" == transfer.curData.getOrElse("productTechnic.internal","")) {
       transfer.curData.remove("productTechnic.machine.code")
     }
     for (pcode <- transfer.curData.get("scheme.product.code"); indexno <- transfer.curData.get("scheme.indexno");
