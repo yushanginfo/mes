@@ -2,7 +2,7 @@ import MesDepends._
 import MesSettings._
 
 ThisBuild / organization := "com.yushanginfo.erp.mes"
-ThisBuild / version := "0.0.2-SNAPSHOT"
+ThisBuild / version := "0.0.2"
 
 ThisBuild / scmInfo := Some(
   ScmInfo(
