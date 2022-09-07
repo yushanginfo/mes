@@ -13,10 +13,10 @@ ThisBuild / scmInfo := Some(
 
 ThisBuild / developers := List(
   Developer(
-    id    = "chaostone",
-    name  = "Tihua Duan",
+    id = "chaostone",
+    name = "Tihua Duan",
     email = "duantihua@gmail.com",
-    url   = url("http://github.com/duantihua")
+    url = url("http://github.com/duantihua")
   )
 )
 
@@ -26,7 +26,7 @@ ThisBuild / resolvers += Resolver.mavenLocal
 
 lazy val root = (project in file("."))
   .settings()
-  .aggregate(api,base,web,wo)
+  .aggregate(api, web, base, wo)
 
 lazy val api = (project in file("api"))
   .settings(
@@ -45,7 +45,7 @@ lazy val web = (project in file("web"))
   ).dependsOn(api)
 
 lazy val base = (project in file("base"))
-  .enablePlugins(WarPlugin,UndertowPlugin)
+  .enablePlugins(WarPlugin, TomcatPlugin)
   .settings(
     name := "erp-mes-base",
     common,
@@ -53,11 +53,10 @@ lazy val base = (project in file("base"))
     libraryDependencies ++= runtimeDepends
   ).dependsOn(web)
 
-
 lazy val wo = (project in file("wo"))
-  .enablePlugins(WarPlugin,UndertowPlugin)
+  .enablePlugins(WarPlugin, TomcatPlugin)
   .settings(
-    name := "erp-mes-web",
+    name := "erp-mes-wo",
     common,
     crossPaths := false,
     libraryDependencies ++= runtimeDepends

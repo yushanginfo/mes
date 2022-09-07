@@ -8,7 +8,7 @@
 [#include "info_macros.ftl"/]
 [@info_header title="工单信息"/]
 [#assign factoryId]${(factory.id)!''}[/#assign]
-<div class="container">
+<div class="container-fluid">
   <div class="row">
      <div class="col-2">
        <div class="card card-info card-primary card-outline">

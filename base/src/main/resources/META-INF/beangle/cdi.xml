@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <cdi>
-  <container name="web">
+  <container>
     <module class="com.yushanginfo.erp.mes.base.action.code.DefaultModule"/>
     <module class="com.yushanginfo.erp.mes.base.action.DefaultModule"/>
     <module class="com.yushanginfo.erp.mes.base.ws.DefaultModule"/>
