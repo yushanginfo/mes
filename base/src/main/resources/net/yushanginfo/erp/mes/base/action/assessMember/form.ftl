@@ -1,0 +1,16 @@
+[#ftl]
+[@b.head/]
+[@b.toolbar title="评审组成员信息"]bar.addBack();[/@]
+[@b.tabs]
+  [@b.form action=sa theme="list" action=b.rest.save(assessMember)]
+    [@b.select name="assessMember.group.id" label="评审组" value=assessMember.group! items=groups option="id,name" empty="..."/]
+    [@b.select name="assessMember.factory.id" label="工厂" value=assessMember.factory! items=factories option="id,name" empty="..."/]
+    [@b.select name="assessMember.user.id" label="成员" value=assessMember.user!
+               style="width:300px;" href="/users.json?q={term}" option="id,description" empty="..."/]
+    [@b.formfoot]
+      [@b.reset/]&nbsp;&nbsp;[@b.submit value="action.submit"/]
+    [/@]
+  [/@]
+[/@]
+<div style="margin-bottom:20px"></div>
+[@b.foot/]

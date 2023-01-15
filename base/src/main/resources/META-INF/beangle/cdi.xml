@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <cdi>
   <container>
-    <module class="com.yushanginfo.erp.mes.base.action.code.DefaultModule"/>
-    <module class="com.yushanginfo.erp.mes.base.action.DefaultModule"/>
-    <module class="com.yushanginfo.erp.mes.base.ws.DefaultModule"/>
+    <module class="net.yushanginfo.erp.mes.base.action.code.DefaultModule"/>
+    <module class="net.yushanginfo.erp.mes.base.action.DefaultModule"/>
+    <module class="net.yushanginfo.erp.mes.base.ws.DefaultModule"/>
   </container>
 
 </cdi>

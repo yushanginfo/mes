@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <mvc>
-  <profile name="erp-mes-index-action" package="com.yushanginfo.erp.mes.index.action">
+  <profile name="erp-mes-index-action" package="net.yushanginfo.erp.mes.index.action">
     <url path="/" suffix=""  style="seo" />
     <interceptors>
       <interceptor name="web.Interceptor.hibernate"/>

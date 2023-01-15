@@ -1,8 +1,8 @@
 import MesDepends._
 import MesSettings._
 
-ThisBuild / organization := "com.yushanginfo.erp.mes"
-ThisBuild / version := "0.0.3-SNAPSHOT"
+ThisBuild / organization := "net.yushanginfo.erp.mes"
+ThisBuild / version := "0.0.3"
 
 ThisBuild / scmInfo := Some(
   ScmInfo(
@@ -20,8 +20,8 @@ ThisBuild / developers := List(
   )
 )
 
-ThisBuild / description := "The YushangInfo MES Library"
-ThisBuild / homepage := Some(url("http://yushanginfo.github.io/ems/index.html"))
+ThisBuild / description := "The YushangInfo MES Application"
+ThisBuild / homepage := Some(url("http://yushanginfo.github.io/mes/index.html"))
 ThisBuild / resolvers += Resolver.mavenLocal
 
 lazy val root = (project in file("."))

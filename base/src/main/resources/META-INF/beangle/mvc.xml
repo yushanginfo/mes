@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <mvc>
-  <profile name="erp-mes-base-action" package="com.yushanginfo.erp.mes.base.action">
+  <profile name="erp-mes-base-action" package="net.yushanginfo.erp.mes.base.action">
     <url path="/" suffix=""  style="seo" />
     <interceptors>
       <interceptor name="web.Interceptor.hibernate"/>
@@ -8,7 +8,7 @@
     </interceptors>
   </profile>
 
-  <profile name="erp-mes-base-ws" package="com.yushanginfo.erp.mes.base.ws">
+  <profile name="erp-mes-base-ws" package="net.yushanginfo.erp.mes.base.ws">
     <action suffix="Ws" defaultMethod="index" />
     <url path="/" suffix=""  style="plur-seo" />
     <interceptors>
