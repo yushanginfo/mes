@@ -21,10 +21,10 @@ object MesSettings {
     versionScheme := Some("early-semver"),
     pomIncludeRepository := { _ => false }, // Remove all additional repository other than Maven Central from POM
     publishTo := {
-      val nexus = "https://oss.sonatype.org/"
+      val nexus = "https://s01.oss.sonatype.org/"
       Some("releases" at nexus + "service/local/staging/deploy/maven2")
     },
-    credentials += Credentials(Path.userHome / ".sbt" / "sonatype_credentials"),
+    credentials += Credentials(Path.userHome / ".sbt" / "sonatype_credentials_s01"),
     resolvers += Resolver.mavenLocal
   )
 }
