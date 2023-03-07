@@ -8,6 +8,7 @@
       [@b.textfields names="technic.name;名称"/]
       [@b.textfields names="technic.machine.name;加工中心"/]
       [@b.textfields names="technic.assessGroup.name;评审组"/]
+      [@b.textfield name="technic.duration" label="默认天数" maxlength="3"/]
       <input type="hidden" name="orderBy" value="technic.code"/>
     [/@]
   </div>

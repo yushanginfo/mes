@@ -18,10 +18,13 @@
 package net.yushanginfo.erp.mes.index.action
 
 import org.beangle.ems.app.web.NavContext
+import org.beangle.ems.app.{Ems, EmsApp}
+import org.beangle.security.Securities
 import org.beangle.security.realm.cas.{Cas, CasConfig}
-import org.beangle.web.action.support.{ActionSupport, ServletSupport}
+import org.beangle.security.session.cache.CacheSessionRepo
 import org.beangle.web.action.annotation.action
 import org.beangle.web.action.context.ActionContext
+import org.beangle.web.action.support.{ActionSupport, ServletSupport}
 import org.beangle.web.action.view.View
 
 /**
@@ -31,13 +34,23 @@ import org.beangle.web.action.view.View
 class IndexAction extends ActionSupport with ServletSupport {
 
   var casConfig: CasConfig = _
+  var sessionRepo: CacheSessionRepo = _
 
   def index(): View = {
     put("nav", NavContext.get(request))
+    put("ems", Ems)
+    put("locale", ActionContext.current.locale)
     forward()
   }
 
+  def welcome(): View = {
+    redirect(to(Ems.portal + "/index/appNotice?app=" + EmsApp.name), "")
+  }
+
   def logout(): View = {
+    Securities.session foreach { s =>
+      sessionRepo.evict(s.id)
+    }
     redirect(to(Cas.cleanup(casConfig, ActionContext.current.request, ActionContext.current.response)), null)
   }
 }
