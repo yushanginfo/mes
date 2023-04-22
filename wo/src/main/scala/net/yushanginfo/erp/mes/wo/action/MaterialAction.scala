@@ -18,20 +18,20 @@
 package net.yushanginfo.erp.mes.wo.action
 
 import net.yushanginfo.erp.base.model.User
-import net.yushanginfo.erp.mes.model._
+import net.yushanginfo.erp.mes.model.*
 import net.yushanginfo.erp.mes.service.OrderService
-import org.beangle.web.servlet.util.RequestUtils
 import org.beangle.data.dao.OqlBuilder
 import org.beangle.security.Securities
 import org.beangle.web.action.annotation.{mapping, param}
 import org.beangle.web.action.context.ActionContext
 import org.beangle.web.action.view.View
-import org.beangle.webmvc.support.action.RestfulAction
+import org.beangle.web.servlet.util.RequestUtils
+import org.beangle.webmvc.support.action.{ExportSupport, ImportSupport, RestfulAction}
 import org.beangle.webmvc.support.helper.QueryHelper
 
 import java.time.{Instant, LocalDate}
 
-class MaterialAction extends RestfulAction[WorkOrder] {
+class MaterialAction extends RestfulAction[WorkOrder], ExportSupport[WorkOrder], ImportSupport[WorkOrder] {
   var orderService: OrderService = _
 
   override protected def indexSetting(): Unit = {

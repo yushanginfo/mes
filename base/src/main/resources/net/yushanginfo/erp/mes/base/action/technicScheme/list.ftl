@@ -13,7 +13,7 @@
     [@b.col width="20%" property="product.name" title="产品名称"/]
     [@b.col width="10%" property="indexno" title="路线编号"/]
     [@b.col width="10%" property="name" title="路线名称"][@b.a href="!info?id=${technicScheme.id}"]${technicScheme.name}[/@][/@]
-    [@b.col width="40%" title="工艺列表"]
+    [@b.col title="工艺列表"]
       [#list technicScheme.technics! as technic]
         ${(technic.technic.name)!}[#if technic_has_next],[/#if]
       [/#list]

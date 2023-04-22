@@ -87,8 +87,8 @@ class DepartAssessAction extends RestfulAction[WorkOrder] {
 
   def assess(): View = {
     put("factories", entityDao.getAll(classOf[Factory]))
-    put("assessGroup", entityDao.get(classOf[AssessGroup], longId("assessGroup")))
-    val order = entityDao.get(classOf[WorkOrder], longId("workOrder"))
+    put("assessGroup", entityDao.get(classOf[AssessGroup], getLongId("assessGroup")))
+    val order = entityDao.get(classOf[WorkOrder], getLongId("workOrder"))
     if (order.assessStatus == AssessStatus.Passed) {
       forward(to(classOf[WorkOrderAction], "info", "id=" + order.id))
     } else {
@@ -98,8 +98,8 @@ class DepartAssessAction extends RestfulAction[WorkOrder] {
   }
 
   def saveAssess(): View = {
-    val group = entityDao.get(classOf[AssessGroup], longId("assessGroup"))
-    val order = entityDao.get(classOf[WorkOrder], longId("workOrder"))
+    val group = entityDao.get(classOf[AssessGroup], getLongId("assessGroup"))
+    val order = entityDao.get(classOf[WorkOrder], getLongId("workOrder"))
     val users = entityDao.findBy(classOf[User], "code", List(Securities.user))
     order.technics foreach { wt =>
       if (wt.technic.assessGroup.contains(group)) {

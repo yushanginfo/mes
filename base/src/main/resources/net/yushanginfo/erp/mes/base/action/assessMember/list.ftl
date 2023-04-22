@@ -12,7 +12,7 @@
     [@b.col width="10%" property="user.code" title="工号"]${assessMember.user.code}[/@]
     [@b.col width="30%" property="user.name" title="姓名"/]
     [@b.col width="30%" property="group.name" title="评审组"]${(assessMember.group.name)!}[/@]
-    [@b.col width="25%" title="厂区"]${assessMember.factory.name}[/@]
+    [@b.col title="厂区"]${assessMember.factory.name}[/@]
   [/@]
 [/@]
 

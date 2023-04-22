@@ -18,6 +18,6 @@
 package net.yushanginfo.erp.mes.base.action
 
 import net.yushanginfo.erp.base.model.Factory
-import org.beangle.webmvc.support.action.RestfulAction
+import org.beangle.webmvc.support.action.{ExportSupport, ImportSupport, RestfulAction}
 
-class FactoryAction extends RestfulAction[Factory]
+class FactoryAction extends RestfulAction[Factory], ExportSupport[Factory], ImportSupport[Factory]

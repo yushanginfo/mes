@@ -64,6 +64,7 @@ class DefaultMapping extends MappingModule {
     }
 
     bind[WorkOrderTechnic].declare { e =>
+      index("", false, e.technic)
     }
 
     bind[MaterialAssess].declare { e =>

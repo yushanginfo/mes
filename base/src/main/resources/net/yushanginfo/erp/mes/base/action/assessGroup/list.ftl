@@ -13,7 +13,7 @@
     [@b.col width="8%" property="name" title="名称"/]
     [@b.col width="10%" property="department.name" title="部门"/]
     [@b.col width="8%" property="director" title="负责人"]${(assessGroup.director.code)!} ${(assessGroup.director.name)!}[/@]
-    [@b.col width="58%" title="成员"]
+    [@b.col title="成员"]
       [#assign f_members ={}/]
       [#list assessGroup.members as m]
          [#if !f_members[m.factory.name]?exists]

@@ -17,18 +17,18 @@
 
 package net.yushanginfo.erp.mes.base.action
 
-import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
-
-import net.yushanginfo.erp.mes.base.helper.DepartmentImportHelper
 import net.yushanginfo.erp.base.model.Department
+import net.yushanginfo.erp.mes.base.helper.DepartmentImportHelper
 import org.beangle.data.excel.schema.ExcelSchema
 import org.beangle.data.transfer.importer.ImportSetting
 import org.beangle.data.transfer.importer.listener.ForeignerListener
 import org.beangle.web.action.annotation.response
 import org.beangle.web.action.view.Stream
-import org.beangle.webmvc.support.action.RestfulAction
+import org.beangle.webmvc.support.action.{ExportSupport, ImportSupport, RestfulAction}
 
-class DepartmentAction extends RestfulAction[Department] {
+import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
+
+class DepartmentAction extends RestfulAction[Department], ExportSupport[Department], ImportSupport[Department] {
 
   override protected def editSetting(entity: Department): Unit = {
     put("departments", entityDao.getAll(classOf[Department]))

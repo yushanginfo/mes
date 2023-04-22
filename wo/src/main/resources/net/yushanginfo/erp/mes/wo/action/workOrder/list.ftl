@@ -15,7 +15,7 @@
     [/@]
     [@b.col width="18%" property="product.specification" title="产品图号"/]
     [@b.col width="17%" property="product.name" title="产品名称"/]
-    [@b.col width="24%" title="工单工艺"]
+    [@b.col title="工单工艺"]
         [#assign technics=[]]
         [#list workOrder.technics as wt]
           [#if !technics?seq_contains(wt.technic.name)]

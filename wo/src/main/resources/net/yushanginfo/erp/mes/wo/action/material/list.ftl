@@ -13,7 +13,7 @@
     [@b.col width="15%" property="product.code" title="产品图号"]${workOrder.product.specification!}[/@]
     [@b.col width="7%" property="deadline" title="客户交期"]${(workOrder.deadline?string("yy-MM-dd"))!}[/@]
     [@b.col width="6%" property="amount" title="数量"/]
-    [@b.col width="27%"  title="材料"]
+    [@b.col title="材料"]
        [#if workOrder.materialAssess??]
          [#assign ma=workOrder.materialAssess/]
          [#list workOrder.product.bom as i]

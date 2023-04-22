@@ -18,10 +18,9 @@
 package net.yushanginfo.erp.mes.wo.action
 
 import net.yushanginfo.erp.base.model.{Factory, User}
-import net.yushanginfo.erp.mes.model._
+import net.yushanginfo.erp.mes.model.*
 import net.yushanginfo.erp.mes.service.OrderService
 import net.yushanginfo.erp.mes.wo.helper.OrderImportHelper
-import org.beangle.web.servlet.util.RequestUtils
 import org.beangle.data.dao.OqlBuilder
 import org.beangle.data.excel.schema.ExcelSchema
 import org.beangle.data.transfer.importer.ImportSetting
@@ -31,12 +30,13 @@ import org.beangle.security.Securities
 import org.beangle.web.action.annotation.{mapping, param, response}
 import org.beangle.web.action.context.ActionContext
 import org.beangle.web.action.view.{Stream, View}
-import org.beangle.webmvc.support.action.RestfulAction
+import org.beangle.web.servlet.util.RequestUtils
+import org.beangle.webmvc.support.action.{ExportSupport, ImportSupport, RestfulAction}
 
 import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
 import java.time.Instant
 
-class WorkOrderAction extends RestfulAction[WorkOrder] {
+class WorkOrderAction extends RestfulAction[WorkOrder], ExportSupport[WorkOrder], ImportSupport[WorkOrder] {
 
   var orderService: OrderService = _
 
@@ -64,7 +64,7 @@ class WorkOrderAction extends RestfulAction[WorkOrder] {
   }
 
   def setPass(): View = {
-    val orderIds = longIds("workOrder")
+    val orderIds = getLongIds("workOrder")
     val orders = entityDao.find(classOf[WorkOrder], orderIds)
     orders foreach { o =>
       o.assessStatus = AssessStatus.Passed
@@ -122,10 +122,10 @@ class WorkOrderAction extends RestfulAction[WorkOrder] {
     put("logs", logs)
     put("workOrder", order)
 
-    val recQuery= OqlBuilder.from(classOf[AssessRecord],"r")
-    recQuery.where("r.order=:order",order)
+    val recQuery = OqlBuilder.from(classOf[AssessRecord], "r")
+    recQuery.where("r.order=:order", order)
     recQuery.orderBy("r.updatedAt")
-    put("assessRecords",entityDao.search(recQuery))
+    put("assessRecords", entityDao.search(recQuery))
     forward()
   }
 

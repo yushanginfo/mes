@@ -38,8 +38,8 @@ class OrderServiceImpl extends OrderService with Logging with Initializing {
   var entityDao: EntityDao = _
   var mailNotifier: DefaultMailNotifier = _
   var mailNotifierBuilder: MailNotifierBuilder = _
-  var mailGenerator = DefaultTemplateEngine().forTemplate("/com/yushanginfo/erp/mes/wo/mail/order.ftl")
-  var reviewGenerator = DefaultTemplateEngine().forTemplate("/com/yushanginfo/erp/mes/wo/mail/review.ftl")
+  var mailGenerator = DefaultTemplateEngine().forTemplate("/net/yushanginfo/erp/mes/wo/mail/order.ftl")
+  var reviewGenerator = DefaultTemplateEngine().forTemplate("/net/yushanginfo/erp/mes/wo/mail/review.ftl")
 
   override def init(): Unit = {
     mailNotifierBuilder.builder().foreach { nf =>

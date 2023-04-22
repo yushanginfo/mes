@@ -11,7 +11,7 @@
     [@b.boxcol /]
     [@b.col width="20%" property="code" title="品号"/]
     [@b.col width="20%" property="name" title="品名"][@b.a href="!info?id=${material.id}"]${material.name}[/@][/@]
-    [@b.col width="20%" property="specification" title="规格"/]
+    [@b.col property="specification" title="规格"/]
     [@b.col width="20%" property="materialType.name"  title="品号类别"/]
     [@b.col width="15%" property="unit.name"  title="计量单位"/]
   [/@]

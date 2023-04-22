@@ -10,7 +10,7 @@
   [@b.row]
     [@b.boxcol /]
     [@b.col width="10%" property="code" title="代码" width="10%"]${department.code}[/@]
-    [@b.col width="20%" property="name" title="名称"  width="40%"][@b.a href="!info?id=${department.id}"]${department.name}[/@][/@]
+    [@b.col property="name" title="名称"][@b.a href="!info?id=${department.id}"]${department.name}[/@][/@]
     [@b.col width="10%" property="indexno" title="序号" width="10%"]${department.indexno}[/@]
     [@b.col width="20%" property="parent.name" title="上级部门" width="35%"]${(department.parent.name)!}&nbsp;[/@]
   [/@]

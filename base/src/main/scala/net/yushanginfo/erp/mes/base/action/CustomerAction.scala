@@ -17,8 +17,6 @@
 
 package net.yushanginfo.erp.mes.base.action
 
-import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
-
 import net.yushanginfo.erp.base.model.{Customer, User}
 import net.yushanginfo.erp.mes.base.helper.CustomerImportHelper
 import org.beangle.data.dao.OqlBuilder
@@ -27,9 +25,11 @@ import org.beangle.data.transfer.importer.ImportSetting
 import org.beangle.data.transfer.importer.listener.ForeignerListener
 import org.beangle.web.action.annotation.response
 import org.beangle.web.action.view.Stream
-import org.beangle.webmvc.support.action.RestfulAction
+import org.beangle.webmvc.support.action.{ExportSupport, ImportSupport, RestfulAction}
 
-class CustomerAction extends RestfulAction[Customer] {
+import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
+
+class CustomerAction extends RestfulAction[Customer], ExportSupport[Customer], ImportSupport[Customer] {
 
   override protected def editSetting(entity: Customer): Unit = {
     val builder = OqlBuilder.from(classOf[Customer], "c")

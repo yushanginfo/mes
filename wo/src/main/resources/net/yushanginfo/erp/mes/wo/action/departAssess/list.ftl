@@ -14,7 +14,7 @@
     [@b.col width="8%" property="materialDate" title="到料日期"]
       [#if workOrder.materialAssess??][#if workOrder.materialAssess.ready]有料[#else] ${(workOrder.materialAssess.readyOn?string("yy-MM-dd"))!}[/#if][/#if]
     [/@]
-    [@b.col width="29%" title="生产周期评估"]
+    [@b.col title="生产周期评估"]
       [#assign assessMap={}]
       [#list workOrder.technics as wt]
         [#if wt.technic.assessGroup?? && wt.days??]
@@ -78,7 +78,7 @@
 [/@]
 <script>
    function assess(workOrderId,assessGroupId){
-      bg.form.submit(document.assessForm,"${base}/depart-assess/assess?workOrderId="+workOrderId+"&assessGroupId="+assessGroupId);
+      bg.form.submit(document.assessForm,"${b.base}/depart-assess/assess?workOrderId="+workOrderId+"&assessGroupId="+assessGroupId);
    }
 </script>
 [@b.foot/]

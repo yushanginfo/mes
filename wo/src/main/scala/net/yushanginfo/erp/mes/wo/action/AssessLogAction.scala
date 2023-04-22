@@ -18,7 +18,10 @@
 package net.yushanginfo.erp.mes.wo.action
 
 import net.yushanginfo.erp.mes.model.AssessLog
+import org.beangle.data.dao.EntityDao
 import org.beangle.webmvc.support.action.EntityAction
+
 class AssessLogAction extends EntityAction[AssessLog] {
 
+  var entityDao: EntityDao = _
 }

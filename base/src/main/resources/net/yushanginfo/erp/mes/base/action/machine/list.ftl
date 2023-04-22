@@ -10,7 +10,7 @@
   [@b.row]
     [@b.boxcol /]
     [@b.col width="30%" property="code" title="代码"]${machine.code}[/@]
-    [@b.col width="65%" property="name" title="名称"][@b.a href="!info?id=${machine.id}"]${machine.name}[/@][/@]
+    [@b.col property="name" title="名称"][@b.a href="!info?id=${machine.id}"]${machine.name}[/@][/@]
   [/@]
 [/@]
 [@b.foot/]

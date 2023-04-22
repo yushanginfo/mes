@@ -18,7 +18,6 @@
 package net.yushanginfo.erp.mes.base.action
 
 import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
-
 import net.yushanginfo.erp.mes.model.{Material, MaterialType, MeasurementUnit}
 import net.yushanginfo.erp.mes.base.helper.MaterialImportHelper
 import org.beangle.data.dao.OqlBuilder
@@ -27,9 +26,9 @@ import org.beangle.data.transfer.importer.ImportSetting
 import org.beangle.data.transfer.importer.listener.ForeignerListener
 import org.beangle.web.action.annotation.response
 import org.beangle.web.action.view.{Stream, View}
-import org.beangle.webmvc.support.action.RestfulAction
+import org.beangle.webmvc.support.action.{ExportSupport, ImportSupport, RestfulAction}
 
-class MaterialAction extends RestfulAction[Material] {
+class MaterialAction extends RestfulAction[Material], ExportSupport[Material], ImportSupport[Material] {
 
   override protected def indexSetting(): Unit = {
     put("materialTypes", entityDao.getAll(classOf[MaterialType]))

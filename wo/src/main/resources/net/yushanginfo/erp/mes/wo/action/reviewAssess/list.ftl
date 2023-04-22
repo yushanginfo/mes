@@ -17,7 +17,7 @@
     [@b.col width="9%" property="materialDate" title="到料日期"]
       [#if workOrder.materialAssess??][#if workOrder.materialAssess.ready]有料[#else] ${(workOrder.materialAssess.readyOn?string("yy-MM-dd"))!}[/#if][/#if]
     [/@]
-    [@b.col width="20%" title="生产周期评估"]
+    [@b.col title="生产周期评估"]
       [#assign assessMap={}]
       [#list workOrder.technics as wt]
         [#if wt.technic.assessGroup?? && wt.days??]

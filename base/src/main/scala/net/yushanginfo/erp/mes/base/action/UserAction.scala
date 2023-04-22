@@ -17,8 +17,6 @@
 
 package net.yushanginfo.erp.mes.base.action
 
-import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
-
 import net.yushanginfo.erp.base.model.{Department, Factory, User}
 import net.yushanginfo.erp.mes.base.helper.UserImportHelper
 import org.beangle.data.dao.OqlBuilder
@@ -27,9 +25,11 @@ import org.beangle.data.transfer.importer.ImportSetting
 import org.beangle.data.transfer.importer.listener.ForeignerListener
 import org.beangle.web.action.annotation.response
 import org.beangle.web.action.view.Stream
-import org.beangle.webmvc.support.action.RestfulAction
+import org.beangle.webmvc.support.action.{ExportSupport, ImportSupport, RestfulAction}
 
-class UserAction extends RestfulAction[User] {
+import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
+
+class UserAction extends RestfulAction[User], ExportSupport[User], ImportSupport[User] {
 
   override protected def editSetting(entity: User): Unit = {
     put("departments", entityDao.getAll(classOf[Department]))

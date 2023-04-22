@@ -66,7 +66,7 @@ class ReviewAssessAction extends RestfulAction[WorkOrder] {
   }
 
   def review(): View = {
-    val id = longId("workOrder")
+    val id = getLongId("workOrder")
     val order = entityDao.get(classOf[WorkOrder], id)
     if (order.assessStatus == AssessStatus.Review) {
       put("workOrder", order)
@@ -87,7 +87,7 @@ class ReviewAssessAction extends RestfulAction[WorkOrder] {
   }
 
   def saveReview(): View = {
-    val order = entityDao.get(classOf[WorkOrder], longId("workOrder"))
+    val order = entityDao.get(classOf[WorkOrder], getLongId("workOrder"))
     val me = entityDao.findBy(classOf[User], "code", List(Securities.user)).headOption
     getDate("materialAssess.readyOn") foreach { readyOn =>
       order.materialAssess foreach { ma =>

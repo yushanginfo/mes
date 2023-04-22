@@ -14,7 +14,7 @@
     [@b.col width="20%" title="材料"]
       [#list product.bom as i]${i.material.name}[#if i_has_next],[/#if][/#list]
     [/@]
-    [@b.col width="20%" title="规格"]
+    [@b.col title="规格"]
        [#list product.bom as i]${i.material.specification!}[#if i_has_next],[/#if][/#list]
     [/@]
     [@b.col width="10%" property="materialType.name"  title="品号类别"/]

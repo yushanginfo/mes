@@ -18,7 +18,6 @@
 package net.yushanginfo.erp.mes.base.action
 
 import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
-
 import net.yushanginfo.erp.base.model.{Department, Supplier}
 import net.yushanginfo.erp.mes.base.helper.TechnicImportHelper
 import net.yushanginfo.erp.mes.model.{AssessGroup, Machine, Technic}
@@ -28,9 +27,9 @@ import org.beangle.data.transfer.importer.ImportSetting
 import org.beangle.data.transfer.importer.listener.ForeignerListener
 import org.beangle.web.action.annotation.response
 import org.beangle.web.action.view.{Stream, View}
-import org.beangle.webmvc.support.action.RestfulAction
+import org.beangle.webmvc.support.action.{ExportSupport, ImportSupport, RestfulAction}
 
-class TechnicAction extends RestfulAction[Technic] {
+class TechnicAction extends RestfulAction[Technic], ExportSupport[Technic], ImportSupport[Technic] {
 
   override protected def editSetting(entity: Technic): Unit = {
     put("groups", entityDao.getAll(classOf[AssessGroup]))
@@ -44,8 +43,8 @@ class TechnicAction extends RestfulAction[Technic] {
   }
 
   def batchUpdateGroup(): View = {
-    val technics = entityDao.find(classOf[Technic], intIds("technic"))
-    val group = entityDao.get(classOf[AssessGroup], longId("group"))
+    val technics = entityDao.find(classOf[Technic], getIntIds("technic"))
+    val group = entityDao.get(classOf[AssessGroup], getLongId("group"))
     technics.foreach { technic =>
       technic.assessGroup = Some(group)
     }

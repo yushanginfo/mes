@@ -17,8 +17,6 @@
 
 package net.yushanginfo.erp.mes.base.action
 
-import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
-
 import net.yushanginfo.erp.base.model.Factory
 import net.yushanginfo.erp.mes.base.helper.AssessMemberImportListener
 import net.yushanginfo.erp.mes.model.{AssessGroup, AssessMember}
@@ -27,9 +25,11 @@ import org.beangle.data.transfer.importer.ImportSetting
 import org.beangle.data.transfer.importer.listener.ForeignerListener
 import org.beangle.web.action.annotation.response
 import org.beangle.web.action.view.Stream
-import org.beangle.webmvc.support.action.RestfulAction
+import org.beangle.webmvc.support.action.{ExportSupport, ImportSupport, RestfulAction}
 
-class AssessMemberAction extends RestfulAction[AssessMember] {
+import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
+
+class AssessMemberAction extends RestfulAction[AssessMember], ExportSupport[AssessMember], ImportSupport[AssessMember] {
 
   protected override def indexSetting(): Unit = {
     put("groups", entityDao.getAll(classOf[AssessGroup]))

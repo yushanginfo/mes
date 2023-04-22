@@ -20,7 +20,7 @@
       [#if technic.internal]厂内[#else]委外[/#if]
     [/@]
     [@b.col width="17%" property="machine.name" title="加工中心"/]
-    [@b.col width="35%" property="description" title="说明"/]
+    [@b.col property="description" title="说明"/]
   [/@]
 [/@]
 [@b.foot/]

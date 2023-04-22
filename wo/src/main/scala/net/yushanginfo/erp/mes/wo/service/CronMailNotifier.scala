@@ -18,12 +18,12 @@
 package net.yushanginfo.erp.mes.wo.service
 
 import net.yushanginfo.erp.mes.model.{AssessMember, AssessStatus, WorkOrder}
-import net.yushanginfo.erp.mes.service.{MailNotifierBuilder}
+import net.yushanginfo.erp.mes.service.MailNotifierBuilder
 import org.beangle.commons.bean.Initializing
 import org.beangle.commons.collection.Collections
 import org.beangle.commons.logging.Logging
 import org.beangle.data.dao.{EntityDao, OqlBuilder}
-import org.beangle.data.orm.hibernate.spring.SessionUtils
+import org.beangle.data.orm.hibernate.SessionHelper
 import org.beangle.ems.app.Ems
 import org.beangle.notify.SendingObserver
 import org.beangle.notify.mail.{DefaultMailNotifier, MailMessage}
@@ -35,13 +35,13 @@ import scala.collection.mutable
 
 class CronMailNotifier extends Initializing with Logging {
 
-  var mailNotifierBuilder:MailNotifierBuilder=_
+  var mailNotifierBuilder: MailNotifierBuilder = _
   var mailNotifier: DefaultMailNotifier = _
   var entityDao: EntityDao = _
   var sessionFactory: SessionFactory = _
 
   override def init(): Unit = {
-    mailNotifierBuilder.builder() foreach{ nf=>
+    mailNotifierBuilder.builder() foreach { nf =>
       mailNotifier = nf
       // 08:00,12:00
       val times = Set(LocalTime.of(7, 0), LocalTime.of(11, 0))
@@ -50,7 +50,7 @@ class CronMailNotifier extends Initializing with Logging {
   }
 
   def sendMail(): String = {
-    SessionUtils.enableBinding(sessionFactory)
+    SessionHelper.openSession(sessionFactory)
     try {
       if (null == mailNotifier) {
         "mailSender is not ready"
@@ -62,8 +62,7 @@ class CronMailNotifier extends Initializing with Logging {
       case e: Exception => e.printStackTrace()
         "error happed"
     } finally {
-      SessionUtils.disableBinding(sessionFactory)
-      SessionUtils.closeSession(sessionFactory)
+      SessionHelper.closeSession(sessionFactory)
     }
   }
 

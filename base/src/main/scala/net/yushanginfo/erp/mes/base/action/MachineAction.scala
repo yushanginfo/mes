@@ -18,7 +18,6 @@
 package net.yushanginfo.erp.mes.base.action
 
 import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
-
 import net.yushanginfo.erp.mes.model.{Machine, Technic}
 import net.yushanginfo.erp.mes.base.helper.MachineImportHelper
 import org.beangle.data.dao.OqlBuilder
@@ -26,9 +25,9 @@ import org.beangle.data.excel.schema.ExcelSchema
 import org.beangle.data.transfer.importer.ImportSetting
 import org.beangle.web.action.annotation.{mapping, response}
 import org.beangle.web.action.view.{Stream, View}
-import org.beangle.webmvc.support.action.RestfulAction
+import org.beangle.webmvc.support.action.{ExportSupport, ImportSupport, RestfulAction}
 
-class MachineAction extends RestfulAction[Machine] {
+class MachineAction extends RestfulAction[Machine], ExportSupport[Machine], ImportSupport[Machine] {
 
   @response
   def downloadTemplate(): Any = {

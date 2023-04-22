@@ -20,13 +20,15 @@ package net.yushanginfo.erp.mes.base.ws
 import net.yushanginfo.erp.base.model.User
 import org.beangle.commons.collection.page.PageLimit
 import org.beangle.commons.collection.{Order, Properties}
-import org.beangle.data.dao.OqlBuilder
-import org.beangle.web.action.support.ActionSupport
+import org.beangle.data.dao.{EntityDao, OqlBuilder}
 import org.beangle.web.action.annotation.response
+import org.beangle.web.action.support.ActionSupport
 import org.beangle.webmvc.support.action.EntityAction
 import org.beangle.webmvc.support.helper.QueryHelper.{PageParam, PageSizeParam}
 
 class UserWs extends ActionSupport with EntityAction[User] {
+  var entityDao: EntityDao = _
+
   @response
   def index(): Seq[Properties] = {
     val query = OqlBuilder.from(classOf[User], "user")

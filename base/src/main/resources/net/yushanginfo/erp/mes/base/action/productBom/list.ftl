@@ -11,7 +11,7 @@
     [@b.boxcol /]
     [@b.col width="10%" property="indexno" title="顺序号"/]
     [@b.col width="20%" property="material.code" title="代码"/]
-    [@b.col width="35%" property="material.name" title="名称"/]
+    [@b.col property="material.name" title="名称"/]
     [@b.col width="15%" property="material.specification" title="规格"/]
     [@b.col width="15%" property="amount" title="数量"/]
   [/@]

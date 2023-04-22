@@ -20,9 +20,9 @@ package net.yushanginfo.erp.mes.base.action
 import net.yushanginfo.erp.base.model.Factory
 import net.yushanginfo.erp.mes.model.Reviewer
 import org.beangle.web.action.view.View
-import org.beangle.webmvc.support.action.RestfulAction
+import org.beangle.webmvc.support.action.{ExportSupport, ImportSupport, RestfulAction}
 
-class ReviewerAction extends RestfulAction[Reviewer] {
+class ReviewerAction extends RestfulAction[Reviewer], ExportSupport[Reviewer], ImportSupport[Reviewer] {
 
   override protected def editSetting(entity: Reviewer): Unit = {
     put("factories", entityDao.getAll(classOf[Factory]))
@@ -31,7 +31,7 @@ class ReviewerAction extends RestfulAction[Reviewer] {
   }
 
   override protected def saveAndRedirect(entity: Reviewer): View = {
-    val factoryIds = intIds("factory")
+    val factoryIds = getIntIds("factory")
     entity.factories.clear()
     entity.factories ++= entityDao.find(classOf[Factory], factoryIds.toSeq)
     entity.rounds.clear()

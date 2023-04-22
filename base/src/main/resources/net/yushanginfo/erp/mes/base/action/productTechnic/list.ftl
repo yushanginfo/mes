@@ -24,7 +24,7 @@
        [#elseif productTechnic.supplier??] ${productTechnic.supplier.code} ${productTechnic.supplier.name}
        [/#if]
     [/@]
-    [@b.col width="17%" property="description" title="说明"/]
+    [@b.col property="description" title="说明"/]
   [/@]
 [/@]
 [@b.foot/]

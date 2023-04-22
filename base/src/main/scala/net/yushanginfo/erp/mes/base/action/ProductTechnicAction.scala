@@ -18,7 +18,6 @@
 package net.yushanginfo.erp.mes.base.action
 
 import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
-
 import net.yushanginfo.erp.base.model.Supplier
 import net.yushanginfo.erp.mes.model.{Machine, ProductTechnic}
 import net.yushanginfo.erp.mes.base.helper.ProductTechnicImportHelper
@@ -28,9 +27,9 @@ import org.beangle.data.transfer.importer.ImportSetting
 import org.beangle.data.transfer.importer.listener.ForeignerListener
 import org.beangle.web.action.annotation.response
 import org.beangle.web.action.view.Stream
-import org.beangle.webmvc.support.action.RestfulAction
+import org.beangle.webmvc.support.action.{ExportSupport, ImportSupport, RestfulAction}
 
-class ProductTechnicAction extends RestfulAction[ProductTechnic] {
+class ProductTechnicAction extends RestfulAction[ProductTechnic], ExportSupport[ProductTechnic], ImportSupport[ProductTechnic] {
 
   override protected def editSetting(entity: ProductTechnic): Unit = {
     put("machines", entityDao.getAll(classOf[Machine]))

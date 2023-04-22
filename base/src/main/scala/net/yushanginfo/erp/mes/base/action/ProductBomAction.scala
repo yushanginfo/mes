@@ -18,7 +18,6 @@
 package net.yushanginfo.erp.mes.base.action
 
 import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
-
 import net.yushanginfo.erp.mes.model.{Product, ProductMaterialItem}
 import net.yushanginfo.erp.mes.base.helper.ProductMaterialItemImportHelper
 import org.beangle.data.excel.schema.ExcelSchema
@@ -26,9 +25,9 @@ import org.beangle.data.transfer.importer.ImportSetting
 import org.beangle.data.transfer.importer.listener.ForeignerListener
 import org.beangle.web.action.annotation.{ignore, response}
 import org.beangle.web.action.view.Stream
-import org.beangle.webmvc.support.action.RestfulAction
+import org.beangle.webmvc.support.action.{ExportSupport, ImportSupport, RestfulAction}
 
-class ProductBomAction extends RestfulAction[ProductMaterialItem] {
+class ProductBomAction extends RestfulAction[ProductMaterialItem] , ExportSupport[ProductMaterialItem], ImportSupport[ProductMaterialItem]{
 
   @ignore
   protected override def simpleEntityName: String = {

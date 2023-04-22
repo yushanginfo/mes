@@ -64,7 +64,7 @@ class SaleAssessAction extends RestfulAction[WorkOrder] {
   }
 
   def review(): View = {
-    val id = longId("workOrder")
+    val id = getLongId("workOrder")
     val order = entityDao.get(classOf[WorkOrder], id)
     val query = OqlBuilder.from(classOf[Reviewer].getName, "r")
     query.where(":factory in elements (r.factories)", order.factory)
@@ -77,7 +77,7 @@ class SaleAssessAction extends RestfulAction[WorkOrder] {
   }
 
   def accept(): View = {
-    val id = longId("workOrder")
+    val id = getLongId("workOrder")
     val order = entityDao.get(classOf[WorkOrder], id)
     val users = entityDao.findBy(classOf[User], "code", List(Securities.user))
     if (order.assessStatus == AssessStatus.Unpassed) {
@@ -93,14 +93,14 @@ class SaleAssessAction extends RestfulAction[WorkOrder] {
   }
 
   def issueReview(): View = {
-    val id = longId("workOrder")
+    val id = getLongId("workOrder")
     val order = entityDao.get(classOf[WorkOrder], id)
     val users = entityDao.findBy(classOf[User], "code", List(Securities.user))
     val event = populateEntity(classOf[ReviewEvent], "reviewEvent")
     event.workOrder = order
     event.issueBy = users.head
     event.updatedAt = Instant.now
-    val watcherIds = longIds("watcher")
+    val watcherIds = getLongIds("watcher")
     if (watcherIds.nonEmpty) {
       event.watchers ++= entityDao.find(classOf[User], watcherIds)
     }
@@ -111,7 +111,7 @@ class SaleAssessAction extends RestfulAction[WorkOrder] {
   }
 
   def cancel(): View = {
-    val ids = longIds("workOrder")
+    val ids = getLongIds("workOrder")
     val workOrders = entityDao.find(classOf[WorkOrder], ids)
     workOrders.foreach(workOrder => {
       workOrder.assessStatus = AssessStatus.Cancel

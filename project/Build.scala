@@ -1,6 +1,6 @@
-import org.beangle.parent.Dependencies._
-import sbt.Keys._
-import sbt._
+import org.beangle.parent.Dependencies.*
+import sbt.*
+import sbt.Keys.*
 
 object MesSettings {
 
@@ -8,9 +8,9 @@ object MesSettings {
     organizationName := "The YushangInfo Software",
     licenses += ("GNU General Public License version 3", new URL("http://www.gnu.org/licenses/gpl-3.0.txt")),
     startYear := Some(2020),
-    scalaVersion := "3.1.2",
-    scalacOptions := Seq("-Xtarget:11", "-deprecation", "-feature"),
-    javacOptions := Seq("--release", "11", "-encoding", "utf-8"),
+    scalaVersion := "3.2.2",
+    scalacOptions := Seq("-Xtarget:17", "-deprecation", "-feature"),
+    javacOptions := Seq("--release", "17", "-encoding", "utf-8"),
     crossPaths := true,
 
     publishMavenStyle := true,
@@ -30,18 +30,18 @@ object MesSettings {
 }
 
 object MesDepends {
-  val commonsVer = "5.2.16"
-  val dataVer = "5.4.4"
-  val cdiVer = "0.3.6"
-  val webVer = "0.0.6"
-  val serializerVer = "0.0.23"
-  val cacheVer = "0.0.26"
-  val templateVer = "0.0.37"
-  val webmvcVer = "0.5.0"
-  val securityVer = "4.2.34"
-  val idsVer = "0.2.27"
-  val notifyVer = "0.0.5"
-  val emsVer = "4.3.1"
+  val commonsVer = "5.5.0"
+  val dataVer = "5.6.11"
+  val cdiVer = "0.5.3"
+  val webVer = "0.4.1"
+  val serializerVer = "0.1.3"
+  val cacheVer = "0.1.3"
+  val templateVer = "0.1.4"
+  val webmvcVer = "0.9.1"
+  val securityVer = "4.3.6"
+  val idsVer = "0.3.8"
+  val notifyVer = "0.1.1"
+  val emsVer = "4.6.13"
 
   val commonsCore = "org.beangle.commons" %% "beangle-commons-core" % commonsVer
   val commonsFile = "org.beangle.commons" %% "beangle-commons-file" % commonsVer
@@ -58,10 +58,8 @@ object MesDepends {
   val webAction = "org.beangle.web" %% "beangle-web-action" % webVer
   val webServlet = "org.beangle.web" %% "beangle-web-servlet" % webVer
   val webmvcCore = "org.beangle.webmvc" %% "beangle-webmvc-core" % webmvcVer
-  val webmvcFreemarker = "org.beangle.webmvc" %% "beangle-webmvc-freemarker" % webmvcVer
   val webmvcSupport = "org.beangle.webmvc" %% "beangle-webmvc-support" % webmvcVer
-  val webmvcSpring = "org.beangle.webmvc" %% "beangle-webmvc-spring" % webmvcVer
-  val webmvcBootstrap = "org.beangle.webmvc" %% "beangle-webmvc-bootstrap" % webmvcVer
+  val webmvcView = "org.beangle.webmvc" %% "beangle-webmvc-view" % webmvcVer
   val serializerText = "org.beangle.serializer" %% "beangle-serializer-text" % serializerVer
   val securityCore = "org.beangle.security" %% "beangle-security-core" % securityVer
   val securityWeb = "org.beangle.security" %% "beangle-security-web" % securityVer
@@ -70,11 +68,12 @@ object MesDepends {
   val idsCas = "org.beangle.ids" %% "beangle-ids-cas" % idsVer
   val idsWeb = "org.beangle.ids" %% "beangle-ids-web" % idsVer
   val emsApp = "org.beangle.ems" %% "beangle-ems-app" % emsVer
+  val caffeine_jcache = "com.github.ben-manes.caffeine" % "jcache" % "3.1.6" exclude("org.osgi", "org.osgi.service.component.annotations") exclude("javax.inject", "javax.inject")
 
   val apiDepends = Seq(scalatest, dataOrm, hibernate_core, notifyCore, cdiApi, templateFreemarker, logback_classic, scalatest, emsApp)
 
-  val webDepends = Seq(scalatest, webAction, webmvcSupport, webmvcSpring, webmvcFreemarker, webmvcBootstrap,
-    dataTransfer, hibernate_core, hibernate_jcache, ehcache, jaxb, jaxb_impl, HikariCP)
+  val webDepends = Seq(scalatest, webAction, webmvcSupport, webmvcView,
+    dataTransfer, hibernate_core, hibernate_jcache, caffeine_jcache, HikariCP)
 
   val runtimeDepends = Seq(postgresql, logback_classic, serializerText)
 }

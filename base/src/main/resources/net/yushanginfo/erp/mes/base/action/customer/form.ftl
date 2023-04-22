@@ -1,6 +1,5 @@
 [#ftl]
 [@b.head/]
-<script language="JavaScript" type="text/JavaScript" src="${base}/static/js/ajax-chosen.js"></script>
 [@b.toolbar title="修改客户信息"]bar.addBack();[/@]
   [@b.form action=b.rest.save(customer) theme="list"]
     [@b.textfield name="customer.code" label="客户编号" value="${customer.code!}" required="true" maxlength="30"/]

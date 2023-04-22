@@ -13,7 +13,7 @@
     [@b.col width="10%" property="code" title="工号"]${user.code}[/@]
     [@b.col width="10%" property="name" title="姓名"][@b.a href="!info?id=${user.id}"]${user.name}[/@][/@]
     [@b.col width="10%" property="department" title="所在部门"]${(user.department.name)!}[/@]
-    [@b.col width="10%" property="factory.name" title="所在厂区"]${(user.factory.name)!}[/@]
+    [@b.col property="factory.name" title="所在厂区"]${(user.factory.name)!}[/@]
     [@b.col width="15%" property="mobile" title="移动电话"/]
     [@b.col width="20%" property="email" title="电子邮箱"/]
     [@b.col width="20%" property="endOn" title="有效期限"]${(user.endOn?string('yy-MM-dd'))!'--'}[/@]

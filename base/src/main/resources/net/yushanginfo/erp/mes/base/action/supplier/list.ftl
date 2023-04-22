@@ -10,7 +10,7 @@
   [@b.row]
     [@b.boxcol /]
     [@b.col width="30%" property="code" title="代码"]${supplier.code}[/@]
-    [@b.col width="65%" property="name" title="名称"][@b.a href="!info?id=${supplier.id}"]${supplier.name}[/@][/@]
+    [@b.col property="name" title="名称"][@b.a href="!info?id=${supplier.id}"]${supplier.name}[/@][/@]
   [/@]
 [/@]
 [@b.foot/]

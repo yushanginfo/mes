@@ -18,13 +18,14 @@
 package net.yushanginfo.erp.mes.wo.action
 
 import net.yushanginfo.erp.mes.model.*
-import org.beangle.data.dao.OqlBuilder
+import org.beangle.data.dao.{EntityDao, OqlBuilder}
 import org.beangle.web.action.annotation.{mapping, param}
+import org.beangle.web.action.support.ActionSupport
 import org.beangle.web.action.view.View
 import org.beangle.webmvc.support.action.EntityAction
 
-class OrderSearchAction extends EntityAction[WorkOrder] {
-
+class OrderSearchAction extends ActionSupport, EntityAction[WorkOrder] {
+  var entityDao: EntityDao = _
   def index(): View = {
     val factories = entityDao.getAll(classOf[net.yushanginfo.erp.base.model.Factory]).sortBy(_.code)
     val factory = getLong("factory.id").map(fid => factories.find(_.id == fid)).flatten
@@ -50,7 +51,7 @@ class OrderSearchAction extends EntityAction[WorkOrder] {
     put("assessStatuses", AssessStatus.values)
     put("statuses", entityDao.getAll(classOf[WorkOrderType]))
     put("factory", factory)
-    put("factories",factories)
+    put("factories", factories)
     forward()
   }
 
