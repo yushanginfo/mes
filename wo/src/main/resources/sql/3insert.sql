@@ -109,5 +109,5 @@ update mes.work_orders wo set assess_status=4,remark='完工或者指定完工�
 update mes.work_orders wo set saler_id=
 (select min(c.saler_id) from mes.products p,base.customers c 
  where c.quick_code=substr(p.specification,1,3) and c.saler_id is not null and p.id=wo.product_id)
-where saler_id is null;
+where created_at > current_date -90;
 
